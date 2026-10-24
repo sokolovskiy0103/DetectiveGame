@@ -15,8 +15,17 @@ val buildNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
 val caseDirs = rootDir.resolve("cases").listFiles { f -> f.resolve("case.json").isFile }!!.sortedBy { it.name }
 val genDir = layout.buildDirectory.dir("generated/caseAssets")
 
+/**
+ * A CI build knows its commit, so the media of a case can be loaded straight from the public repo through jsDelivr
+ * (the relay passes only files up to 180 KB). Local builds have no commit and serve everything from the phone.
+ */
+val cdnBase = System.getenv("GITHUB_SHA")?.let { sha ->
+    "https://cdn.jsdelivr.net/gh/${System.getenv("GITHUB_REPOSITORY") ?: "sokolovskiy0103/DetectiveGame"}@$sha/cases/"
+}
+
 val syncCases by tasks.registering {
     val out = genDir.get().asFile
+    inputs.property("cdn", cdnBase ?: "")
     inputs.files(caseDirs)
     inputs.dir(rootDir.resolve("cases"))
     outputs.dir(out)
@@ -34,6 +43,7 @@ val syncCases by tasks.registering {
             copy { from(dir.resolve("case.json")); into(data) }
             copy { from(dir.resolve("documents")); into(data.resolve("doc")) }
             copy { from(dir.resolve("photos")) { include("*.jpg") }; into(data.resolve("photo")) }
+            if (cdnBase != null) data.resolve("cdn.txt").writeText("$cdnBase$id/")
             if (dir.resolve("avatars").isDirectory) copy { from(dir.resolve("avatars")); into(web.resolve("avatars")) }
             if (dir.resolve("rules.html").isFile) copy { from(dir.resolve("rules.html")); into(web) }
             web.mkdirs()

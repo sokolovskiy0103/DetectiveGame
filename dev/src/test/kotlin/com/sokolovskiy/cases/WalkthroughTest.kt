@@ -110,3 +110,15 @@ class Q1WordingTest {
         assertFalse(why("зник телефон, а тапок біля столу"))
     }
 }
+
+class MediaLinksTest {
+    @Test fun picturesComeFromTheCdnWithAFallback() {
+        val html = """<img src="../photos/P01.jpg" alt="">"""
+        assertEquals("""<img src="../photo/P01.jpg" alt="">""", CaseSession.mediaLinks(html, null))
+        val cdn = "https://cdn.jsdelivr.net/gh/o/r@abc/cases/stairs/"
+        assertEquals(
+            """<img src="${cdn}photos/P01.jpg" onerror="this.onerror=null;this.src='../photo/P01.jpg'" alt="">""",
+            CaseSession.mediaLinks(html, cdn),
+        )
+    }
+}

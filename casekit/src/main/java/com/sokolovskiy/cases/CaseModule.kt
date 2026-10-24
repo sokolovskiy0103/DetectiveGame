@@ -46,6 +46,9 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
     private val engine = CaseEngine(JSONObject(env.asset("cases/$caseId/case.json")), semantic)
     private val saveKey = "case-$caseId"
 
+    /** Where a CI build's media live on jsDelivr (`hub/build.gradle.kts`); null in local builds. */
+    private val cdn: String? = runCatching { env.asset("cases/$caseId/cdn.txt").trim() }.getOrNull()?.takeIf { it.isNotEmpty() }
+
     /** Which documents show which pictures: a picture is served once any document using it is open. */
     private val photoUsers: Map<String, Set<String>> = HashMap<String, MutableSet<String>>().also { index ->
         for (docId in engine.docs.keys) {
@@ -132,7 +135,7 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
                 dir == "doc" && file == "_base.css" -> env.assetBytes("cases/$caseId/doc/_base.css") to LocalServer.mimeOf(file)
                 dir == "doc" && file.endsWith(".html") && file.removeSuffix(".html") in open -> {
                     // documents were written for the folder layout of the authoring project
-                    val html = docText(file.removeSuffix(".html"))?.replace("../photos/", "../photo/") ?: return null
+                    val html = docText(file.removeSuffix(".html"))?.let { mediaLinks(it, cdn) } ?: return null
                     html.toByteArray(Charsets.UTF_8) to LocalServer.mimeOf(file)
                 }
                 dir == "photo" && (photoUsers[file] ?: emptySet()).any { it in open } ->
@@ -146,5 +149,19 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
 
     companion object {
         private val PHOTO = Regex("photos/([\\w.-]+)")
+        private val PHOTO_SRC = Regex("src=\"\\.\\./photos/([\\w.-]+)\"")
+
+        /**
+         * Documents were written for the folder layout of the authoring project (`../photos/`). With a [cdn] the
+         * picture comes from jsDelivr (no size limit, no traffic through the relay or this phone) and falls back
+         * to the phone when the player has no internet.
+         */
+        fun mediaLinks(html: String, cdn: String?): String {
+            val linked = if (cdn == null) html else PHOTO_SRC.replace(html) { m ->
+                val f = m.groupValues[1]
+                "src=\"${cdn}photos/$f\" onerror=\"this.onerror=null;this.src='../photo/$f'\""
+            }
+            return linked.replace("../photos/", "../photo/")
+        }
     }
 }
