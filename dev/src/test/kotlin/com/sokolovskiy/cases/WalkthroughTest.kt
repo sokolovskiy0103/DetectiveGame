@@ -85,3 +85,13 @@ class WalkthroughTest {
         assertEquals(listOf(19 * 60 + 30), AnswerJudge.parseTimes("12.11 о 19.30, через 1–2 години після вечері, рана 9 см"))
     }
 }
+
+class Q1WordingTest {
+    @Test fun shortWordingsAreAccepted() {
+        val g = CaseEngine(JSONObject(File("cases/stairs/case.json").readText()))
+        val r = g.answer("тест", "Q1", mapOf("what" to "Вбили", "weapon" to "Статуєткою", "why" to "Фото стола, СМЕ"))
+        // the first two are right; the reasons are too thin, so only "why" may be marked wrong
+        assertTrue(r.verdicts[0].ok)
+        assertTrue(r.verdicts[1].ok)
+    }
+}
