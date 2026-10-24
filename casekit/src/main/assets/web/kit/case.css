@@ -62,6 +62,10 @@
 .ck-vbar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .ck-vt { flex: 1; min-width: 0; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ck-frame { width: 100%; height: calc(100dvh - 235px); min-height: 360px; border: 0; background: #5b5e63; box-shadow: var(--sheet); }
+@media (max-width: 899px) {
+  /* на телефоні документ — на всю ширину екрана, без полів картки */
+  .ck-frame { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); box-shadow: none; }
+}
 .ck-empty { padding: 30px 12px; text-align: center; }
 .ck-pane.second { margin-top: 12px; }
 

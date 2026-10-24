@@ -13,6 +13,9 @@
   --font-official: "Times New Roman", "Liberation Serif", "PT Serif", serif;
   --font-sans: "Arial", "Liberation Sans", "PT Sans", sans-serif;
   --font-mono: "Courier New", "Liberation Mono", "PT Mono", monospace;
+  --scrawl-a: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M6 30 C14 8 20 6 22 20 C23 32 28 30 34 14 C38 4 42 28 50 24 C56 20 58 12 64 22 C70 32 78 26 86 18 C92 12 100 24 112 12' fill='none' stroke='%231f3a8a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --scrawl-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M8 26 C18 34 24 6 30 10 C36 14 28 32 40 28 C52 24 48 8 60 12 C70 16 64 30 78 22 C88 16 96 30 114 20 M30 34 C52 36 80 34 106 31' fill='none' stroke='%231f3a8a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --scrawl-c: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M5 22 C12 4 18 4 20 18 L24 32 C26 18 34 8 40 20 C44 30 50 30 56 16 C62 6 66 20 74 28 C82 34 92 10 100 14 C106 18 110 26 116 22' fill='none' stroke='%231f3a8a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --font-hand: "Segoe Print", "Comic Sans MS", "Caveat", cursive;
 }
 
@@ -65,7 +68,12 @@ table.plain td { padding: 2px 6px; vertical-align: top; }
 /* Підписи, печатки, штампи */
 .signatures { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm 12mm; font-size: 11pt; }
 .signature { display: flex; align-items: flex-end; gap: 8px; }
-.signature .sig { font-family: var(--font-hand); color: var(--blue-ink); font-size: 16pt; transform: rotate(-4deg); min-width: 30mm; border-bottom: 1px solid var(--line); }
+/* Підпис — рукописна карлючка (SVG), а не надрукований шрифтом текст; прізвище лишається в DOM, але невидиме */
+.signature .sig { display: inline-block; flex: none; width: 34mm; height: 11mm; overflow: hidden; color: transparent; font-size: 0; line-height: 0; border-bottom: 1px solid var(--line);
+  background: var(--scrawl-a) no-repeat 50% 80% / contain; }
+.signatures > :nth-child(4n+2) .sig { background-image: var(--scrawl-b); }
+.signatures > :nth-child(4n+4) .sig { background-image: var(--scrawl-c); }
+.signatures > :nth-child(6n+6) .sig { background-image: var(--scrawl-a); transform: scaleX(-1) rotate(3deg); }
 .stamp {
   display: inline-flex; align-items: center; justify-content: center; text-align: center;
   width: 38mm; height: 38mm; border: 2.5px solid var(--stamp); border-radius: 50%;
@@ -108,7 +116,7 @@ figure.photo figcaption { font-size: 10.5pt; margin-top: 2mm; }
 hr.cut { border: none; border-top: 1px dashed #999; margin: 6mm 0; }
 
 @media print { html, body { background: none; padding: 0; } .page { box-shadow: none; margin: 0; page-break-after: always; } }
-@media (max-width: 820px) { .page { width: 100%; min-height: auto; padding: 18px 14px; font-size: 12pt; } }
+@media (max-width: 820px) { .page { width: 100%; min-height: auto; padding: 16px 12px 20px; font-size: 16px; line-height: 1.55; } }
 @media (max-width: 820px) {
   body { padding: 8px 0; }
   html, body { overflow-x: hidden; }
@@ -118,6 +126,18 @@ hr.cut { border: none; border-top: 1px dashed #999; margin: 6mm 0; }
   p { text-align: left; }
   table.data, table.plain { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.data td, table.data th { overflow-wrap: normal; }
-  .signatures { grid-template-columns: 1fr; }
+  .signatures { grid-template-columns: 1fr; font-size: 14px; }
+  /* заголовки й службові рядки — рубленим шрифтом, щоб відрізнялись від тексту */
+  .page { font-family: "Noto Serif", "PT Serif", Georgia, "Times New Roman", serif; }
+  .org-header { font: 600 12px/1.35 var(--font-sans); letter-spacing: .03em; }
+  .org-header .org-sub { font-size: 12px; font-weight: 400; letter-spacing: 0; }
+  .doc-title { font: 700 18px/1.3 var(--font-sans); letter-spacing: .06em; margin: 14px 0 4px; }
+  .doc-subtitle { font: 400 14px var(--font-sans); }
+  .right.small, .small { font-size: 14px; }
+  .place-date { font-family: var(--font-sans); font-size: 14px; }
+  table.data { font-size: 14px; }
+  table.data.mono td, table.data.mono th { font-size: 13px; }
+  h3 { font: 700 16px var(--font-sans); }
+  .indent { text-indent: 1.2em; }
   .page .page-no { right: 14px; }
 }
