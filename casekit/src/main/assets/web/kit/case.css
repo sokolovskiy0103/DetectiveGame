@@ -1,0 +1,113 @@
+/* Screens of a detective case (kit/case.js). Colours come from the case's theme: [data-theme=<id>] { --accent … }. */
+
+.ck-sec { display: none; }
+.ck-sec.on { display: block; animation: fx-rise .3s var(--ease) backwards; }
+
+/* header: title, stage, clock, score */
+.ck-head { margin-bottom: 12px; }
+.ck-title { font: 700 20px/1.2 Georgia, "Times New Roman", serif; color: var(--accent); }
+.ck-sub { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-top: 2px; color: var(--muted); font-size: 13px; }
+.ck-stats { display: flex; gap: 14px; white-space: nowrap; }
+.ck-stats b { color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* form fields the shared ui.css does not cover */
+.ck textarea, .ck select {
+  font: inherit; font-size: 17px; width: 100%; padding: 12px 14px; border-radius: var(--r); resize: vertical;
+  border: 2px solid var(--line); background: var(--bg2); color: var(--text); outline: none;
+  transition: border-color var(--mid), box-shadow var(--mid);
+}
+.ck textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--glow); }
+.ck-field { display: block; color: var(--muted); font-size: 13px; }
+.ck-field > input, .ck-field > textarea { margin-top: 6px; color: var(--text); }
+.ck-types { display: flex; flex-wrap: wrap; gap: 6px; }
+.ck-types .chip { font-size: 14px; padding: 7px 11px; text-align: left; }
+
+/* bottom navigation (the shell's sticky bar) */
+.sticky .inner:has(.ck-tab) { gap: 4px; }
+.ck-tab {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 0; min-height: 54px; padding: 6px 2px;
+  background: var(--bg2); color: var(--muted); border: 1px solid var(--line); font-size: 11px; font-weight: 600;
+}
+.ck-tab b { font-size: 20px; line-height: 1.2; filter: grayscale(.6); }
+.ck-tab.on { background: var(--accent-soft); color: var(--accent-text); border-color: var(--accent-line); }
+.ck-tab.on b { filter: none; }
+.ck-dot {
+  position: absolute; top: 4px; right: 18%; min-width: 9px; height: 9px; padding: 0 3px; border-radius: 9px;
+  background: var(--bad); color: #fff; font: 700 9px/9px system-ui; font-style: normal; text-align: center;
+}
+.ck-dot.n { min-width: 15px; height: 15px; font-size: 10px; line-height: 15px; top: 2px; }
+
+/* documents: list ↔ viewer on a phone, side by side on a wide screen */
+.ck-docs { display: block; }
+.ck-listhead { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+.ck-cmpbtn { display: none; }
+.ck-group h3 { margin: 14px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+.ck-doc {
+  display: flex; gap: 10px; align-items: baseline; width: 100%; min-height: 0; padding: 10px 12px; margin-top: 4px; text-align: left;
+  font-weight: 500; color: var(--text); background: var(--bg2); border: 1px solid var(--line); border-left: 3px solid transparent;
+  border-radius: var(--r-s);
+}
+.ck-doc.on { border-left-color: var(--accent); background: var(--accent-soft); }
+.ck-id { flex: none; min-width: 3.1em; font: 700 13px ui-monospace, monospace; color: var(--accent-text); }
+.ck-dt { flex: 1; min-width: 0; }
+.ck-docs .ck-viewcol { display: none; }
+.ck-docs.viewing .ck-listcol { display: none; }
+.ck-docs.viewing .ck-viewcol { display: block; }
+.ck-pane { display: flex; flex-direction: column; }
+.ck-vbar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ck-vt { flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ck-frame {
+  width: 100%; height: calc(100dvh - 235px); min-height: 360px; border: 1px solid var(--line); border-radius: var(--r-s);
+  background: #5b5e63;
+}
+.ck-empty { padding: 30px 12px; text-align: center; }
+.ck-pane.second { margin-top: 12px; }
+
+@media (min-width: 900px) {
+  .ck-docs { display: grid; grid-template-columns: 300px 1fr; gap: 16px; align-items: start; }
+  .ck-docs .ck-viewcol, .ck-docs.viewing .ck-viewcol { display: grid; gap: 12px; }
+  .ck-docs.cmp .ck-viewcol { grid-template-columns: 1fr 1fr; }
+  .ck-docs.viewing .ck-listcol { display: block; }
+  .ck-listcol { position: sticky; top: 64px; max-height: calc(100dvh - 190px); display: flex; flex-direction: column; }
+  .ck-list { overflow-y: auto; padding-bottom: 12px; }
+  .ck-back { display: none; }
+  .ck-cmpbtn { display: inline-block; }
+  .ck-pane.second { margin-top: 0; }
+  .ck-pane.focus .ck-frame { border-color: var(--accent); }
+  .ck-frame { height: calc(100dvh - 190px); }
+}
+
+/* replies and the journal */
+.ck-said { display: flex; gap: 10px; align-items: flex-start; }
+.ck-avatar { flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-line); }
+.ck-said-text {
+  flex: 1; min-width: 0; padding: 9px 12px; border-radius: 4px 14px 14px 14px; background: var(--bg2); border: 1px solid var(--line);
+  line-height: 1.4; overflow-wrap: anywhere;
+}
+.ck-said.ok .ck-said-text { border-color: var(--good); background: var(--good-bg); }
+.ck-said.bad .ck-said-text { border-color: var(--line); }
+.ck-said.intro .ck-said-text { background: var(--accent-soft); border-color: var(--accent-line); }
+.ck-flash { animation: fx-pop .4s var(--spring) backwards; }
+.ck-hint { margin-top: 2px; }
+.ck-history { display: grid; gap: 10px; }
+.ck-entry { padding: 12px; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); display: grid; gap: 6px; }
+.ck-meta { color: var(--muted); font-size: 12px; }
+.ck-q { font-size: 14px; }
+.ck-link { color: var(--accent-text); text-decoration: underline; cursor: pointer; font-weight: 700; }
+
+/* notes */
+.ck-note { padding: 12px; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ck-note.pinned { border-color: var(--accent); background: var(--accent-soft); }
+.ck-notemeta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; color: var(--muted); font-size: 12px; white-space: normal; }
+
+/* the finale */
+.ck-final { position: fixed; inset: 0; z-index: 45; display: grid; place-items: center; padding: 20px; background: rgba(5, 8, 16, .78); animation: fade-in .3s ease backwards; }
+.ck-final .hero { max-width: 460px; width: 100%; }
+
+/* toasts */
+#ck-toasts { position: fixed; top: calc(60px + env(safe-area-inset-top)); left: 12px; right: 12px; z-index: 60; display: grid; gap: 8px; pointer-events: none; justify-items: center; }
+.ck-toast {
+  max-width: 520px; padding: 10px 14px; border-radius: var(--r); background: var(--card); border: 1px solid var(--accent-line);
+  box-shadow: var(--shadow); animation: fx-rise .3s var(--ease) backwards; line-height: 1.35;
+}
+.ck-toast.bad { border-color: var(--line); }

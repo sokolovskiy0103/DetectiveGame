@@ -1,0 +1,15 @@
+.gradle/
+build/
+local.properties
+.kotlin/
+.venv/
+__pycache__/
+.idea/
+*.iml
+.DS_Store
+captures/
+node_modules/
+data/save.json
+assets/photos/*.png
+assets/photos/_tmp/
+assets/photos/*.log

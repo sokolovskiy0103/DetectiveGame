@@ -1,0 +1,123 @@
+/* The shell's own screens: top bar, side drawer, invite/QR, game picker, rules sheet, sticky action bar.
+   Shared components live in ui.css. */
+body.with-bar { padding-bottom: 110px; }
+
+/* stays on screen, so ☰ is always one tap away */
+.top {
+  position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 8px; min-height: 40px;
+  margin: -12px -16px 14px; padding: calc(8px + env(safe-area-inset-top)) 16px 8px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: background-color .4s;
+}
+.logo { font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 8px; letter-spacing: .2px; }
+.logo-mark { width: 30px; height: 30px; }
+.logo-emoji { font-size: 22px; display: inline-block; animation: fx-pop .5s var(--spring) backwards; }
+#conn .dot { box-shadow: 0 0 0 0 var(--good); }
+#conn .dot:not(.off) { animation: conn-ping 2.4s ease-out infinite; }
+@keyframes conn-ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--good) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 7px transparent; } }
+button.info { width: 32px; padding: 0; border-radius: 50%; font-weight: 800; font-style: italic; font-family: Georgia, serif; }
+
+/* ---------- side drawer (☰ / back gesture) ---------- */
+.drawer {
+  position: fixed; inset: 0; z-index: 40; background: rgba(5, 8, 16, 0);
+  visibility: hidden; transition: background-color .25s, visibility 0s .25s;
+}
+.drawer.open { visibility: visible; background: rgba(5, 8, 16, .6); transition: background-color .25s; }
+.drawer-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(86vw, 380px);
+  background: var(--bg); border-left: 1px solid var(--line); box-shadow: -12px 0 40px rgba(0, 0, 0, .4);
+  transform: translateX(100%); transition: transform .3s var(--ease);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.drawer.open .drawer-panel { transform: none; }
+body.drawer-open { overflow: hidden; }
+.dr-head {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: calc(12px + env(safe-area-inset-top)) 16px 12px; background: var(--bg); border-bottom: 1px solid var(--line); font-size: 17px;
+}
+.dr-head button { width: 36px; min-height: 36px; padding: 0; font-size: 16px; }
+.dr-body { padding: 4px 16px calc(24px + env(safe-area-inset-bottom)); }
+.dr-body section { display: grid; gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.dr-body section:last-child { border-bottom: 0; }
+/* items slide in after the panel */
+.drawer.open .dr-body section { animation: fx-in .35s var(--ease) backwards; }
+.drawer.open .dr-body section:nth-child(2) { animation-delay: 50ms; }
+.drawer.open .dr-body section:nth-child(n+3) { animation-delay: 100ms; }
+.dr-body h3 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+.dr-body button { width: 100%; text-align: left; }
+.dr-body button.mini, .dr-body .seg button, .dr-body .chip button { width: auto; text-align: center; }
+.dr-body .card { padding: 12px; }
+
+/* ---------- invite: QR + network ---------- */
+.qr { background: #fff; border-radius: 16px; padding: 10px; width: min(70vw, 260px); margin: 0 auto; display: block; }
+.url { font-family: ui-monospace, monospace; font-size: 14px; word-break: break-all; color: var(--muted); }
+.code { font-family: ui-monospace, monospace; font-size: 40px; font-weight: 900; letter-spacing: 8px; color: var(--accent); }
+.qr-btn { display: block; background: none; padding: 0; min-height: 0; border-radius: 16px; margin: 0 auto; }
+.qr-btn .qr { transition: width .35s var(--spring), padding .35s var(--spring); }
+.inv-row { display: flex; gap: 14px; align-items: center; }
+.inv-row .qr-btn { flex: none; margin: 0; }
+.inv-row .qr { width: 128px; padding: 6px; border-radius: 12px; }
+.inv-info { min-width: 0; flex: 1; }
+.inv-info > * + * { margin-top: 6px; }
+.inv-info .code { font-size: 30px; letter-spacing: 4px; line-height: 1; }
+.inv-info .url { font-size: 13px; color: var(--text); }
+
+/* ---------- game picker: each card wears its game's theme ---------- */
+.games { display: grid; gap: 10px; }
+.game-card {
+  display: flex; gap: 14px; align-items: center; width: 100%; text-align: left; padding: 16px; overflow: hidden;
+  color: var(--text); border: 1px solid var(--line); border-left: 4px solid var(--accent);
+  background: linear-gradient(100deg, var(--accent-soft), var(--card) 55%);
+  animation: fx-rise .4s var(--ease) backwards;
+}
+.game-card:nth-child(2) { animation-delay: 30ms; } .game-card:nth-child(3) { animation-delay: 60ms; }
+.game-card:nth-child(4) { animation-delay: 90ms; } .game-card:nth-child(5) { animation-delay: 120ms; }
+.game-card:nth-child(6) { animation-delay: 150ms; } .game-card:nth-child(n+7) { animation-delay: 180ms; }
+.game-card .emoji {
+  display: grid; place-items: center; flex: none; width: 56px; height: 56px; border-radius: 16px; font-size: 32px; line-height: 1;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); transition: transform .3s var(--spring);
+}
+.game-card:active .emoji { transform: rotate(-12deg) scale(1.15); }
+.game-card .grow { display: flex; flex-direction: column; gap: 3px; font-weight: 400; }
+.game-card b { font-size: 19px; }
+
+/* ---------- sticky action bar ---------- */
+.sticky {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, var(--bg) 30%); animation: bar-up .35s var(--ease) backwards;
+}
+.sticky .inner { max-width: 640px; margin: 0 auto; display: flex; gap: 8px; }
+.sticky .inner > * { flex: 1; }
+@keyframes bar-up { from { transform: translateY(100%); } to { transform: none; } }
+
+/* ---------- rules (i): a bottom sheet ---------- */
+.rules-overlay {
+  position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(5, 8, 16, .7); animation: fade-in .25s ease backwards;
+}
+.rules-card {
+  display: flex; flex-direction: column; width: 100%; max-width: 640px; max-height: 88vh;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius) var(--radius) 0 0;
+  animation: bar-up .35s var(--ease) backwards;
+}
+.rules-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 17px; }
+.rules-body { overflow-y: auto; padding: 4px 16px calc(20px + env(safe-area-inset-bottom)); line-height: 1.45; }
+.rules-body h3 { margin: 16px 0 6px; color: var(--accent-text); font-size: 16px; }
+.rules-body p { margin: 6px 0; }
+.rules-body ul, .rules-body ol { margin: 6px 0; padding-left: 22px; }
+.rules-body li { margin: 4px 0; }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* ---------- TV (?tv): the shared screen, landscape, read from the sofa; fitTv() scales 1280 px to the screen ---------- */
+body.tv { max-width: 1280px; padding: 12px 32px 32px; }
+body.tv .top { margin: -12px -32px 18px; padding: 10px 32px; }
+.tv-split { display: grid; grid-template-columns: 3fr 2fr; gap: 28px; align-items: start; }
+.tv-lobby { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; margin-top: 32px; }
+.tv-lobby h1 { font-size: 44px; }
+.tv-lobby .url { font-size: 18px; color: var(--text); }
+.qr.tv-qr { width: 380px; padding: 16px; }
+.tv-qr svg { display: block; width: 100%; height: auto; }
+.tv-emoji { font-size: 110px; line-height: 1.1; animation: fx-pop .5s var(--spring) backwards; }
+body.tv .timer { font-size: 150px; }
+.tv-sound { position: fixed; right: 24px; bottom: 24px; z-index: 30; }
+.tv-sound:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }

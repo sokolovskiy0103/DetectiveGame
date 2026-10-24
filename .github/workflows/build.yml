@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Web syntax check
+        run: find core/src/main/assets/web casekit/src/main/assets/web -name "*.js" -print0 | xargs -0 -n1 node --check
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.14.3
+      - name: Tests and release APK
+        run: gradle --no-daemon --console=plain :dev:test :core:testReleaseUnitTest :hub:assembleRelease
+      - name: Rename APK
+        run: cp hub/build/outputs/apk/release/hub-release.apk DetectiveCases.apk
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Детективні справи v1.0.${{ github.run_number }}
+          body: |
+            ${{ github.event.head_commit.message }}
+
+            ---
+            Збірка з коміту ${{ github.sha }}.
+            Завантаж DetectiveCases.apk на телефон хоста.
+          files: DetectiveCases.apk
+          make_latest: true

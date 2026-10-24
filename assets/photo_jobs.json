@@ -1,0 +1,233 @@
+[
+  {
+    "id": "P01",
+    "aspect": "3:2 (Photo)",
+    "seed": 1101,
+    "prompt": "Professional website portrait photograph of a 56-year-old Ukrainian notary sitting at a massive dark oak desk in his old Lviv office with tall ceilings and wooden bookshelves. Short-cropped grey hair with a high receding hairline, neat short grey beard with darker strands, thin rectangular metal-framed glasses, calm heavy gaze, grey eyes, deep forehead wrinkles. Wearing a dark grey three-piece suit, white shirt, wedding ring on his hand. On the right side of the desk stands a bronze statuette of Lady Justice (Themis) about 30 cm tall, blindfolded, holding scales and a sword, on a round bronze base with a raised rim. Leather desk pad, fountain pen. Soft window light, shot on a full-frame camera, 50mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P02",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1201,
+    "prompt": "Candid documentary portrait photograph of a 44-year-old Ukrainian woman doctor, slim, straight posture, dark chestnut shoulder-length hair pulled back in a smooth low ponytail, light grey eyes, thin eyebrows, thin lips, pronounced cheekbones, a small mole above her left eyebrow, minimal makeup, nude lipstick, thin gold chain. Wearing a dark navy medical scrub top under a grey fleece jacket. Composed, intelligent, slightly tired expression, looking at the camera. Plain light grey wall background, soft even daylight, shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P03",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1301,
+    "prompt": "Candid documentary portrait photograph of a 24-year-old Ukrainian young man, tall and lanky, messy dark uncut hair, stubble, dark circles under brown eyes, nervous tired look. Wearing a grey hoodie under a worn blue denim jacket with sherpa collar, headphones around his neck, silver ring on his thumb. A fresh small scratch on the back of his right hand. Plain light grey wall background, flat fluorescent office light, shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P04",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1401,
+    "prompt": "Corporate website portrait photograph of a 49-year-old Ukrainian real estate developer, heavy-set with a thick neck, clean-shaven bald head, short reddish-grey beard, small attentive blue eyes, a polite smile that does not reach the eyes, slightly tanned skin. Wearing a dark navy cashmere coat over a dark suit, white shirt open at the collar, no tie, a massive gold signet ring on his little finger, luxury watch. Background: blurred glass office with a city construction site view. Shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P05",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1501,
+    "prompt": "Candid documentary portrait photograph of a 31-year-old Ukrainian woman, petite, light brown hair with a reddish tint in a single braid, freckles, thick black-framed glasses, green eyes, anxious expression, biting her lip, pale with red eyes from crying. Wearing an oversized beige knitted sweater. Plain light grey wall background, flat office light, shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P06",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1601,
+    "prompt": "Candid documentary portrait photograph of a 71-year-old Ukrainian retired railway engineer, thin and stooped, short white stubble, deep wrinkles, bushy white eyebrows, grumpy suspicious look, a hearing aid behind his right ear. Wearing a grey checked flat cap and a brown knitted button-up cardigan, holding a wooden walking cane, an old mechanical wristwatch. Plain light grey wall background, soft daylight, shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P07",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1701,
+    "prompt": "Candid documentary portrait photograph of a 19-year-old Ukrainian student food courier, tall and skinny, curly blond hair, friendly talkative face. Wearing a yellow-green courier jacket with a simple fork-and-leaf logo and the word «СМАКУЙ» on the chest, a bicycle helmet in his hand, an insulated delivery backpack on one shoulder. Plain light grey wall background, flat light, shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P08",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1801,
+    "prompt": "Professional portrait photograph of a 61-year-old elegant Ukrainian woman notary, grey hair in a neat bun, a string of pearls, dark navy blazer, kind but sharp eyes, sitting in a classic notary office with wooden cabinets. Soft window light, shot on a full-frame camera, 85mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P09",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 1901,
+    "prompt": "Candid documentary portrait photograph of a 50-year-old Ukrainian senior nurse, short and plump, dyed red hair under a blue medical cap, reading glasses pushed up on her forehead, blue medical scrubs, tired but warm face. Background: hospital emergency department corridor, softly out of focus. Fluorescent light, shot on a full-frame camera, 50mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P10",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 2001,
+    "prompt": "Police booking style photograph of a 38-year-old Ukrainian man, former boxer, massive build, broken nose, very short haircut, black t-shirt, gold chain, tattoo on the back of his hand, heavy indifferent stare. Plain grey wall with a height chart, harsh flat flash light, realistic skin texture."
+  },
+  {
+    "id": "P11",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 2101,
+    "prompt": "Candid documentary portrait photograph of a 48-year-old Ukrainian police detective captain, stocky, short spiky grey-streaked crew cut, moustache, ironic tired eyes. Wearing a grey V-neck sweater over a light shirt, holding a thermal mug and a document folder. Background: cluttered police investigator office with case files, softly out of focus. Window light, shot on a full-frame camera, 50mm lens at f/2.8, realistic skin texture, fine film grain."
+  },
+  {
+    "id": "P12",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 2201,
+    "prompt": "Candid documentary portrait photograph of a 57-year-old Ukrainian forensic medical examiner, a stern heavy-set woman with a short grey bob haircut, glasses on a chain, white lab coat over a burgundy turtleneck. Background: forensic bureau office with a microscope, softly out of focus. Cool fluorescent light, shot on a full-frame camera, 50mm lens at f/2.8, realistic skin texture."
+  },
+  {
+    "id": "S01",
+    "aspect": "3:2 (Photo)",
+    "seed": 3121,
+    "prompt": "Forensic photograph, general view from the entrance of an empty notary office on the ground floor of an old Austrian-era building in Lviv, taken after the body was removed: high ceiling with stucco, dark oak herringbone parquet, a massive oak desk with a leather armchair, a grey steel safe, wooden bookshelves with binders, a narrow steep wooden staircase with dark banisters leading up. At the foot of the staircase stands a white portable oil-filled radiator heater on wheels, its cord plugged into the wall. A bentwood visitor chair lies overturned on the floor near the desk. No people, no wall-mounted radiators, no evidence markers. Grey overcast morning light from a tall window whose small top pane is open. Wide angle 24mm, documentary, realistic.",
+    "note": "Фінал: Qwen-Image 2.1 edit, ref = попередній S01.png (оригінал t2i seed 3121), seed 21. Інструкція: прибрати покручений стілець -> звичайний перекинутий Thonet біля столу; обігрівач з-під вікна -> до підніжжя сходів; решту лишити. Повтор: tools/comfy_gen.py не відтворює (потрібен старий кадр як ref)."
+  },
+  {
+    "id": "S02",
+    "aspect": "3:2 (Photo)",
+    "seed": 3214,
+    "prompt": "Forensic crime scene photograph at the foot of a steep old wooden staircase: a man's body lying on his back and left side, mostly covered by a grey blanket, only the legs visible in grey corduroy trousers. His right foot wears a soft brown leather backless house slipper; his left foot is only in a dark sock. A brass candlestick with an unlit, extinguished white candle (no flame, black burnt wick) stands upright on the parquet near the body. Muted, documentary, non-graphic, no blood, flash photography, 28mm lens. No evidence markers, no text.",
+    "note": "Фінал: двокрокове Qwen-Image 2.1 edit. Крок1 (ref = попередній S02.png, seed 11): прибрати капець з підлоги, праве взуття -> коричневий шкіряний капець. Крок2 (ref = результат кроку 1, seed 12): додати лівій нозі лише темну шкарпетку без взуття. Решту лишити ідентичним."
+  },
+  {
+    "id": "S04",
+    "aspect": "3:2 (Photo)",
+    "seed": 3488,
+    "prompt": "Forensic close-up photograph of the top of an old dark oak desk photographed with a raking side flash. Only in this grazing light a very thin, barely visible film of fine dust shows on the varnish, and on the right side there is a subtle round spot about 9 cm in diameter where the dust film is absent and the varnish is cleaner and glossier — easy to miss. Nothing stands in the circle. A plain black-and-white checkered scale bar without numbers lies beside it. On the left the top drawer is pulled open and empty, a small key in its lock; a pen organizer at the back. Documentary, 50mm macro, realistic, natural wood colors."
+  },
+  {
+    "id": "S05",
+    "aspect": "3:2 (Photo)",
+    "seed": 3501,
+    "prompt": "Forensic photograph: a single brown leather men's house slipper lying on dark oak parquet next to the leg of a massive desk, a yellow evidence marker number 5 beside it. In the blurred background about three meters away, the foot of a wooden staircase and a grey blanket covering a body. Documentary flash photography, 35mm lens, realistic."
+  },
+  {
+    "id": "S06",
+    "aspect": "3:2 (Photo)",
+    "seed": 3611,
+    "prompt": "Forensic photograph: an overturned bentwood Viennese visitor chair lying on its side on dark oak herringbone parquet next to a massive old oak desk with a leather armchair in an old notary office; bookshelves in the background, no radiators. Documentary flash photography, 35mm lens, realistic. Any evidence markers are small plain yellow tent cards with one large single digit; no other text, no garbled lettering anywhere."
+  },
+  {
+    "id": "S07",
+    "aspect": "3:2 (Photo)",
+    "seed": 3722,
+    "prompt": "Forensic close-up photograph: a brass candlestick with an ordinary thin white household candle, unlit, burned down only about 1 cm, black wick, standing on dark oak parquet; beside it two small irregular drips of hardened white wax, each about the size of a fingernail. A plain black-and-white checkered scale bar without numbers. Flash photography, 50mm macro, documentary. No evidence markers, no text."
+  },
+  {
+    "id": "S08",
+    "aspect": "3:2 (Photo)",
+    "seed": 3801,
+    "prompt": "Forensic close-up photograph of a white oil-filled radiator heater standing at the foot of a wooden staircase, plugged into the wall socket. Close detail of its control panel: the rotary thermostat knob set to position 3, the power rocker switch in the OFF position. Yellow evidence marker number 8. Flash photography, 50mm lens, documentary."
+  },
+  {
+    "id": "S09",
+    "aspect": "3:2 (Photo)",
+    "seed": 3902,
+    "prompt": "Forensic photograph of an old-fashioned apartment kitchen in Lviv. On the wooden kitchen table: two empty brown cardboard food delivery containers printed with a simple green logo and the word «СМАКУЙ», exactly one dirty plate with exactly one fork lying on it, and a switched-off rechargeable LED camping lamp. On the counter by the sink: a wire dish drying rack holding exactly one clean dry plate and exactly one fork. Grey morning light, flash fill, documentary, 28mm lens, no people."
+  },
+  {
+    "id": "S10",
+    "aspect": "2:3 (Portrait Photo)",
+    "seed": 4001,
+    "prompt": "Forensic photograph of a narrow apartment hallway in an old Lviv building: a wall coat rack with a man's dark wool overcoat and a man's jacket, several empty hooks, a shoe shelf with men's shoes only, a small mirror. Flash photography, documentary, 24mm lens, no people."
+  },
+  {
+    "id": "S11",
+    "aspect": "3:2 (Photo)",
+    "ref": [
+      "P01",
+      "P02"
+    ],
+    "resolution": 1024,
+    "prompt": "A printed amateur photograph held on a white refrigerator door by fruit magnets, photographed close-up by a forensic camera with flash. The printed photo shows the man from <image1> and the woman from <image2> standing together, smiling, on Rynok Square in Lviv on an autumn day, colorful old facades behind them. Keep his face and her face, identity and facial features exactly the same. He wears a dark overcoat and scarf. She wears a knee-length mustard yellow wool coat with large buttons, her hair loose. Realistic phone snapshot inside the refrigerator photo."
+  },
+  {
+    "id": "S12",
+    "aspect": "3:2 (Photo)",
+    "seed": 4201,
+    "prompt": "Night photograph of a street in the historic center of Lviv during a power outage: a dark old Austrian-era stone building with an arched wooden gate (brama) with a small wicket door, next to it a ground floor office window with iron bars, wet cobblestones after rain, no street lights, only a passing car's headlights illuminating the facade. Realistic, 35mm lens, high ISO grain."
+  },
+  {
+    "id": "E03",
+    "ref": [
+      "S12"
+    ],
+    "resolution": 1024,
+    "prompt": "Turn <image1> into a single frame from a car dashcam video recorded at night from a car parked on the opposite side of the same street, looking at the same arched wooden gate and the barred ground floor window next to it. Keep the building, gate and street exactly the same. Wide angle fisheye distortion, raindrops on the windshield, dark power-outage street, low quality compressed video, noise, slight motion blur, greenish night-mode colors. No text, no timestamp. The street is empty, the gate is closed."
+  },
+  {
+    "id": "E04",
+    "ref": [
+      "S12"
+    ],
+    "resolution": 1024,
+    "prompt": "Turn <image1> into a single frame from a car dashcam video recorded at night from a car parked on the opposite side of the same street, looking at the same arched wooden gate and the barred ground floor window next to it. Keep the building, gate and street exactly the same. Wide angle fisheye distortion, raindrops on the windshield, dark power-outage street, low quality compressed video, noise, slight motion blur, greenish night-mode colors. No text, no timestamp. A woman has just stepped out of the small wicket door in the gate and walks fast to the left along the sidewalk, seen from across the street, small in the frame. Her face is turned away and not visible, no hat, dark hair. She wears a knee-length mustard yellow wool coat with large buttons, a dark bag on her shoulder and a light paper bag in her hand. She is lit by the headlights of an oncoming car."
+  },
+  {
+    "id": "E05",
+    "ref": [
+      "S12",
+      "P04"
+    ],
+    "resolution": 1024,
+    "prompt": "Turn <image1> into a single frame from a car dashcam video recorded at night from a car parked on the opposite side of the same street, looking at the same arched wooden gate and the barred ground floor window next to it. Keep the building, gate and street exactly the same. Wide angle fisheye distortion, raindrops on the windshield, dark power-outage street, low quality compressed video, noise, slight motion blur, greenish night-mode colors. No text, no timestamp. The heavy-set bald man from <image2> in a dark navy coat stands at the barred ground floor window next to the gate, knocking on the glass and shining his phone flashlight inside. Keep his build and bald head the same; he is small and distant in the frame, seen from across the street."
+  },
+  {
+    "id": "E06a",
+    "ref": [
+      "P03"
+    ],
+    "canvas": "16:9",
+    "resolution": 1024,
+    "prompt": "Black and white CCTV security camera frame from a high corner of a smoky basement poker room: a poker table with chips and cards, five men around it. One of them is the young man from <image2> in a grey hoodie and denim jacket, sitting at the table holding cards; keep his face and identity the same, seen from above at a distance. Fish-eye distortion, low resolution, compression artifacts, grain. No text, no timestamp, no logos. Ignore the grey background of <image1>, it only sets the frame size."
+  },
+  {
+    "id": "E06b",
+    "ref": [
+      "P03"
+    ],
+    "canvas": "16:9",
+    "resolution": 1024,
+    "prompt": "Black and white CCTV security camera frame from a high corner of a smoky basement poker room: the young man from <image2> in a grey hoodie and denim jacket has stood up from the poker table and walks toward the stairs, other players remain seated. Keep his face and identity the same, seen from above at a distance. Fish-eye distortion, low resolution, compression artifacts, grain. No text, no timestamp, no logos. Ignore the grey background of <image1>, it only sets the frame size."
+  },
+  {
+    "id": "E08",
+    "ref": [
+      "E09"
+    ],
+    "resolution": 1024,
+    "prompt": "Turn <image1> into an earlier frame from the same black and white parking lot security camera, same position, same angle, same parking lot and street lights: there is no woman now; the same white Skoda Fabia hatchback is just driving into the parking lot with its headlights on, rain falling, its license plate overexposed by the headlights and unreadable. The camera itself is not visible. Low resolution, compression artifacts, noise. No text, no timestamp."
+  },
+  {
+    "id": "E09",
+    "ref": [
+      "P02"
+    ],
+    "canvas": "16:9",
+    "resolution": 1024,
+    "prompt": "Black and white hospital parking lot security camera frame at night, wide angle from a pole, rain: a slim woman with dark hair pulled back in a low ponytail — the woman from <image2> — wearing dark medical scrubs and a grey fleece jacket, bends over the open trunk of a white Skoda Fabia hatchback and puts a paper bag inside. Keep her identity, hair and slim figure; she is clearly a woman, seen from a distance. Low resolution, compression artifacts, grain. No text, no timestamp. Ignore the grey background of <image1>, it only sets the frame size."
+  },
+  {
+    "id": "F01",
+    "ref": [
+      "P01"
+    ],
+    "resolution": 1024,
+    "prompt": "Forensic search photograph of the open trunk of a white Skoda Fabia hatchback, flash. Inside lies a torn brown paper food delivery bag with a simple green logo and the word «СМАКУЙ»; in it a green disposable surgical drape is partly unwrapped, revealing the small bronze statuette of blindfolded Lady Justice with scales and sword on a round base from <image1> (the one standing on the desk), about 30 cm tall, lying on its side. Keep the statuette the same. No people. Documentary, 35mm lens. No text other than the bag logo."
+  },
+  {
+    "id": "F02",
+    "aspect": "3:2 (Photo)",
+    "ref": "P01",
+    "resolution": 1024,
+    "prompt": "Forensic laboratory photograph: the bronze Lady Justice statuette from <image1> (the one standing on the desk) lies on its side on a white examination table, its round base with a raised rim turned toward the camera, small brown stains in the groove of the rim, a black and white scale ruler next to the base, latex gloved hand at the edge of the frame. Cold lab light, macro lens, documentary. No people faces."
+  },
+  {
+    "id": "F03",
+    "aspect": "3:2 (Photo)",
+    "seed": 6301,
+    "prompt": "Forensic laboratory photograph: a knee-length mustard yellow wool coat with large buttons laid flat on a white examination table, the left sleeve cuff in focus with tiny dark brown speckles partially washed out, small arrow markers and a scale ruler pointing at them. Cold lab light, documentary, 50mm lens."
+  },
+  {
+    "id": "F04",
+    "aspect": "2:3 (Portrait Photo)",
+    "seed": 6401,
+    "prompt": "Forensic search photograph inside a hospital staff locker room: an open grey metal locker with the number 14 on its door, inside hangs a dark jacket, from its pocket an evidence-gloved hand pulls out a black Samsung smartphone in a brown leather case, switched off. Flash photography, documentary, 35mm lens."
+  }
+]

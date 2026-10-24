@@ -1,0 +1,432 @@
+/*
+ * Design system shared by the shell and every game: tokens, components, motion.
+ *
+ * Theming: a game re-colours everything by setting tokens on [data-theme=<id>] (the shell puts it on <body>, the
+ * game picker on each card). Usually --accent and --on-accent are enough; the soft/line/text shades are derived.
+ * A game may also swap the surfaces (--bg, --bg2, --card, --line, --text, --muted) or the semantic colours.
+ * Inside a game, .tint re-themes a subtree to its team colour (--tc, set by .t0 / .t1 or inline).
+ *
+ * Selected state is .on everywhere (chip, seg, pick, tile, solid button). Text colours are .c-good/.c-bad/…
+ * Elements survive re-renders (the shell patches the DOM), so entrance animations play once, when an element
+ * really appears, and state changes (.on, .open, :disabled) animate through transitions.
+ */
+:root {
+  color-scheme: dark;
+  /* surfaces */
+  --bg: #0e1320;
+  --bg2: #161d2e;
+  --card: #1c2539;
+  --line: #2c3854;
+  --text: #f3efe6;
+  --muted: #9aa6c0;
+  /* brand */
+  --accent: #f5b942;
+  --on-accent: #1a1408;
+  /* meaning */
+  --good: #46d6b0;
+  --bad: #ff5d6c;
+  --warn: #ffd166;
+  --team0: #4da3ff;
+  --team1: #ff5d6c;
+  --spectrum: linear-gradient(90deg, #3d8bff, #8f7bff 50%, #ff5d8a);
+  /* shape */
+  --r-s: 10px;
+  --r: 14px;
+  --radius: 18px;
+  --r-xl: 24px;
+  --shadow: 0 6px 22px rgba(0, 0, 0, .35);
+  /* motion */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --spring: cubic-bezier(.3, 1.45, .5, 1);
+  --bounce: cubic-bezier(.2, 1.6, .4, 1);
+  --fast: .15s;
+  --mid: .25s;
+  --slow: .45s;
+}
+/* derived shades: recomputed wherever the accent changes */
+body, [data-theme], .tint {
+  --accent-soft: color-mix(in oklab, var(--accent) 20%, var(--bg));
+  --accent-line: color-mix(in oklab, var(--accent) 55%, var(--line));
+  --accent-text: color-mix(in oklab, var(--accent) 55%, #fff);
+  --glow: color-mix(in srgb, var(--accent) 40%, transparent);
+  --good-bg: color-mix(in oklab, var(--good) 16%, var(--bg));
+  --bad-bg: color-mix(in oklab, var(--bad) 16%, var(--bg));
+}
+.t0 { --tc: var(--team0); }
+.t1 { --tc: var(--team1); }
+.tint { --accent: var(--tc); --on-accent: #fff; }
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html { background: var(--bg); }
+body {
+  margin: 0 auto; max-width: 640px; min-height: 100vh; padding: 12px 16px 40px;
+  color: var(--text); font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  transition: color .4s;
+}
+/* full-bleed game background with a soft glow of the accent from the top */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(120% 55% at 50% -12%, var(--accent-soft), transparent 70%), var(--bg);
+}
+/* A game's picture or loop (shell.js, updateBg) under body::before, which turns into a veil: lighter at the top and
+   bottom, where the art shows, darker behind the content. A game tunes it with --veil (0 = bare art, 1 = solid). */
+#bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: var(--bg); }
+#bg > img, #bg > video { width: 100%; height: 100%; object-fit: cover; display: block; animation: bg-in 1.2s ease backwards; }
+@keyframes bg-in { from { opacity: 0; } }
+body.has-bg { --veil: .55; }
+body.has-bg::before {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg) calc(var(--veil) * 60%), transparent),
+      color-mix(in srgb, var(--bg) calc(var(--veil) * 100%), transparent) 35% 70%,
+      color-mix(in srgb, var(--bg) calc(var(--veil) * 75%), transparent));
+  transition: background .6s;
+}
+/* cards let a little of the art through */
+body.has-bg .card { background-color: color-mix(in srgb, var(--card) 86%, transparent); }
+body.has-bg .card.flat { background-color: color-mix(in srgb, var(--bg2) 86%, transparent); }
+h1, h2, h3 { margin: 0 0 8px; line-height: 1.15; }
+h1 { font-size: 28px; letter-spacing: -.5px; }
+h2 { font-size: 20px; }
+p { margin: 0; }
+
+/* ---------- utilities ---------- */
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.center { text-align: center; }
+.c-accent { color: var(--accent-text); }
+.c-good { color: var(--good); }
+.c-bad { color: var(--bad); }
+.c-warn { color: var(--warn); }
+.faint { opacity: .22; }
+.dim { opacity: .5; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.row > input { flex: 1; min-width: 0; }
+.grow { flex: 1; }
+.stack > * + * { margin-top: 14px; }
+.stack.tight > * + * { margin-top: 6px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* ---------- buttons ---------- */
+button {
+  position: relative; font: inherit; font-weight: 700; border: 0; border-radius: var(--r); padding: 14px 18px; min-height: 48px;
+  background: var(--accent); color: var(--on-accent); cursor: pointer; touch-action: manipulation;
+  transition: transform var(--fast) var(--ease), background-color var(--mid), color var(--mid), border-color var(--mid),
+    box-shadow var(--mid), opacity var(--mid);
+}
+button:active:not(:disabled) { transform: scale(.96); }
+button:disabled { opacity: .4; cursor: default; }
+button:focus-visible { outline: 3px solid var(--accent-line); outline-offset: 2px; }
+button.soft { background: var(--bg2); color: var(--text); border: 1px solid var(--line); }
+button.ghost { background: color-mix(in srgb, #000 45%, transparent); color: var(--text); border: 1px solid var(--line); }
+button.good { background: var(--good); color: #062018; }
+button.bad { background: var(--bad); color: #fff; }
+button.good.on, button.bad.on { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--text); }
+/* second tap of a "Точно?" pair: it nudges so the change is noticed */
+button.danger { background: color-mix(in oklab, var(--bad) 42%, var(--bg)); color: #fff; animation: fx-nudge .35s var(--ease); }
+button.big { width: 100%; font-size: 18px; padding: 16px; }
+button.mini { white-space: nowrap; min-height: 32px; padding: 4px 10px; font-size: 13px; border-radius: var(--r-s); }
+button.mini.x { min-height: 24px; padding: 0 6px; }
+button.icon { width: 40px; min-height: 40px; padding: 0; font-size: 20px; border-radius: 12px; }
+/* the main call to action shines once when it appears or becomes available */
+button.big:not(.soft):not(.ghost):not(.danger):not(:disabled) { overflow: hidden; }
+button.big:not(.soft):not(.ghost):not(.danger):not(:disabled)::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .38) 50%, transparent 65%) 150% 0 / 250% 100% no-repeat;
+  animation: fx-sheen 1.1s .25s var(--ease) backwards;
+}
+
+/* A choice in a list (vote, option, seat). .on = picked, .good = the right one. */
+.pick {
+  display: block; width: 100%; text-align: left; font-weight: 700; color: var(--text);
+  background: var(--bg2); border: 2px solid var(--line); border-radius: var(--r); padding: 14px 16px; min-height: 48px;
+  transition: transform var(--fast) var(--ease), background-color var(--mid), border-color var(--mid), box-shadow var(--mid), opacity var(--mid);
+}
+.pick.on {
+  border-color: var(--accent); background: var(--accent-soft);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); animation: fx-tick .35s var(--spring);
+}
+.pick.good { border-color: var(--good); background: var(--good-bg); }
+.pick.center { text-align: center; }
+/* square number key */
+.pick.sq { width: auto; min-width: 44px; min-height: 42px; padding: 0 6px; text-align: center; font-size: 17px; font-weight: 800; border-radius: var(--r-s); }
+.picks { display: grid; gap: 8px; }
+.picks.two { grid-template-columns: 1fr 1fr; }
+
+/* ---------- form ---------- */
+input[type=text] {
+  font: inherit; font-size: 18px; width: 100%; padding: 14px 16px; border-radius: var(--r);
+  border: 2px solid var(--line); background: var(--bg2); color: var(--text); outline: none;
+  transition: border-color var(--mid), box-shadow var(--mid);
+}
+input[type=text]:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--glow); }
+/* <label class="toggle"><input type="checkbox" class="switch"> text</label> */
+.toggle { display: flex; gap: 12px; align-items: center; cursor: pointer; }
+input.switch {
+  appearance: none; -webkit-appearance: none; position: relative; flex: none; margin: 0; cursor: pointer;
+  width: 46px; height: 28px; border-radius: 99px; background: var(--line); transition: background-color var(--mid);
+}
+input.switch::before {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%;
+  background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, .4); transition: transform var(--mid) var(--spring);
+}
+input.switch:checked { background: var(--accent); }
+input.switch:checked::before { transform: translateX(18px); }
+
+/* ---------- chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; gap: 6px; align-items: center; padding: 8px 12px; min-height: 0; border-radius: 999px;
+  background: var(--bg2); border: 1px solid var(--line); color: var(--text); font-size: 15px; font-weight: 600;
+  animation: fx-pop .4s var(--spring) backwards;
+  transition: transform var(--fast) var(--ease), background-color var(--mid), color var(--mid), border-color var(--mid);
+}
+.chip.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); animation: fx-pop .4s var(--spring) backwards, fx-tick .35s var(--spring); }
+.chip.ok { border-color: var(--good); background: var(--good-bg); }
+.chip.bad { border-color: var(--bad); }
+.chip.sel { outline: 3px solid var(--warn); }
+.chip.empty { color: var(--muted); }
+
+/* Segmented switch; the highlight slides between options. */
+.seg {
+  --n: 2; --k: 0;
+  position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px;
+  background: var(--bg2); border: 1px solid var(--line); border-radius: var(--r);
+}
+.seg:has(> :nth-child(3)) { --n: 3; }
+.seg:has(> :nth-child(2).on) { --k: 1; }
+.seg:has(> :nth-child(3).on) { --k: 2; }
+.seg::before {
+  content: ''; position: absolute; top: 4px; bottom: 4px; left: 4px; border-radius: var(--r-s);
+  width: calc((100% - 8px - (var(--n) - 1) * 4px) / var(--n)); transform: translateX(calc(var(--k) * (100% + 4px)));
+  background: var(--accent); box-shadow: 0 2px 12px var(--glow); transition: transform .35s var(--spring);
+}
+.seg:not(:has(> .on))::before { opacity: 0; }
+.seg > button {
+  position: relative; z-index: 1; min-height: 40px; padding: 8px 10px; border-radius: var(--r-s); white-space: nowrap;
+  background: transparent; color: var(--muted);
+}
+.seg > button.on { color: var(--on-accent); }
+@supports not selector(:has(*)) {
+  .seg::before { display: none; }
+  .seg > button.on { background: var(--accent); }
+}
+
+/* ---------- surfaces ---------- */
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+  transition: background-color var(--mid), border-color var(--mid), box-shadow var(--mid);
+}
+.card.flat { background: var(--bg2); }
+.card.dashed { border-style: dashed; }
+/* the card that needs you now: a slowly running accent border */
+@property --spin { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.card.hl, .hl {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(from var(--spin), var(--accent), color-mix(in srgb, var(--accent) 25%, var(--line)) 25%, var(--accent) 50%,
+      color-mix(in srgb, var(--accent) 25%, var(--line)) 75%, var(--accent)) border-box;
+  box-shadow: 0 0 26px -10px var(--accent);
+  animation: fx-spin 6s linear infinite;
+}
+.hl.bad { --accent: var(--bad); }
+.card.team { border-left: 6px solid var(--tc); }
+
+/* Big themed card for the thing everyone looks at (question, character, round). */
+.hero {
+  border-radius: var(--r-xl); padding: 22px 18px; border: 1px solid var(--accent-line); box-shadow: var(--shadow);
+  background: linear-gradient(150deg, color-mix(in oklab, var(--accent) 26%, var(--card)), var(--card) 75%);
+}
+
+/* Result headline. Appears with a pop; a win shines, a loss shakes. */
+.banner {
+  position: relative; overflow: hidden; border-radius: 20px; padding: 20px; text-align: center; font-weight: 800; font-size: 20px;
+  background: var(--bg2); border: 2px solid var(--line); animation: fx-pop .5s var(--spring) backwards;
+}
+.banner.good { background: var(--good-bg); border-color: var(--good); }
+.banner.bad { background: var(--bad-bg); border-color: var(--bad); animation: fx-pop .5s var(--spring) backwards, fx-shake .5s .3s ease-in-out; }
+.banner.good::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .22) 50%, transparent 65%) 150% 0 / 250% 100% no-repeat;
+  animation: fx-sheen 1.4s .35s var(--ease) backwards;
+}
+.banner h1 { font-size: 26px; margin-bottom: 4px; }
+.banner > div:not([class]) { font-weight: 400; font-size: 16px; }
+.banner > svg:first-child { width: 56px; height: 56px; display: block; margin: 0 auto 8px; }
+.banner .emoji { display: block; font-size: 42px; line-height: 1.1; animation: fx-drop .6s .15s var(--bounce) backwards; }
+
+.notice {
+  border-radius: var(--r); padding: 12px 14px; background: var(--accent-soft); border: 1px solid var(--accent-line);
+  color: var(--accent-text); animation: fx-rise .35s var(--ease) backwards;
+}
+
+/* ---------- small pieces ---------- */
+.tag {
+  display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+  background: var(--bg2); color: var(--muted); text-transform: uppercase; letter-spacing: .5px;
+}
+.tag.accent { background: var(--accent-soft); color: var(--accent-text); }
+.tag.good { background: var(--good-bg); color: var(--good); }
+/* number in a box: word index, clue number, seat */
+.badge {
+  display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: 1.75em; height: 1.75em; padding: 0 .35em;
+  border-radius: 7px; background: var(--accent); color: var(--on-accent); font-size: 14px; font-weight: 900; line-height: 1;
+}
+.badge.round { border-radius: 99px; }
+.badge.soft { background: var(--line); color: var(--muted); }
+.badge.sm { font-size: 12px; }
+.team-tag {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  font-weight: 800; font-size: 14px; color: var(--tc);
+  background: color-mix(in srgb, var(--tc) 16%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 45%, transparent);
+}
+.tname { font-weight: 800; color: var(--tc, var(--accent-text)); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); display: inline-block; flex: none; transition: background-color var(--mid); }
+.dot.off { background: var(--bad); animation: fx-blink 1.2s ease-in-out infinite; }
+.spinner {
+  display: inline-block; vertical-align: middle; width: 22px; height: 22px; border-radius: 50%;
+  border: 3px solid var(--line); border-top-color: var(--accent); animation: fx-rotate .9s linear infinite;
+}
+.spinner.sm { width: 14px; height: 14px; border-width: 2px; }
+/* Waiting for a person, not for the app: a "typing…" bubble, optionally next to whose move it is.
+   The spinner above is only for real loading. PG.ui.wait() / PG.ui.typing() render these. */
+.typing {
+  display: inline-flex; align-items: center; gap: 4px; padding: 8px 11px; vertical-align: middle;
+  border-radius: 14px 14px 14px 4px; background: var(--accent-soft); border: 1px solid var(--accent-line);
+  animation: fx-pop .4s var(--spring) backwards;
+}
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-text); animation: typing 1.3s ease-in-out infinite; }
+.typing i:nth-child(2) { animation-delay: .16s; }
+.typing i:nth-child(3) { animation-delay: .32s; }
+.typing.sm { padding: 5px 8px; gap: 3px; }
+.typing.sm i { width: 5px; height: 5px; }
+.wait { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; }
+.wait .who { display: flex; align-items: flex-end; gap: 4px; }
+.wait .avatar + .typing { margin-bottom: 20px; }
+.avatar {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent); font-weight: 900; font-size: 17px; line-height: 1;
+  animation: avatar-breathe 2.6s ease-in-out infinite;
+}
+.avatar.emoji { background: var(--bg); border: 2px solid var(--accent-line); font-size: 20px; }
+@keyframes typing { 0%, 60%, 100% { transform: none; opacity: .35; } 30% { transform: translateY(-5px); opacity: 1; } }
+@keyframes avatar-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+  50% { box-shadow: 0 0 0 7px transparent; }
+}
+
+/* the secret word / the shared topic, question, clue */
+.word { font-size: 34px; font-weight: 900; color: var(--accent); letter-spacing: -.5px; line-height: 1.1; word-break: break-word; }
+.word.sm { font-size: 22px; }
+.headline { font-size: 24px; font-weight: 900; color: var(--accent-text); letter-spacing: -.3px; line-height: 1.2; word-break: break-word; }
+.headline.xl { font-size: 30px; letter-spacing: -.5px; }
+
+/* ---------- lists ---------- */
+/* a row in a card: <div class="li"><span class="dot"></span><span class="name">…</span><span class="plus">+1</span><span class="pts">3</span></div> */
+.li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); animation: fx-in .35s var(--ease) backwards; }
+.li:last-child { border-bottom: 0; }
+.li:nth-child(2) { animation-delay: 30ms; } .li:nth-child(3) { animation-delay: 60ms; } .li:nth-child(4) { animation-delay: 90ms; }
+.li:nth-child(5) { animation-delay: 120ms; } .li:nth-child(n+6) { animation-delay: 150ms; }
+.li .name { flex: 1; min-width: 0; font-weight: 600; }
+.li .pts { font-weight: 800; font-size: 20px; min-width: 2ch; text-align: right; font-variant-numeric: tabular-nums; }
+.li.now { background: var(--accent-soft); border-radius: var(--r-s); padding-left: 8px; padding-right: 8px; }
+.li.block { display: block; }
+.plus { display: inline-block; color: var(--good); font-weight: 800; font-size: 13px; animation: fx-float .6s .2s var(--spring) backwards; }
+.bump { animation: fx-bump .6s var(--spring); }
+
+/* word grid (Хамелеон), board cells */
+.tiles { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 6px; }
+.tile {
+  display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 2px; margin: 0;
+  background: var(--bg2); border: 1px solid var(--line); border-radius: var(--r-s); color: var(--text);
+  font-size: 12.5px; font-weight: 700; line-height: 1.15; text-align: center; word-break: break-word; hyphens: auto;
+  transition: transform var(--fast) var(--ease), background-color .3s, color .3s, border-color .3s, opacity .3s;
+}
+.tile.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); animation: fx-tick .45s var(--spring); }
+
+/* ---------- time ---------- */
+.timer { font-size: 64px; font-weight: 900; line-height: 1; letter-spacing: -2px; text-align: center; font-variant-numeric: tabular-nums; transition: color .3s; }
+.timer.sm { display: inline-block; font-size: 18px; font-weight: 800; letter-spacing: 0; }
+.timer.low { color: var(--bad); animation: fx-heartbeat 1s ease-in-out infinite; }
+.bar { height: 8px; border-radius: 99px; background: var(--bg2); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width .25s linear, background-color .3s; }
+.bar.low > i { background: var(--bad); }
+
+/* ---------- 1–100 scale ---------- */
+.spectrum { position: relative; height: 34px; border-radius: 12px; background: var(--spectrum); }
+.spectrum.tall { height: 56px; border-radius: 16px; }
+.pin {
+  position: absolute; top: 50%; z-index: 2; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 12px; font-weight: 800;
+  background: var(--bg); color: var(--text); border: 2px solid #fff; transition: background-color var(--mid);
+}
+.pin.mine { z-index: 3; background: var(--accent); color: var(--on-accent); }
+.pin.bad { border-color: var(--bad); color: var(--bad); }
+.pin.drop { animation: fx-drop .5s var(--bounce) backwards; }
+
+/* ---------- secret card: tap to flip ---------- */
+/* PG.ui.flipCard() renders it; --tone colours the open side. */
+.flip { display: grid; perspective: 1100px; cursor: pointer; user-select: none; --tone: var(--accent); }
+.flip > .face {
+  grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center; gap: 8px; min-height: 190px;
+  padding: 22px 18px; border-radius: var(--r-xl); text-align: center; border: 2px solid var(--line); background: var(--bg2);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .6s var(--spring);
+}
+.flip > .front {
+  border-style: dashed; overflow: hidden; position: relative;
+  background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--accent) 7%, transparent) 14px 28px), var(--bg2);
+}
+.flip > .front::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .07) 50%, transparent 60%) 150% 0 / 250% 100% no-repeat;
+  animation: fx-sheen 3.5s 1s ease-in-out infinite;
+}
+.flip > .back {
+  transform: rotateY(180deg); border-color: var(--tone);
+  background: linear-gradient(160deg, color-mix(in oklab, var(--tone) 24%, var(--bg2)), var(--bg2) 70%);
+}
+.flip.open > .front { transform: rotateY(-180deg); }
+.flip.open > .back { transform: none; }
+.flip .card-ico { font-size: 40px; line-height: 1.1; }
+.flip .title { font-size: 28px; font-weight: 900; letter-spacing: -.5px; }
+.flip .what { color: var(--muted); }
+
+/* ---------- motion ---------- */
+.fx-pop { animation: fx-pop .45s var(--d, 0s) var(--spring) backwards; }
+.fx-rise { animation: fx-rise .4s var(--d, 0s) var(--ease) backwards; }
+.fx-in { animation: fx-in .35s var(--d, 0s) var(--ease) backwards; }
+.fx-drop { animation: fx-drop .5s var(--d, 0s) var(--bounce) backwards; }
+.fx-flip { animation: fx-flip .45s var(--d, 0s) var(--ease) backwards; }
+.fx-shake { animation: fx-shake .5s var(--d, 0s) ease-in-out; }
+
+/* a new screen (phase) slides its blocks in one after another */
+#app.enter > * > :not(.banner) { animation: fx-rise .4s var(--ease) backwards; }
+#app.enter > * > :nth-child(2) { animation-delay: 40ms; }
+#app.enter > * > :nth-child(3) { animation-delay: 80ms; }
+#app.enter > * > :nth-child(4) { animation-delay: 120ms; }
+#app.enter > * > :nth-child(5) { animation-delay: 160ms; }
+#app.enter > * > :nth-child(6) { animation-delay: 200ms; }
+#app.enter > * > :nth-child(n+7) { animation-delay: 240ms; }
+
+@keyframes fx-pop { 0% { transform: scale(.7); opacity: 0; } 70% { transform: scale(1.04); opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes fx-rise { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fx-in { from { transform: translateX(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fx-drop { from { transform: translateY(-24px) scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fx-flip { from { transform: perspective(600px) rotateY(90deg); } to { transform: none; } }
+@keyframes fx-shake { 0%, 100% { transform: none; } 20% { transform: translateX(-8px) rotate(-1deg); } 40% { transform: translateX(7px) rotate(1deg); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+@keyframes fx-nudge { 0%, 100% { transform: none; } 30% { transform: translateX(-4px); } 70% { transform: translateX(4px); } }
+@keyframes fx-tick { 0% { transform: none; } 40% { transform: scale(1.07); } 100% { transform: none; } }
+@keyframes fx-bump { 0% { transform: none; } 35% { transform: scale(1.4); color: var(--good); } 100% { transform: none; } }
+@keyframes fx-float { 0% { transform: translateY(8px) scale(.5); opacity: 0; } 60% { transform: translateY(-3px) scale(1.15); opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes fx-heartbeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.07); } 30% { transform: scale(1); } 45% { transform: scale(1.04); } }
+@keyframes fx-blink { 50% { opacity: .35; } }
+@keyframes fx-rotate { to { transform: rotate(360deg); } }
+@keyframes fx-sheen { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+@keyframes fx-spin { to { --spin: 360deg; } }
+@keyframes fx-ring { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent), 0 2px 10px rgba(0, 0, 0, .5); } to { box-shadow: 0 0 0 16px transparent, 0 2px 10px rgba(0, 0, 0, .5); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
