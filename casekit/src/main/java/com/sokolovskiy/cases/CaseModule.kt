@@ -136,6 +136,6 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
     }
 
     companion object {
-        private val PHOTO = Regex("assets/photos/([\\w.-]+)")
+        private val PHOTO = Regex("photos/([\\w.-]+)")
     }
 }
