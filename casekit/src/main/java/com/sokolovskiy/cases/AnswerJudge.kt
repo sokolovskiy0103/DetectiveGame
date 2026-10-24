@@ -85,11 +85,11 @@ class AnswerJudge(
 
         private fun hourWord(word: String): Int? = HOUR_WORDS.firstOrNull { word.startsWith(it.first) }?.second
 
-        private val DATES = Regex("""(?U)\b\d{1,2}\.\d{1,2}\.\d{2,4}\b|\b1[0-5]\.11\b""")
-        private val CLOCK = Regex("""(?U)\b([01]?\d|2[0-3])[:.]([0-5]\d)\b""")
-        private val HALF_PAST = Regex("""(?U)пів\s*на\s*([\w']+)""")
-        private val NUMBER = Regex("""(?U)\b(\d{1,2})\s*(вечора|веч\b|год|годин)?""")
-        private val AT_HOUR = Regex("""(?U)\bо\s+([\w']+)""")
+        private val DATES = uniRegex("""\b\d{1,2}\.\d{1,2}\.\d{2,4}\b|\b1[0-5]\.11\b""")
+        private val CLOCK = uniRegex("""\b([01]?\d|2[0-3])[:.]([0-5]\d)\b""")
+        private val HALF_PAST = uniRegex("""пів\s*на\s*([\w']+)""")
+        private val NUMBER = uniRegex("""\b(\d{1,2})\s*(вечора|веч\b|год|годин)?""")
+        private val AT_HOUR = uniRegex("""\bо\s+([\w']+)""")
 
         /**
          * Minutes after 00:00 for every moment mentioned: "19:30", "19.30", "між 19 і 21", "пів на восьму", "о восьмій",
@@ -129,3 +129,8 @@ internal fun JSONObject.strings(key: String): List<String> {
     val a: JSONArray = optJSONArray(key) ?: return emptyList()
     return List(a.length()) { a.getString(it) }
 }
+
+/**
+ * JVM regexes need (?U) for `\w` and `\b` to understand Cyrillic; Android's ICU engine already does and rejects the flag.
+ */
+internal fun uniRegex(pattern: String): Regex = try { Regex("(?U)$pattern") } catch (_: Exception) { Regex(pattern) }
