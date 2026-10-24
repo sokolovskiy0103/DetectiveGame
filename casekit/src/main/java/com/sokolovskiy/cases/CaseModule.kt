@@ -22,14 +22,20 @@ class CaseModule(
     override val title: String,
     override val subtitle: String,
     override val emoji: String,
-    /** The optional paraphrase judge (an on-device model); null = keywords only. */
-    private val semantic: () -> SemanticJudge? = { null },
+    /** The optional paraphrase model (downloaded on demand); null = keywords only. */
+    private val semantic: SemanticHost? = null,
 ) : GameModule {
 
     override val minPlayers = 1
     override val webAssets = listOf("kit/case.js", "kit/case.css")
 
-    override fun create(env: GameEnv): GameSession = CaseSession(env, id, semantic)
+    override fun create(env: GameEnv): GameSession = CaseSession(env, id) { semantic?.judge }
+
+    override fun hostStatus(): JSONObject? = semantic?.status()
+
+    override fun handleHost(msg: JSONObject) {
+        if (msg.optString("a") == "model") semantic?.setEnabled(msg.optBoolean("on"))
+    }
 }
 
 class CaseSession(private val env: GameEnv, private val caseId: String, semantic: () -> SemanticJudge?) : GameSession {

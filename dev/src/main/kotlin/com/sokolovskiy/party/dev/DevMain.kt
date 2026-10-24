@@ -1,6 +1,9 @@
 package com.sokolovskiy.party.dev
 
 import android.content.Context
+import com.sokolovskiy.cases.OnnxJudge
+import com.sokolovskiy.cases.SemanticHost
+import com.sokolovskiy.cases.SemanticJudge
 import com.sokolovskiy.detective.detectiveConfig
 import com.sokolovskiy.party.core.Hub
 import com.sokolovskiy.party.core.PartyApp
@@ -20,7 +23,15 @@ fun main(args: Array<String>) {
     val root = listOf(".", "..").map(::File).first { File(it, "core/src/main/assets").isDirectory }
     val assets = listOf("core/src/main/assets", "casekit/src/main/assets", "hub/src/main/assets", "hub/build/generated/caseAssets")
         .map { File(root, it) }.toTypedArray()
-    PartyApp.config = detectiveConfig()
+    // with the model in dev/models (embed.onnx + embed.vocab) the paraphrase judge runs here too
+    val models = File(root, "dev/models")
+    PartyApp.config = detectiveConfig { _, _ ->
+        if (!OnnxJudge.present(models)) null else object : SemanticHost {
+            override val judge: SemanticJudge? = OnnxJudge.load(models)
+            override fun status() = org.json.JSONObject().put("enabled", true).put("state", "READY").put("progress", 1).put("message", "").put("sizeMb", 190)
+            override fun setEnabled(on: Boolean) {}
+        }
+    }
     val hub = Hub(Context(*assets))
     hub.start()
     val port = hub.local.port

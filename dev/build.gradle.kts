@@ -16,6 +16,7 @@ sourceSets.main {
         "com/sokolovskiy/party/update/**",
         "com/sokolovskiy/party/tv/**",
         "com/sokolovskiy/detective/DetectiveApp.kt",
+        "com/sokolovskiy/detective/SemanticManager.kt",
     )
 }
 
@@ -33,6 +34,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.16")
     implementation("com.google.zxing:core:3.5.3")
     implementation("org.json:json:20240303")
+    implementation("com.microsoft.onnxruntime:onnxruntime:1.22.0")
 }
 
 tasks.named("run") { dependsOn(":hub:syncCases") }

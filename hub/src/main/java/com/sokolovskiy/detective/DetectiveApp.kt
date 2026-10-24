@@ -6,6 +6,6 @@ import com.sokolovskiy.party.core.PartyApp
 class DetectiveApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        PartyApp.config = detectiveConfig()
+        PartyApp.config = detectiveConfig { context, hub -> SemanticManager(context) { hub.broadcast() } }
     }
 }

@@ -4,5 +4,9 @@
         android:name=".DetectiveApp"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
-        android:label="Детективні справи" />
+        android:label="Детективні справи">
+        <!-- ONNX Runtime may probe these GPU/vendor libraries (as in party_games) -->
+        <uses-native-library android:name="libvndksupport.so" android:required="false" />
+        <uses-native-library android:name="libOpenCL.so" android:required="false" />
+    </application>
 </manifest>

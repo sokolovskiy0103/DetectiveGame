@@ -20,6 +20,8 @@ kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_17) } }
 
 dependencies {
     api(project(":core"))
+    // paraphrase model; the desktop launcher swaps in the JVM build of the same API
+    api("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20240303")
 }
