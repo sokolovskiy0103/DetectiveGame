@@ -2,8 +2,7 @@
 // network switch (Wi-Fi / Internet relay). Games register themselves with PG.register().
 //
 // Pages: /host#<token> in the host app's WebView, / for players on local Wi-Fi,
-// /r/<CODE>/ for players coming through the Render relay. Either player page with ?tv is the shared TV screen:
-// it never joins and shows the game's board() — what everyone in the room may see.
+// /r/<CODE>/ for players coming through the Render relay.
 (function () {
   'use strict';
 
@@ -16,13 +15,12 @@
 
   const base = location.pathname.replace(/[^/]*$/, '');
   const isHostPage = location.pathname === '/host';
-  const isTv = !isHostPage && new URLSearchParams(location.search).has('tv');
   const token = isHostPage ? location.hash.slice(1) : '';
   // ids are per server: a relay room and the local server are different rooms
   const K = 'pg.' + (isHostPage ? 'host' : base) + '.';
 
   const games = {};
-  let pid = isTv ? null : store.get(K + 'pid');
+  let pid = store.get(K + 'pid');
   let st = null, prev = null;
   let joining = false;
   let clockOffset = 0;
@@ -31,7 +29,6 @@
   let rulesOpen = false;
   let showRelayUrl = false;
   let bigQr = false;
-  let castFailed = false;  // the phone has no cast screen to open
   let armed = null;
 
   // Dev helper: ?autojoin=Name joins without touching the form (used by the desktop 4-pane launcher).
@@ -49,8 +46,7 @@
     ws = new WebSocket(proto + location.host + base + 'ws' + (isHostPage ? '?host=' + encodeURIComponent(token) : ''));
     ws.onopen = () => {
       tries = 0; status(true);
-      if (isTv) send({ t: 'tv' });
-      else if (pid) send({ t: 'resume', pid }); else { autoJoin(); render(); }
+      if (pid) send({ t: 'resume', pid }); else { autoJoin(); render(); }
     };
     ws.onmessage = e => { let m; try { m = JSON.parse(e.data); } catch (_) { return; } onMessage(m); };
     ws.onclose = () => { status(false); setTimeout(open, Math.min(4000, 400 * ++tries)); };
@@ -71,7 +67,6 @@
   }
 
   function onMessage(m) {
-    if (isTv && m.t !== 'state') return;
     if (m.t === 'welcome') { pid = m.pid; store.set(K + 'pid', pid); joining = false; return; }
     if (m.t === 'unknown') { pid = null; store.set(K + 'pid', null); autoJoin(); render(); return; }
     if (m.t !== 'state') return;
@@ -82,10 +77,8 @@
     const switched = prev && prev.game !== st.game;
     if (switched) { showInvite = false; menuOpen = false; rulesOpen = false; bigQr = false; }
     const g = st.game && games[st.game];
-    // the TV only gets a game's state when the game draws a board
-    if (g && g.onState && (!isTv || g.board)) g.onState(prev && prev.game === st.game ? prev.g : null, st.g, api);
-    if (isTv) tvFx();
-    else if (switched) sfx('whoosh');
+    if (g && g.onState) g.onState(prev && prev.game === st.game ? prev.g : null, st.g, api);
+    if (switched) sfx('whoosh');
     else if (prev && !st.game && st.players.length > prev.players.length) sfx('join');
     updateMusic();
     render();
@@ -94,11 +87,10 @@
   }
 
   // ---------- sound ----------
-  // The room has one speaker: the TV when one is watching, otherwise the host's phone; players' phones only vibrate.
+  // The room has one speaker, the host's phone; players' phones only vibrate.
   // Music follows the game and its phase: a game's `music` maps a phase to 'low' (people are talking over it) or
   // 'off' (someone has to be heard), any other phase plays it normally. Effects come from the games' onState through
-  // api.sfx(): only the host page acts on them (it sees the whole game) and plays them itself or, with a TV on, hands
-  // them to the server, which numbers them into the TVs' state (st.fx).
+  // api.sfx(): only the host page acts on them (it sees the whole game).
   // Browsers only allow audio after a user gesture, so the context is unlocked on the first tap (the app's WebViews
   // allow it straight away).
   let audioCtx = null;
@@ -133,7 +125,7 @@
       .then(b => new Promise((ok, no) => audioCtx.decodeAudioData(b, ok, no))));
   }
 
-  const speaker = () => isTv || (isHostPage && !!st && !st.tvs);
+  const speaker = () => isHostPage && !!st;
   const sndOn = k => !(st && st.snd && st.snd[k] === false);
 
   const lastFx = {};
@@ -155,15 +147,7 @@
   function sfx(name, delay) {
     if (!isHostPage || !st) return;
     if (delay) { setTimeout(() => sfx(name), delay); return; }
-    if (st.tvs) send({ t: 'fx', n: name }); else playFx(name);
-  }
-
-  // The TV plays every effect it has not seen yet; the first state only sets the mark.
-  let fxSeen = -1;
-  function tvFx() {
-    const list = st.fx || [];
-    if (fxSeen >= 0) list.forEach(f => { if (f.i > fxSeen) playFx(f.n); });
-    fxSeen = list.reduce((m, f) => Math.max(m, f.i), Math.max(fxSeen, 0));
+    playFx(name);
   }
 
   let track = null;  // { name, gain, vol, src }
@@ -215,14 +199,49 @@
     }, () => {});
   }
 
+  // ---------- icons ----------
+  // Line icons, 24x24, drawn in the current text colour (ui.css .ic). No emoji anywhere in the interface.
+  const ICONS = {
+    file: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+    search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/>',
+    help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17v.5"/>',
+    pen: '<path d="m4 20 1-4L16 5l3 3L8 19z"/><path d="m14 7 3 3"/>',
+    journal: '<path d="M5 4h12v16H5z"/><path d="M8 4v16M11 9h4M11 13h4"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    star: '<path d="m12 3 2.6 6 6.4.5-4.8 4.2 1.5 6.3L12 16.6 6.3 20l1.5-6.3L3 9.5 9.4 9z"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    close: '<path d="m6 6 12 12M18 6 6 18"/>',
+    back: '<path d="M20 12H5M11 6l-6 6 6 6"/>',
+    compare: '<path d="M4 5h7v14H4zM13 5h7v14h-7z"/>',
+    chip: '<path d="M7 7h10v10H7zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
+    pin: '<path d="M9 3h6l-1 6 3 3H7l3-3zM12 12v9"/>',
+    check: '<path d="m5 12.5 4.5 4.5L19 7"/>',
+    book: '<path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v14c-3-1-6-1-8 1-2-2-5-2-8-1z"/><path d="M12 6v14"/>',
+    home: '<path d="m4 11 8-7 8 7M6 10v10h12V10M10 20v-6h4v6"/>',
+    refresh: '<path d="M20 12a8 8 0 1 1-2.5-5.8M20 4v5h-5"/>',
+    phone: '<path d="M8 3h8v18H8zM11 18h2"/>',
+    door: '<path d="M6 3h10v18H6zM16 5l3 1v14l-3 1M13 12h.5"/>',
+    music: '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
+    bell: '<path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4zM10 21h4"/>',
+    sound: '<path d="M4 10v4h4l5 4V6l-5 4zM16 9c1.5 1.5 1.5 4.5 0 6"/>',
+    wifi: '<path d="M3 9c5-5 13-5 18 0M6 12.5c3.5-3.5 8.5-3.5 12 0M9.5 16c1.5-1.5 3.5-1.5 5 0M12 19.5v.1"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+    up: '<path d="M12 20V6M6 12l6-6 6 6M5 20h14"/>',
+    power: '<path d="M12 3v9M6.5 6.5a8 8 0 1 0 11 0"/>',
+    folder: '<path d="M3 6h6l2 2h10v11H3z"/><path d="M3 11h18"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+    lock: '<path d="M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3"/>',
+    qr: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v6h-4M14 18v2"/>',
+  };
+  const ico = (name, cls) => `<svg class="ic ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+
   const api = {
-    $, esc, store, sfx,
+    $, esc, store, sfx, ico,
     get st() { return st; },
     get g() { return st && st.g; },
     get me() { return st && st.me; },
     get isHost() { return !!(st && st.isHost); },
     get isHostPage() { return isHostPage; },
-    get isTv() { return isTv; },
     get mod() { return st && st.mods && st.game ? st.mods[st.game] : null; },
     now() { return Date.now() + clockOffset; },
     send(d) { send({ t: 'g', d }); },
@@ -243,7 +262,7 @@
      * o: { open, tone: CSS colour of the open side, back: HTML of the open side, front: optional closed side }
      */
     flipCard(o) {
-      const front = o.front || `<div class="card-ico">🂠</div><div class="title">Твоя роль</div>
+      const front = o.front || `<div class="card-ico">${ico('lock', 'lg')}</div><div class="title">Твоя роль</div>
         <div class="what">Торкнись, щоб подивитися. Сховай екран від інших.</div>`;
       return `<div class="flip ${o.open ? 'open' : ''}" data-act="flip" style="--tone:${o.tone || 'var(--accent)'}">
         <div class="face front">${front}</div>
@@ -253,11 +272,12 @@
     typing(cls = '') { return `<span class="typing ${cls}"><i></i><i></i><i></i></span>`; },
     /**
      * Waiting for a person (not for loading): a card with whose move it is and a "typing…" bubble.
-     * text: HTML; who: a player's name (shows its initial) or an emoji, e.g. '👑' for the host.
+     * text: HTML; who: a player's name (shows its initial) or an icon name from ICONS, e.g. 'user' for the host.
      */
     wait(text, who) {
       const ch = [...String(who || '').trim()][0] || '?';
-      const face = who ? `<span class="avatar ${/\p{L}|\p{N}/u.test(ch) ? '' : 'emoji'}">${esc(ch.toUpperCase())}</span>` : '';
+      const face = !who ? '' : ICONS[who] ? `<span class="avatar emoji">${ico(who)}</span>`
+        : `<span class="avatar">${esc(ch.toUpperCase())}</span>`;
       return `<div class="card flat wait"><span class="who">${face}${ui.typing()}</span><span class="muted">${text}</span></div>`;
     },
     /**
@@ -290,14 +310,12 @@
         if (sec == null && ms > 0 && ms < +el.dataset.low) sec = Math.ceil(ms / 1000);
       }
     });
-    // A countdown ticks through its last seconds on the room's speaker: the TV ticks its own board's clock, the host
-    // page ticks for it when the game draws no board. Running out ends with the buzzer.
+    // A countdown ticks through its last seconds on the host's speaker. Running out ends with the buzzer.
     if (sec !== tickSec) {
       const was = tickSec;
       tickSec = sec;
       const n = sec != null ? (sec <= 3 ? 'tick_urgent' : 'tick') : was === 1 ? 'time_up' : null;
-      if (n && isTv && st && st.g) playFx(n);
-      else if (n && isHostPage && st && !(st.tvs && st.tvBoard)) sfx(n);
+      if (n && isHostPage && st) sfx(n);
     }
   }, 250);
 
@@ -316,7 +334,7 @@
     const el = $('#bg');
     document.body.classList.toggle('has-bg', !!kind);
     if (!kind) { el.innerHTML = ''; return; }
-    const f = base + 'static/games/' + id + '/bg' + (isTv ? '-tv' : '');
+    const f = base + 'static/games/' + id + '/bg';
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches || kind !== 'loop';
     el.innerHTML = still ? `<img src="${f}.webp" alt="">`
       : `<video autoplay muted loop playsinline disablepictureinpicture poster="${f}.webp">
@@ -361,7 +379,7 @@
         loading[id] = games[id] ? 'ok' : 'fail';
         const g = games[id];
         // the state arrived before the code: let the game catch up as if it had just started
-        if (g && st && st.game === id && g.onState && st.g && (!isTv || g.board)) g.onState(null, st.g, api);
+        if (g && st && st.game === id && g.onState && st.g) g.onState(null, st.g, api);
         updateMusic();
         render();
       };
@@ -382,9 +400,9 @@
   }
 
   // ---------- views ----------
-  // The app's own name and emoji come from the server (AppConfig), so the same shell serves every app built on it.
+  // The app's own name comes from the server (AppConfig), so the same shell serves every app built on it.
   function appInfo() { return (st && st.app) || { name: '', emoji: '', pick: 'Що граємо?' }; }
-  function brand() { const a = appInfo(); return a.emoji ? `<span class="logo-emoji">${a.emoji}</span>${esc(a.name)}` : esc(a.name); }
+  function brand() { return ico('search') + esc(appInfo().name); }
 
   /** A game is picked but not started yet (its own setup screen): leaving it loses nothing, so no "Точно?". */
   const notStarted = () => !!(st && st.game && (!st.g || st.g.phase === 'LOBBY'));
@@ -414,8 +432,7 @@
       qr: `<img class="qr" src="${base}qr.svg?t=${encodeURIComponent(u.url)}" alt="QR">`,
       info: `<div class="url">${esc(u.url)}</div>
         <p class="muted small">${u.hotspot ? 'Гравці підключаються до точки доступу цього телефону.' : 'Гравці мають бути в тій самій Wi-Fi мережі.'}</p>
-        ${urls.length > 1 ? `<div class="muted small">Інші адреси: ${urls.slice(1).map(x => esc(x.url)).join(', ')}</div>` : ''}
-        ${tvHint(u.url)}`,
+        ${urls.length > 1 ? `<div class="muted small">Інші адреси: ${urls.slice(1).map(x => esc(x.url)).join(', ')}</div>` : ''}`,
     };
   }
 
@@ -426,8 +443,7 @@
       qr = `<img class="qr" src="${base}qr.svg?t=${encodeURIComponent(r.join)}" alt="QR">`;
       info = `<div class="code">${esc(r.code)}</div>
         <div class="url">${esc(r.join)}</div>
-        <p class="muted small">Працює з будь-якої мережі, навіть з мобільного інтернету. Або відкрий ${esc(r.url.replace(/^https?:\/\//, ''))} і введи код.</p>
-        ${tvHint(r.join)}`;
+        <p class="muted small">Працює з будь-якої мережі, навіть з мобільного інтернету. Або відкрий ${esc(r.url.replace(/^https?:\/\//, ''))} і введи код.</p>`;
     } else {
       info = `<div class="center" style="padding:12px 0"><span class="spinner"></span></div>
         <p class="muted">${esc(r.message || 'Підключаюсь…')}</p>`;
@@ -438,19 +454,6 @@
     return { qr, info };
   }
 
-  /** How to put the room on a TV: the player address with ?tv, and whether one is watching. */
-  function tvHint(url) {
-    if (!url) return '';
-    const app = !!(window.PGApp && PGApp.castScreen);
-    return `<div class="stack">
-      ${app && !st.tvs ? '<button class="soft" data-pg="cast">📺 Транслювати на телевізор</button>' : ''}
-      ${castFailed && !st.tvs ? '<div class="small c-warn">Не знайшов налаштувань трансляції — увімкни її у шторці («Smart View», «Трансляція», «Бездротовий дисплей»).</div>' : ''}
-      <div class="muted small">${st.tvs ? '📺 <span class="c-good">Телевізор підключено ✓</span>' : app
-        ? `Обери свій телевізор у списку — він покаже окрему картинку, а телефон лишиться пультом. Або відкрий у браузері телевізора <span class="url">${esc(url)}?tv</span>`
-        : `📺 На телевізор: відкрий у його браузері <span class="url">${esc(url)}?tv</span>`}</div>
-    </div>`;
-  }
-
   /** QR + network switch. Compact puts a small QR next to the text (lobby), so the game list stays near the top. */
   function inviteCard(compact) {
     if (!st || !st.net) return '';
@@ -459,8 +462,8 @@
     const small = compact && !bigQr;
     return `<div class="card invite ${small ? 'compact' : 'center'} stack">
       <div class="seg">
-        <button class="${relayOn ? '' : 'on'}" data-pg="net" data-v="local">📶 Wi-Fi</button>
-        <button class="${relayOn ? 'on' : ''}" data-pg="net" data-v="relay">🌍 Інтернет</button>
+        <button class="${relayOn ? '' : 'on'}" data-pg="net" data-v="local">${ico('wifi')} Wi-Fi</button>
+        <button class="${relayOn ? 'on' : ''}" data-pg="net" data-v="relay">${ico('globe')} Інтернет</button>
       </div>
       ${small
         ? `<div class="inv-row">${qr ? `<button class="qr-btn" data-pg="bigQr" aria-label="Збільшити QR">${qr}</button>` : ''}<div class="inv-info stack">${info}</div></div>`
@@ -472,7 +475,7 @@
     const ps = st.players;
     return `<div class="card">
       <div class="chips">${ps.map(p => `<span class="chip"><span class="dot ${p.connected ? '' : 'off'}"></span>${esc(p.name)}${st.me && st.me.id === p.id ? ' <span class="muted small">(ти)</span>' : ''}
-        ${st.isHost && !(st.me && st.me.id === p.id) ? `<button class="mini ghost x" data-pg="kick" data-v="${p.id}">${armed === 'kick' + p.id ? 'Точно?' : '✕'}</button>` : ''}</span>`).join('')
+        ${st.isHost && !(st.me && st.me.id === p.id) ? `<button class="mini ghost x" data-pg="kick" data-v="${p.id}">${armed === 'kick' + p.id ? 'Точно?' : ico('close')}</button>` : ''}</span>`).join('')
         || '<span class="muted">Чекаємо, поки хтось відсканує QR…</span>'}</div>
     </div>`;
   }
@@ -485,42 +488,20 @@
       h += `<h2>${esc(appInfo().pick)}</h2><div class="games">${st.games.map(g => {
         const enough = st.players.length >= g.minPlayers;
         return `<button class="game-card" data-pg="select" data-v="${g.id}" data-theme="${g.id}">
-          <span class="emoji">${g.emoji}</span>
+          <span class="gico">${ico('folder')}</span>
           <span class="grow"><b>${esc(g.title)}</b><span class="muted small">${esc(g.subtitle)}</span>
           <span class="small ${enough ? 'muted' : 'c-warn'}">від ${g.minPlayers} гравців</span></span></button>`;
       }).join('')}</div>`;
     } else {
       h += `<h1>Привіт, ${esc(st.me.name)}!</h1>
-        ${ui.wait('Хост обирає гру', '👑')}
+        ${ui.wait('Хост обирає гру', 'user')}
         <h2>Тут ${st.players.length}</h2>${playersCard()}
         <button class="ghost" data-pg="leave">Вийти</button>`;
     }
     return h + `</div>`;
   }
 
-  /**
-   * The shared TV screen: a game's board() when it has one; otherwise the room — a big QR to join, who is here and
-   * what is being played. Sound needs one press of OK on the remote (browsers allow audio only after a gesture).
-   */
-  function tvView() {
-    const sound = soundOn() ? '' : '<button class="soft tv-sound" data-pg="sound">🔊 Увімкнути звук</button>';
-    const g = st.game && games[st.game];
-    const board = g && g.board && st.g ? g.board(api) : null;  // null: the game has no TV board for this moment
-    if (board) return `<div class="tv-screen">${board}</div>${sound}`;
-    const qr = st.qr ? `<div class="qr tv-qr">${st.qr}</div>` : '';
-    const info = st.game ? gameInfo(st.game) : null;
-    const side = info
-      ? `<div class="hero center"><div class="tv-emoji">${info.emoji}</div><h1>${esc(info.title)}</h1>
-          <p class="muted">Граємо на телефонах 📱</p></div>`
-      : `<h1>Заходь у гру</h1><p class="muted">Скануй QR камерою телефона — і граєш просто в браузері.</p>
-          ${ui.wait('Хост обирає гру', '👑')}`;
-    return `<div class="tv-lobby">
-      <div class="stack center">${qr}<div class="url">${esc(st.join || '')}</div></div>
-      <div class="stack">${side}<h2>Гравці · ${st.players.length}</h2>${playersCard()}</div>
-    </div>${sound}`;
-  }
-
-  /** Side drawer (☰ or the back gesture): everything that is not part of the current screen lives here. */
+  /** Side drawer (menu button or the back gesture): everything that is not part of the current screen lives here. */
   function drawerView() {
     const g = st.game && games[st.game];
     const info = st.game ? gameInfo(st.game) : null;
@@ -530,48 +511,48 @@
       ? `<button class="danger" data-pg="${act}">${sure}</button>`
       : `<button class="soft" data-pg="arm" data-v="${act}">${label}</button>`;
     let h = `<div class="dr-head">
-      <b>${info ? `${info.emoji} ${esc(info.title)}` : esc(appInfo().name)}</b>
-      <button class="mini ghost" data-pg="menu" aria-label="Закрити">✕</button>
+      <b>${info ? `${ico('folder')} ${esc(info.title)}` : esc(appInfo().name)}</b>
+      <button class="mini ghost" data-pg="menu" aria-label="Закрити">${ico('close')}</button>
     </div><div class="dr-body">`;
 
     if (info) {
       let s = '';
-      if (rulesOf(st.game)) s += `<button class="soft" data-pg="rules">📖 Правила</button>`;
+      if (rulesOf(st.game)) s += `<button class="soft" data-pg="rules">${ico('book')} Правила</button>`;
       if (host && g && g.menu) s += gameMenu(g.menu(api));
       if (host) s += notStarted()
-        ? `<button class="soft" data-pg="exitGame">🏠 Головне меню</button>`
-        : conf('exitGame', '🏠 Головне меню', 'Точно? Завершити гру й повернутись');
+        ? `<button class="soft" data-pg="exitGame">${ico('home')} Головне меню</button>`
+        : conf('exitGame', `${ico('home')} Головне меню`, 'Точно? Завершити гру й повернутись');
       if (s) h += `<section><h3>Гра</h3>${s}</section>`;
     }
 
     h += `<section><h3>Гравці · ${st.players.length}</h3>${playersCard()}`;
     if (host && st.game) {
-      h += `<button class="soft" data-pg="invite">${showInvite ? 'Сховати QR' : '📲 Запросити гравців'}</button>`;
+      h += `<button class="soft" data-pg="invite">${showInvite ? 'Сховати QR' : `${ico('qr')} Запросити гравців`}</button>`;
       if (showInvite) h += inviteCard(false);
     }
-    if (!host) h += conf('leave', '🚪 Вийти з кімнати', 'Точно? Вийти з кімнати');
+    if (!host) h += conf('leave', `${ico('door')} Вийти з кімнати`, 'Точно? Вийти з кімнати');
     h += `</section>`;
 
     if (host) {
       const sw = (k, label) => `<label class="toggle"><input type="checkbox" class="switch" data-pg="snd" data-v="${k}" ${sndOn(k) ? 'checked' : ''}><span>${label}</span></label>`;
-      h += `<section><h3>Звук · ${st.tvs ? '📺 на телевізорі' : 'на цьому телефоні'}</h3>
-        ${sw('music', '🎵 Фонова музика')}${sw('sfx', '🔔 Звукові ефекти')}</section>`;
+      h += `<section><h3>Звук</h3>
+        ${sw('music', `${ico('music')} Фонова музика`)}${sw('sfx', `${ico('bell')} Звукові ефекти`)}</section>`;
     }
 
     if (isHostPage && window.PGApp) {
       let v = '', nv = '';
       try { v = PGApp.version(); nv = PGApp.updateAvailable(); } catch (_) {}
       h += `<section><h3>Застосунок</h3>${nv
-        ? `<button data-pg="update">⬆️ Оновити до v${esc(nv)}</button>`
-        : `<button class="soft" data-pg="update">🔄 Перевірити оновлення</button>`}
-        ${conf('quit', '❌ Вийти', 'Точно? Гра для всіх закінчиться')}
+        ? `<button data-pg="update">${ico('up')} Оновити до v${esc(nv)}</button>`
+        : `<button class="soft" data-pg="update">${ico('refresh')} Перевірити оновлення</button>`}
+        ${conf('quit', `${ico('power')} Вийти`, 'Точно? Гра для всіх закінчиться')}
         ${v ? `<div class="muted small">Версія v${esc(v)}</div>` : ''}</section>`;
     }
     return h + `</div>`;
   }
 
   /** Shortcuts a game's menu() may list instead of spelling the item out. */
-  const MENU_ITEMS = { newGame: { t: 'newGame', label: '🔁 Нова гра' } };
+  const MENU_ITEMS = { newGame: { t: 'newGame', label: 'Нова гра' } };
 
   /**
    * Host-only items of the current game: menu() returns [{ t, label }] or a MENU_ITEMS key. Each one asks "Точно?"
@@ -599,7 +580,7 @@
     document.body.dataset.game = document.body.dataset.theme = (st && st.game) || '';
     updateBg();
     if (st && st.app && document.title !== st.app.name) document.title = st.app.name;
-    $('#logo').innerHTML = info ? `<span class="logo-emoji">${info.emoji}</span>${esc(info.title)}` : brand();
+    $('#logo').innerHTML = info ? ico('folder') + esc(info.title) : brand();
     $('#hostTag').hidden = !(st && st.isHost);
     const joined = !!(pid && st && st.me);
     $('#menuBtn').hidden = !joined;
@@ -609,7 +590,7 @@
     rulesEl.hidden = !(rulesOpen && info && rulesOf(st.game));
     if (!rulesEl.hidden) {
       const html = `<div class="rules-card" role="dialog" aria-modal="true">
-        <div class="rules-head"><b>${info.emoji} ${esc(info.title)} — правила</b><button class="mini ghost" data-pg="rules" aria-label="Закрити">✕</button></div>
+        <div class="rules-head"><b>${ico('book')} ${esc(info.title)} — правила</b><button class="mini ghost" data-pg="rules" aria-label="Закрити">${ico('close')}</button></div>
         <div class="rules-body">${rules[st.game]}</div></div>`;
       if (rulesEl._pgHtml !== html) { rulesEl._pgHtml = html; rulesEl.innerHTML = html; }
     }
@@ -622,17 +603,6 @@
     if (menuOpen) keepInput($('#drawerInner'), drawerView());
 
     let html = '', bar = '';
-    if (isTv) {
-      $('#infoBtn').hidden = true;
-      if (!st) return;
-      keepInput($('#app'), tvView());
-      const screen = 'tv/' + (st.game || '') + '/' + ((st.g && st.g.phase) || '');
-      if (screen !== lastScreen) { lastScreen = screen; enterScreen(); }
-      // a TV remote has no pointer: put the focus on the sound button so OK presses it
-      const sb = $('.tv-sound');
-      if (sb && document.activeElement === document.body) sb.focus();
-      return;
-    }
     const needsJoin = !pid || !st || !st.me;
     if (needsJoin) {
       if (pid && !st) return; // waiting for state after resume
@@ -792,14 +762,7 @@
       case 'join': return join();
       case 'rules': rulesOpen = !rulesOpen; if (rulesOpen) { menuOpen = false; armed = null; } return render();
       case 'menu': return setDrawer(!menuOpen);
-      case 'sound': unlockAudio(); return setTimeout(render, 150);
       case 'snd': return send({ t: 'snd', [el.dataset.v]: !sndOn(el.dataset.v) });
-      case 'cast': {
-        let ok = false;
-        try { ok = PGApp.castScreen(); } catch (_) {}
-        if (!ok) { castFailed = true; render(); }
-        return;
-      }
       case 'bigQr': bigQr = !bigQr; return render();
       case 'arm': armed = el.dataset.v; return render();
       case 'kick': {
@@ -836,7 +799,7 @@
     const el = e.target.closest('[data-pg]');
     if (el) { if (!el.disabled) shellAct(el.dataset.pg, el); return; }
     const g = st && st.game ? games[st.game] : null;
-    if (g && g.click && !isTv) g.click(e, api);
+    if (g && g.click) g.click(e, api);
   });
 
   document.addEventListener('keydown', e => {
@@ -845,21 +808,12 @@
     if (e.key === 'Enter' && e.target.id === 'name') return join();
     if (e.key === 'Enter' && e.target.id === 'relayUrl') return shellAct('saveRelay');
     const g = st && st.game ? games[st.game] : null;
-    if (g && g.key && !isTv) g.key(e, api);
+    if (g && g.key) g.key(e, api);
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    
-    if (isTv) {
-      document.body.classList.add('tv'); fitTv(); window.addEventListener('resize', fitTv);
-      // the phone's second screen allows sound without a tap; a TV browser keeps the "🔊" button
-      unlockAudio(); setTimeout(render, 500);
-    }
-    // the host app's WebView may play music before the first tap too
+        // the host app's WebView may play music before the first tap too
     if (isHostPage) unlockAudio();
     open();
   });
-
-  // The TV page is laid out for 1280 px and scaled to the screen, so every px size grows with it.
-  function fitTv() { document.documentElement.style.zoom = Math.max(0.75, window.innerWidth / 1280).toFixed(3); }
 })();

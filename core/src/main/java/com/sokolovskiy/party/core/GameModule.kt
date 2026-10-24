@@ -66,12 +66,6 @@ interface GameSession {
     /** Snapshot for one viewer. Must only contain what that viewer may see. */
     fun state(pid: String?, isHost: Boolean, now: Long): JSONObject
 
-    /**
-     * Snapshot for the shared TV screen everyone in the room can see: no roles, no secret words.
-     * Null — the game has no TV view and the TV shows a generic screen.
-     */
-    fun board(now: Long): JSONObject? = null
-
     /** Timers. Return true if something changed and everyone needs a new state. */
     fun tick(now: Long): Boolean = false
 

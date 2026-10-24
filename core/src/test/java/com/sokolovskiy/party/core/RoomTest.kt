@@ -18,8 +18,6 @@ class RoomTest {
         override fun onLeave(id: String) { players.remove(id) }
         override fun handle(pid: String?, isHost: Boolean, msg: JSONObject, now: Long) { handled += pid to msg.optString("t") }
         override fun state(pid: String?, isHost: Boolean, now: Long) = JSONObject().put("for", pid ?: "host")
-        var board: JSONObject? = null
-        override fun board(now: Long) = board
         override fun close() { closed = true }
     }
 
@@ -98,22 +96,5 @@ class RoomTest {
         assertEquals(p.id, s.getJSONObject("me").getString("id"))
         assertEquals(p.id, s.getJSONObject("g").getString("for"))
         assertEquals(1, s.getJSONArray("games").length())
-    }
-
-    @Test fun tvSeesTheBoardOnly() {
-        val room = Room(listOf(a))
-        val p = room.join("Оля")
-        room.select("a", Env)
-
-        val none = room.stateJson(p.id, isHost = true, now = 0, tv = true)
-        assertTrue(none.getBoolean("tv"))
-        assertFalse("a TV is never the host", none.getBoolean("isHost"))
-        assertTrue(none.isNull("me"))
-        assertFalse("no board → no game state at all", none.has("g"))
-
-        a.sessions[0].board = JSONObject().put("public", 1)
-        val tv = room.stateJson(null, isHost = false, now = 0, tv = true)
-        assertEquals(1, tv.getJSONObject("g").getInt("public"))
-        assertEquals(p.id, room.stateJson(p.id, false, 0).getJSONObject("g").getString("for"))
     }
 }

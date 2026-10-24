@@ -6,15 +6,15 @@
 // from /static/g/doc/<ID>.html, which the phone serves only once the case has opened them.
 (function () {
   'use strict';
-  const { esc, store, ui } = PG.api;
+  const { esc, store, ui, ico } = PG.api;
   const base = location.pathname.replace(/[^/]*$/, '');
 
   const TABS = [
-    { id: 'docs', ico: '📄', label: 'Матеріали' },
-    { id: 'req', ico: '🔎', label: 'Запит' },
-    { id: 'q', ico: '❓', label: 'Питання' },
-    { id: 'notes', ico: '📝', label: 'Нотатки' },
-    { id: 'log', ico: '📜', label: 'Журнал' },
+    { id: 'docs', ico: 'file', label: 'Матеріали' },
+    { id: 'req', ico: 'search', label: 'Запит' },
+    { id: 'q', ico: 'help', label: 'Питання' },
+    { id: 'notes', ico: 'pen', label: 'Нотатки' },
+    { id: 'log', ico: 'journal', label: 'Журнал' },
   ];
 
   const fmtTime = t => new Date(t * 1000).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
@@ -24,7 +24,7 @@
     return (h ? h + ':' : '') + String(m).padStart(2, '0') + ':' + String(c).padStart(2, '0');
   };
   // «…; ✓ пункт; ✗ пункт» → every item on its own line
-  const verdictHtml = text => esc(text).replace(/;? ?([✓✗]) /g, '<br>$1 ');
+  const verdictHtml = text => esc(text).replace(/;? ?([✓✗]) /g, (_, m) => '<br>' + ico(m === '✓' ? 'check' : 'close', m === '✓' ? 'c-good' : 'c-bad') + ' ');
 
   function caseKit(id) {
     const K = 'ck.' + base + id + '.';
@@ -131,8 +131,8 @@
       return `<div class="ck-head">
         <div class="ck-title">${esc(s.title)}</div>
         <div class="ck-sub"><span class="ck-stage">${esc(s.stage_name || '')}</span>
-          <span class="ck-stats"><span title="Час розслідування">⏱ <b class="ck-timer" data-t0="${s.started_at}" data-t1="${s.finished_at || ''}">${fmtElapsed(end - s.started_at)}</b></span>
-          <span title="Бали">★ <b>${s.score}</b></span></span></div>
+          <span class="ck-stats"><span title="Час розслідування">${ico('clock')} <b class="ck-timer" data-t0="${s.started_at}" data-t1="${s.finished_at || ''}">${fmtElapsed(end - s.started_at)}</b></span>
+          <span title="Бали">${ico('star')} <b>${s.score}</b></span></span></div>
       </div>`;
     }
 
@@ -161,7 +161,7 @@
             <div class="ck-empty muted">${i === 1 ? 'Друге вікно для порівняння.<br>Торкніться тут, потім — документа.' : 'Оберіть документ у списку.'}</div></div>`;
         }
         return `<div class="ck-pane ${i === 1 ? 'second' : ''} ${focus === i && compare ? 'focus' : ''}" data-k="pane${i}" data-act="focus" data-i="${i}">
-          <div class="ck-vbar"><button class="mini soft ck-back" data-act="list">← Матеріали</button>
+          <div class="ck-vbar"><button class="mini soft ck-back" data-act="list">${ico('back')} Матеріали</button>
             <b class="ck-vt">${esc(d.id)} · ${esc(d.title)}</b></div>
           <iframe class="ck-frame" title="${esc(d.title)}" src="${base}static/g/doc/${encodeURIComponent(d.id)}.html"></iframe></div>`;
       };
@@ -169,7 +169,7 @@
       return `<div class="ck-docs ${viewing ? 'viewing' : ''} ${compare ? 'cmp' : ''}">
         <div class="ck-listcol">
           <div class="ck-listhead"><span class="muted small">${s.documents.length} документів${unseen ? ` · нових: ${unseen}` : ''}</span>
-            <button class="mini soft ck-cmpbtn" data-act="compare">${compare ? '✕ Закрити друге вікно' : '⇆ Порівняти'}</button></div>
+            <button class="mini soft ck-cmpbtn" data-act="compare">${compare ? `${ico('close')} Закрити друге вікно` : `${ico('compare')} Порівняти`}</button></div>
           <input id="ck-filter" type="text" placeholder="Пошук у назвах…" value="${esc(filter)}" autocomplete="off">
           <div class="ck-list">${list || '<div class="muted small">Нічого не знайдено.</div>'}</div>
         </div>
@@ -202,7 +202,7 @@
       const on = (v) => `data-act="model" data-v="${v}"`;
       let body;
       if (m.state === 'READY') {
-        body = `<div class="c-good">✓ Розумне розуміння запитів увімкнено</div><button class="mini soft" ${on(0)}>Вимкнути</button>`;
+        body = `<div class="c-good">${ico('check')} Розумне розуміння запитів увімкнено</div><button class="mini soft" ${on(0)}>Вимкнути</button>`;
       } else if (m.state === 'DOWNLOADING' || m.state === 'LOADING') {
         body = `<div>${esc(m.message || '…')}</div><div class="bar"><i style="width:${Math.round((m.progress || 0) * 100)}%"></i></div>
           <button class="mini soft" ${on(0)}>Скасувати</button>`;
@@ -210,7 +210,7 @@
         body = `<div class="muted small">Зараз запити розпізнаються за ключовими словами. Модель дозволяє гравцям формулювати
           своїми словами. На Wi-Fi вмикається саме; завантажується один раз (≈${m.sizeMb || 152} МБ), далі працює на цьому телефоні без інтернету.</div>
           ${m.state === 'ERROR' ? `<div class="c-bad small">${esc(m.message)}</div>` : ''}
-          <button class="soft" ${on(1)}>🧠 ${m.state === 'ERROR' ? 'Спробувати ще' : 'Увімкнути'}</button>`;
+          <button class="soft" ${on(1)}>${ico('chip')} ${m.state === 'ERROR' ? 'Спробувати ще' : 'Увімкнути розуміння запитів'}</button>`;
       }
       return `<div class="card flat stack ck-model" data-k="model">${body}</div>`;
     }
@@ -281,8 +281,8 @@
         </div>
         ${notes.map(n => `<div class="ck-note ${n.pinned ? 'pinned' : ''}" data-k="n-${n.id}">${linkDocs(n.text)}
           <div class="ck-notemeta"><span>${esc(n.player)} · ${fmtTime(n.at)}</span>
-            <span><button class="mini soft" data-act="pin" data-id="${n.id}">${n.pinned ? '📌' : '📍'}</button>
-              <button class="mini soft" data-act="del" data-id="${n.id}">✕</button></span></div></div>`).join('')
+            <span><button class="mini soft" data-act="pin" data-id="${n.id}">${ico('pin', n.pinned ? 'fill' : '')}</button>
+              <button class="mini soft" data-act="del" data-id="${n.id}" aria-label="Видалити">${ico('close')}</button></span></div></div>`).join('')
           || '<p class="muted small">Нотаток ще немає. Записуйте версії, часи, номери — вони спільні для всієї групи.</p>'}
       </div>`;
     }
@@ -296,7 +296,7 @@
       const s = g();
       if (!s.finished_at || finalDismissed) return '';
       return `<div class="ck-final"><div class="card hero stack center">
-        <span class="tag accent">справу розкрито</span>
+        <span class="tag accent">Справу розкрито</span>
         <h1>${esc(s.rank || 'Справу розкрито')}</h1>
         <p>Бали: ${s.score}</p>
         <p class="muted">У теці з'явилися протокол обшуку, експертиза, допит підозрюваної та лист слідчого.</p>
@@ -311,7 +311,7 @@
         ${sec('docs', docsView())}${sec('req', reqView())}${sec('q', qView())}${sec('notes', notesView())}${sec('log', logView())}
         ${finalView()}</div>`;
       const dot = t => (t === 'q' && s.question) ? '<i class="ck-dot"></i>' : (t === 'log' && unread ? `<i class="ck-dot n">${unread > 9 ? '9+' : unread}</i>` : '');
-      const bar = TABS.map(t => `<button class="ck-tab ${tab === t.id ? 'on' : ''}" data-act="tab" data-v="${t.id}"><b>${t.ico}</b><span>${t.label}</span>${dot(t.id)}</button>`).join('');
+      const bar = TABS.map(t => `<button class="ck-tab ${tab === t.id ? 'on' : ''}" data-act="tab" data-v="${t.id}">${ico(t.ico)}<span>${t.label}</span>${dot(t.id)}</button>`).join('');
       return { html, bar };
     }
 
@@ -370,7 +370,7 @@
           const now = Date.now();
           if (now - pendingDel < 3000) { pendingDel = 0; return api.send({ a: 'note_del', id: +el.dataset.id }); }
           pendingDel = now;
-          return toast('Натисніть ✕ ще раз, щоб видалити нотатку');
+          return toast('Натисніть хрестик ще раз, щоб видалити нотатку');
         }
         case 'final': finalDismissed = true; write('final', true); return api.render();
       }
@@ -396,7 +396,7 @@
 
     return {
       render, click, onState,
-      menu: () => [{ t: 'newGame', label: '🔁 Почати справу з нуля' }],
+      menu: () => [{ t: 'newGame', label: 'Почати справу з нуля' }],
       back: () => {
         if (tab === 'docs' && viewing) { viewing = false; PG.api.render(); return true; }
         if (tab !== 'docs') { tab = 'docs'; PG.api.render(); return true; }

@@ -1,7 +1,7 @@
 /*
  * Design system shared by the shell and every game: tokens, components, motion.
  * Look: a case file on a desk. Warm paper, ink, a red seal for the accent; flat and square (no rounding, no glow);
- * hairline rules instead of boxes; typewriter capitals for labels. Icons are inline SVG (PG.api.ico), never emoji.
+ * hairline rules instead of boxes; spaced capitals for labels. Icons are inline SVG (PG.api.ico), never emoji.
  *
  * Theming: a game re-colours everything by setting tokens on [data-theme=<id>] (the shell puts it on <body>, the
  * game picker on each card). Usually --accent and --on-accent are enough; the soft/line/text shades are derived.
@@ -32,8 +32,9 @@
   --team1: #8a2c22;
   --spectrum: linear-gradient(90deg, #2b4f86, #6b5a8a 50%, #a1281d);
   /* type */
-  --serif: Georgia, "Times New Roman", "Liberation Serif", serif;
-  --type: "Courier New", "Liberation Mono", ui-monospace, monospace;
+  /* only families every platform has, Android included: its WebView has no Georgia or Courier, only the generics */
+  --serif: Georgia, "Noto Serif", "Droid Serif", "Times New Roman", serif;
+  --type: Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   /* depth: a sheet lying on paper */
   --shadow: 0 1px 2px rgba(70, 50, 20, .18), 0 6px 16px -6px rgba(70, 50, 20, .28);
   --sheet: 0 1px 1px rgba(70, 50, 20, .14), 0 3px 9px -3px rgba(70, 50, 20, .22);
@@ -109,10 +110,10 @@ a { color: var(--accent); }
 .stack.tight > * + * { margin-top: 6px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-/* ---------- buttons: flat, square, typewriter capitals ---------- */
+/* ---------- buttons: flat, square, spaced capitals ---------- */
 button {
   position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .45em;
-  font: 700 14px/1.2 var(--type); letter-spacing: .06em; text-transform: uppercase;
+  font: 700 14px/1.2 var(--type); letter-spacing: .08em; text-transform: uppercase;
   border: 0; padding: 14px 18px; min-height: 48px;
   background: var(--accent); color: var(--on-accent); cursor: pointer; touch-action: manipulation;
   transition: transform var(--fast) var(--ease), background-color var(--mid), color var(--mid), box-shadow var(--mid), opacity var(--mid);
@@ -261,7 +262,7 @@ input.switch:checked::before { transform: rotate(40deg) scale(1); }
   border: 2px solid var(--line); border-top-color: var(--accent); animation: fx-rotate .9s linear infinite;
 }
 .spinner.sm { width: 14px; height: 14px; }
-/* Waiting for a person, not for the app: typewriter dots next to whose move it is. */
+/* Waiting for a person, not for the app: dots next to whose move it is. */
 .typing { display: inline-flex; align-items: center; gap: 4px; padding: 6px 4px; vertical-align: middle; }
 .typing i { width: 6px; height: 6px; background: var(--accent); animation: typing 1.3s ease-in-out infinite; }
 .typing i:nth-child(2) { animation-delay: .16s; }

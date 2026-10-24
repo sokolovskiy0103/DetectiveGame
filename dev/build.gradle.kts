@@ -14,7 +14,6 @@ sourceSets.main {
         "com/sokolovskiy/party/MainActivity.kt",
         "com/sokolovskiy/party/PartyService.kt",
         "com/sokolovskiy/party/update/**",
-        "com/sokolovskiy/party/tv/**",
         "com/sokolovskiy/detective/DetectiveApp.kt",
         "com/sokolovskiy/detective/SemanticManager.kt",
     )

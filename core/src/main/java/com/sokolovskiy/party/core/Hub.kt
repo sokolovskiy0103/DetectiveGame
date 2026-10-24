@@ -19,8 +19,6 @@ import java.util.concurrent.ConcurrentHashMap
 class Conn(val isHost: Boolean) {
     val outbox = Channel<String>(Channel.CONFLATED)
     @Volatile var playerId: String? = null
-    /** The shared TV screen: watches, never plays. */
-    @Volatile var tv = false
 }
 
 /**
@@ -35,10 +33,6 @@ class Hub(private val context: Context) : GameEnv {
     private val lock = Any()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val conns = ConcurrentHashMap.newKeySet<Conn>()
-
-    /** The last sound effects the host page sent for the TV, numbered so a TV plays each once (state pushes are conflated). */
-    private val fx = ArrayDeque<JSONObject>()
-    private var fxSeq = 0
 
     val modules: List<GameModule> = PartyApp.config.modules(context, this)
     override val room = Room(modules)
@@ -85,22 +79,6 @@ class Hub(private val context: Context) : GameEnv {
     fun handle(c: Conn, text: String) {
         val m = try { JSONObject(text) } catch (_: Exception) { return }
         val now = System.currentTimeMillis()
-        if (m.optString("t") == "tv" && !c.isHost) {
-            c.tv = true
-            c.playerId = null
-            broadcast()
-            return
-        }
-        if (c.tv) return
-        // A sound effect the host page wants the TV to play: only the TVs need a new state.
-        if (m.optString("t") == "fx" && c.isHost) {
-            synchronized(lock) {
-                fx.addLast(JSONObject().put("i", ++fxSeq).put("n", m.optString("n").take(40)))
-                while (fx.size > 8) fx.removeFirst()
-            }
-            for (t in conns) if (t.tv) sendState(t)
-            return
-        }
         synchronized(lock) {
             when (m.optString("t")) {
                 "join" -> {
@@ -158,17 +136,11 @@ class Hub(private val context: Context) : GameEnv {
         val json = try {
             synchronized(lock) {
                 val now = System.currentTimeMillis()
-                val o = room.stateJson(c.playerId, c.isHost, now, c.tv)
+                val o = room.stateJson(c.playerId, c.isHost, now)
                 PartyApp.config.let { o.put("app", JSONObject().put("name", it.name).put("emoji", it.emoji).put("pick", it.pickerTitle)) }
-                if (c.isHost || c.tv) o.put("snd", JSONObject().put("music", settings.music).put("sfx", settings.sfx))
+                if (c.isHost) o.put("snd", JSONObject().put("music", settings.music).put("sfx", settings.sfx))
                 if (c.isHost) {
-                    o.put("net", netJson()).put("mods", modsJson()).put("tvs", conns.count { it.tv })
-                    // with a board the TV ticks through countdowns itself
-                    o.put("tvBoard", room.session?.board(now) != null)
-                }
-                if (c.tv) {
-                    inviteUrl()?.let { o.put("join", it).put("qr", qr(it)) }
-                    o.put("fx", JSONArray(fx.toList()))
+                    o.put("net", netJson()).put("mods", modsJson())
                 }
                 o.toString()
             }
@@ -176,21 +148,6 @@ class Hub(private val context: Context) : GameEnv {
             Log.e(TAG, "state failed", t); return
         }
         c.outbox.trySend(json)
-    }
-
-    /**
-     * Where players join right now — what the host's invite card shows. The TV shows it as a QR: its own address may be
-     * 127.0.0.1 (the phone's second screen) or the relay, either way not what a player should scan.
-     */
-    private fun inviteUrl(): String? =
-        if (settings.relayEnabled) relay.code?.takeIf { relay.state == RelayClient.State.ONLINE }?.let { "${settings.relayUrl}/r/$it/" }
-        else NetUtil.lanAddresses().firstOrNull()?.let { "http://${it.ip}:${local.port}/" }
-
-    private var qrText: String? = null
-    private var qrSvg = ""
-    private fun qr(text: String): String {
-        if (text != qrText) { qrSvg = NetUtil.qrSvg(text); qrText = text }
-        return qrSvg
     }
 
     private fun netJson() = JSONObject()

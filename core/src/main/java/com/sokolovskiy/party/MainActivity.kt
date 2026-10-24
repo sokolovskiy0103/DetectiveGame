@@ -17,7 +17,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.sokolovskiy.party.tv.TvPresenter
 import com.sokolovskiy.party.update.UpdateUi
 import com.sokolovskiy.party.update.Updater
 
@@ -25,14 +24,18 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var web: WebView
     private lateinit var updates: UpdateUi
-    private var tv: TvPresenter? = null
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        window.statusBarColor = Color.parseColor("#0E1320")
-        window.navigationBarColor = Color.parseColor("#0E1320")
+        window.statusBarColor = Color.parseColor("#ECE4D0")
+        window.navigationBarColor = Color.parseColor("#ECE4D0")
+        // light bars: dark clock and icons
+        androidx.core.view.WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true
+            isAppearanceLightNavigationBars = true
+        }
 
         if (Build.VERSION.SDK_INT >= 33 &&
             checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
@@ -41,7 +44,7 @@ class MainActivity : ComponentActivity() {
         }
 
         web = WebView(this).apply {
-            setBackgroundColor(Color.parseColor("#0E1320"))
+            setBackgroundColor(Color.parseColor("#ECE4D0"))
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             settings.mediaPlaybackRequiresUserGesture = false
@@ -51,7 +54,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         val root = android.widget.FrameLayout(this).apply {
-            setBackgroundColor(Color.parseColor("#0E1320"))
+            setBackgroundColor(Color.parseColor("#ECE4D0"))
             addView(web, android.widget.FrameLayout.LayoutParams(-1, -1))
         }
         setContentView(root)
@@ -75,8 +78,6 @@ class MainActivity : ComponentActivity() {
             val hub = PartyHost.ensure(this)
             runOnUiThread {
                 web.loadUrl("http://127.0.0.1:${hub.local.port}/host#${hub.hostToken}")
-                // casting the screen (Miracast / Smart View) gives a second display: the TV gets its own page there
-                if (!isDestroyed) tv = TvPresenter(this, "http://127.0.0.1:${hub.local.port}/?tv").also { it.start() }
             }
         }.start()
 
@@ -103,8 +104,6 @@ class MainActivity : ComponentActivity() {
         @JavascriptInterface fun version(): String = Updater.installedName(this@MainActivity)
         @JavascriptInterface fun updateAvailable(): String = updates.available?.name ?: ""
         @JavascriptInterface fun checkUpdate() { runOnUiThread { updates.check(manual = true) } }
-        /** "📺 Транслювати" in the invite card: the system's cast picker; the TV then gets its own page (TvPresenter). */
-        @JavascriptInterface fun castScreen(): Boolean = TvPresenter.openScreenCast(this@MainActivity)
         /** "Вийти" in the menu: same as the notification's "Завершити гру" — stops the server and the app. */
         @JavascriptInterface fun quit() {
             runOnUiThread {
@@ -115,7 +114,6 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        tv?.stop()
         updates.stop()
         web.destroy()
         super.onDestroy()

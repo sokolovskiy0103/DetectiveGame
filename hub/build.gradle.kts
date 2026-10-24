@@ -38,7 +38,7 @@ val syncCases by tasks.registering {
             if (dir.resolve("rules.html").isFile) copy { from(dir.resolve("rules.html")); into(web) }
             web.mkdirs()
             web.resolve("game.js").writeText("PG.caseKit('$id');\n")
-            web.resolve("game.css").writeText("[data-theme=$id] { --accent: ${meta["accent"] ?: "#c9a34e"}; --on-accent: ${meta["on_accent"] ?: "#1a1508"}; }\n")
+            web.resolve("game.css").writeText("[data-theme=$id] { --accent: ${meta["accent"] ?: "#8a2c22"}; --on-accent: ${meta["on_accent"] ?: "#f6f1e3"}; }\n")
             index.append(if (index.length > 1) "," else "").append(
                 groovy.json.JsonOutput.toJson(mapOf("id" to id, "title" to case["title"], "card" to (meta["card"] ?: ""), "emoji" to (meta["emoji"] ?: "🕵️")))
             )

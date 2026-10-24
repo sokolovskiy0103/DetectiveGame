@@ -79,13 +79,11 @@ class Room(val modules: List<GameModule>) {
 
     // ---------- state ----------
 
-    /** [tv]: the shared screen — never a player or host, gets [GameSession.board] instead of a player's view. */
-    fun stateJson(pid: String?, isHost: Boolean, now: Long, tv: Boolean = false): JSONObject {
+    fun stateJson(pid: String?, isHost: Boolean, now: Long): JSONObject {
         val o = JSONObject()
         o.put("t", "state")
         o.put("now", now)
-        o.put("isHost", isHost && !tv)
-        if (tv) o.put("tv", true)
+        o.put("isHost", isHost)
         o.put("game", gameId ?: JSONObject.NULL)
         o.put("players", JSONArray(players.values.sortedBy { it.joinOrder }.map {
             JSONObject().put("id", it.id).put("name", it.name).put("connected", it.connected)
@@ -94,17 +92,6 @@ class Room(val modules: List<GameModule>) {
             JSONObject().put("id", it.id).put("title", it.title).put("subtitle", it.subtitle)
                 .put("minPlayers", it.minPlayers).put("emoji", it.emoji).put("assets", JSONArray(it.webAssets))
         }))
-        if (tv) {
-            o.put("me", JSONObject.NULL)
-            session?.let { s ->
-                val board = s.board(now)
-                if (board != null) o.put("g", board)
-                // The TV's music follows the phase, which is public even when the game draws no board.
-                val phase = board ?: try { s.state(null, false, now) } catch (_: Exception) { null }
-                phase?.optString("phase")?.takeIf { it.isNotEmpty() }?.let { o.put("phase", it) }
-            }
-            return o
-        }
         val me = pid?.let { players[it] }
         o.put("me", if (me != null) JSONObject().put("id", me.id).put("name", me.name) else JSONObject.NULL)
         session?.let { o.put("g", it.state(me?.id, isHost, now)) }
