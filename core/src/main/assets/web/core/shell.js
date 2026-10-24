@@ -490,7 +490,7 @@
         return `<button class="game-card" data-pg="select" data-v="${g.id}" data-theme="${g.id}">
           <span class="gico">${ico('folder')}</span>
           <span class="grow"><b>${esc(g.title)}</b><span class="muted small">${esc(g.subtitle)}</span>
-          <span class="small ${enough ? 'muted' : 'c-warn'}">від ${g.minPlayers} гравців</span></span></button>`;
+          ${g.minPlayers > 1 ? `<span class="small ${enough ? 'muted' : 'c-warn'}">від ${g.minPlayers} гравців</span>` : ''}</span></button>`;
       }).join('')}</div>`;
     } else {
       h += `<h1>Привіт, ${esc(st.me.name)}!</h1>
