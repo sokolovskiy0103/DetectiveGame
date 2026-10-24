@@ -29,7 +29,10 @@ class CaseModule(
     override val minPlayers = 1
     override val webAssets = listOf("kit/case.js", "kit/case.css")
 
-    override fun create(env: GameEnv): GameSession = CaseSession(env, id) { semantic?.judge }
+    override fun create(env: GameEnv): GameSession {
+        semantic?.onCaseOpened()
+        return CaseSession(env, id) { semantic?.judge }
+    }
 
     override fun hostStatus(): JSONObject? = semantic?.status()
 

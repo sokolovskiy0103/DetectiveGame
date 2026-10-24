@@ -85,4 +85,7 @@ interface SemanticHost {
     fun status(): org.json.JSONObject
 
     fun setEnabled(on: Boolean)
+
+    /** A case was opened: the first time, on an unmetered network, the host's phone fetches the model by itself. */
+    fun onCaseOpened() {}
 }

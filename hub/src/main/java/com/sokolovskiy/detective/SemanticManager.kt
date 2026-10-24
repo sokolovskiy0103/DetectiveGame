@@ -2,6 +2,8 @@ package com.sokolovskiy.detective
 
 import android.app.DownloadManager
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.util.Log
 import com.sokolovskiy.cases.OnnxJudge
@@ -43,6 +45,19 @@ class SemanticManager(private val context: Context, private val onChange: () -> 
 
     override fun status(): JSONObject = JSONObject().put("enabled", enabled).put("state", state.name)
         .put("progress", progress).put("message", message).put("sizeMb", SIZE_MB)
+
+    /** First time, on Wi-Fi: download without asking (≈150 MB, once). A host who switched it off is not asked again. */
+    override fun onCaseOpened() {
+        if (prefs.contains("enabled") || state != State.OFF || !unmetered()) return
+        setEnabled(true)
+    }
+
+    private fun unmetered(): Boolean = try {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        cm.getNetworkCapabilities(cm.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) == true
+    } catch (_: Throwable) {
+        false
+    }
 
     override fun setEnabled(on: Boolean) {
         prefs.edit().putBoolean("enabled", on).apply()
