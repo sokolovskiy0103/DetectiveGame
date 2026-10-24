@@ -13,9 +13,6 @@
   --font-official: "Times New Roman", "Liberation Serif", "PT Serif", serif;
   --font-sans: "Arial", "Liberation Sans", "PT Sans", sans-serif;
   --font-mono: "Courier New", "Liberation Mono", "PT Mono", monospace;
-  --scrawl-a: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M6 30 C14 8 20 6 22 20 C23 32 28 30 34 14 C38 4 42 28 50 24 C56 20 58 12 64 22 C70 32 78 26 86 18 C92 12 100 24 112 12' fill='none' stroke='%231f3a8a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  --scrawl-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M8 26 C18 34 24 6 30 10 C36 14 28 32 40 28 C52 24 48 8 60 12 C70 16 64 30 78 22 C88 16 96 30 114 20 M30 34 C52 36 80 34 106 31' fill='none' stroke='%231f3a8a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  --scrawl-c: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M5 22 C12 4 18 4 20 18 L24 32 C26 18 34 8 40 20 C44 30 50 30 56 16 C62 6 66 20 74 28 C82 34 92 10 100 14 C106 18 110 26 116 22' fill='none' stroke='%231f3a8a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --font-hand: "Segoe Print", "Comic Sans MS", "Caveat", cursive;
 }
 
@@ -68,12 +65,10 @@ table.plain td { padding: 2px 6px; vertical-align: top; }
 /* Підписи, печатки, штампи */
 .signatures { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm 12mm; font-size: 11pt; }
 .signature { display: flex; align-items: flex-end; gap: 8px; }
-/* Підпис — рукописна карлючка (SVG), а не надрукований шрифтом текст; прізвище лишається в DOM, але невидиме */
-.signature .sig { display: inline-block; flex: none; width: 34mm; height: 11mm; overflow: hidden; color: transparent; font-size: 0; line-height: 0; border-bottom: 1px solid var(--line);
-  background: var(--scrawl-a) no-repeat 50% 80% / contain; }
-.signatures > :nth-child(4n+2) .sig { background-image: var(--scrawl-b); }
-.signatures > :nth-child(4n+4) .sig { background-image: var(--scrawl-c); }
-.signatures > :nth-child(6n+6) .sig { background-image: var(--scrawl-a); transform: scaleX(-1) rotate(3deg); }
+/* Підпис — маленька рукописна карлючка (SVG, різна для кожного підписанта); прізвище в DOM невидиме */
+.signature .sig { display: inline-block; flex: none; width: 19mm; height: 8mm; border-bottom: 1px solid var(--line); }
+.signature .sig svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.signature .sig i { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .stamp {
   display: inline-flex; align-items: center; justify-content: center; text-align: center;
   width: 38mm; height: 38mm; border: 2.5px solid var(--stamp); border-radius: 50%;
