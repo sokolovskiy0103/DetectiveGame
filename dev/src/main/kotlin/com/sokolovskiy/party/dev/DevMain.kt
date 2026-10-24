@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
     PartyApp.config = detectiveConfig { _, _ ->
         if (!OnnxJudge.present(models)) null else object : SemanticHost {
             override val judge: SemanticJudge? = OnnxJudge.load(models)
-            override fun status() = org.json.JSONObject().put("enabled", true).put("state", "READY").put("progress", 1).put("message", "").put("sizeMb", 190)
+            override fun status() = org.json.JSONObject().put("enabled", true).put("state", "READY").put("progress", 1).put("message", "").put("sizeMb", 152)
             override fun setEnabled(on: Boolean) {}
         }
     }

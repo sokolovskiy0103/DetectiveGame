@@ -169,7 +169,7 @@ class SemanticManager(private val context: Context, private val onChange: () -> 
         private const val TAG = "Semantic"
         private const val MODEL_DIR = "semantic-v1"
         private const val PART_NAME = "semantic-v1.zip.part"
-        private const val SIZE_MB = 190
+        private const val SIZE_MB = 152
         const val MODEL_URL = "https://github.com/sokolovskiy0103/DetectiveGame/releases/download/semantic-v1/semantic-v1.zip"
     }
 }
