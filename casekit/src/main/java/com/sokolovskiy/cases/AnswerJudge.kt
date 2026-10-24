@@ -41,11 +41,13 @@ class AnswerJudge(
                 ok = who in named && (named intersect (suspects - who)).isEmpty()
             }
             "time" -> {
-                val times = parseTimes(answer)
+                // `not_times`: the case's dates that look like clock times ("15.10" is a day, not 15:10)
+                val times = parseTimes(f.strings("not_times").fold(answer) { s, d -> s.replace(d, " ") })
                 val w = f.getJSONArray("window")
                 val lo = minutes(w.getString(0))
                 val hi = minutes(w.getString(1))
-                ok = times.isNotEmpty() && times.all { it in lo..hi }
+                // a window may cross midnight: ["23:15", "00:10"]
+                ok = times.isNotEmpty() && times.all { if (lo <= hi) it in lo..hi else it >= lo || it <= hi }
             }
             else -> {
                 // "Соломія's car and Maksym's flat" — the places are named, but not of that person

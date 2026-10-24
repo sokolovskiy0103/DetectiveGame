@@ -1,0 +1,181 @@
+[
+  {
+    "id": "P01",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11101,
+    "prompt": "Professional company website portrait photograph of a 51-year-old Ukrainian coffee entrepreneur standing in his own coffee shop in Ivano-Frankivsk. Short-cropped silver grey hair, neat short grey stubble beard, tanned face, warm laugh lines around brown eyes, straight nose, confident slightly tired smile, average build. Wearing a dark navy knitted wool sweater with a stand-up zip collar. Background softly out of focus: warm wooden counter, a chrome espresso machine, burlap sacks of coffee beans, warm lamps. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P02",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11201,
+    "prompt": "Candid documentary portrait photograph of a 79-year-old Ukrainian village grandmother, small and lively, sitting on a wooden bench by the weathered wooden gate of her old village house. A bright red and yellow floral headscarf tied at the back of her head, a hand-knitted brown cardigan, a flowered apron, sly light blue eyes, deep wrinkles, a wide smile showing a couple of gold teeth, weathered hands resting on her knees. Behind the old house rise modern 14-storey residential apartment blocks. Morning light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P03",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11301,
+    "prompt": "Candid documentary portrait photograph of a 26-year-old Ukrainian young man, thin, oval face, short dark brown hair with a short fringe falling on his forehead, brown eyes, thick dark eyebrows, two days of dark stubble, dark circles under his eyes, nervous evasive look, slightly hunched shoulders. Wearing a grey hoodie under a blue denim jacket. Sitting on a chair, waist-up. Background: plain light beige wall of a police investigator office in Ivano-Frankivsk, softly out of focus, flat window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P03b",
+    "aspect": "3:4 (Portrait Standard)",
+    "ref": "P03",
+    "resolution": 1024,
+    "seed": 11351,
+    "prompt": "Official ID card document photograph of the same young man as in <image1>, two years younger. Keep his face, identity and facial features exactly the same: same oval face, same brown eyes, same thick dark eyebrows, same nose and mouth. Now his dark hair is buzzed very short, almost shaved with clippers, and he is clean-shaven with no stubble. Frontal view, head and shoulders, neutral expression, mouth closed, looking straight into the camera, wearing a plain dark crew-neck t-shirt. Even plain light grey background, flat even studio lighting, sharp, no shadows. No text, no watermark."
+  },
+  {
+    "id": "P04",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11401,
+    "prompt": "Official consular application document photograph of a 25-year-old Italian young man, engineer from Milan: wavy light blond-brown hair, light green-grey eyes, thin rectangular metal-rimmed glasses, long narrow face, fair skin, clean-shaven, slight polite smile. Wearing a crisp white collared shirt. Frontal view, head and shoulders, looking straight into the camera. Plain white background, flat even studio lighting, sharp. No text, no watermark."
+  },
+  {
+    "id": "P05",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11502,
+    "prompt": "Candid documentary portrait photograph of a 39-year-old Ukrainian woman who looks young for her age, well-groomed and polished, smooth skin, straight shoulder-length platinum blonde bob, blue eyes with reddened eyelids from crying but a cold composed gaze, thin eyebrows, light makeup, high cheekbones. Wearing a cream cashmere coat over a black top, a thin gold chain necklace, small gold earrings. Sitting at a desk, waist-up. Background: plain light beige wall of a police investigator office in Ivano-Frankivsk, softly out of focus, flat window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P06",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11601,
+    "prompt": "Candid documentary portrait photograph of a 46-year-old Ukrainian security chief, a massive tall broad-shouldered man, cleanly shaved bald head, heavy square jaw, thick neck, short dark stubble with grey hairs, small attentive dark eyes under heavy brows, a confident half-smile, former police officer. Wearing a dark navy security guard jacket with a plain dark shoulder patch without any lettering. Head and chest shot, both hands out of frame. Background: plain light grey wall, flat office light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P07",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11701,
+    "prompt": "Candid documentary portrait photograph of a 29-year-old Ukrainian woman coffee roaster, dark brown hair in a messy high bun, several small silver earrings along her left ear, dark eyes, determined direct look, no makeup. Wearing a black barista apron over a grey t-shirt, arms crossed, a fine-line tattoo of a coffee branch with leaves and berries on her forearm. Background: a coffee roasting workshop softly out of focus, a large metal drum roaster, sacks of green coffee. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P08",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11801,
+    "prompt": "Candid documentary portrait photograph of a 63-year-old Ukrainian retired army officer, straight military posture, thick bushy grey moustache, short grey crew cut, square face, angry suspicious glare from under heavy grey eyebrows. Wearing a dark navy tracksuit jacket zipped up. Background: apartment building courtyard in Ivano-Frankivsk, softly out of focus. Overcast light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P09",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 11901,
+    "prompt": "Candid documentary portrait photograph of a 22-year-old Ukrainian young security guard, skinny, light brown short hair, boyish smooth face, big frightened grey eyes, pale. Wearing an oversized dark navy security guard jacket with a plain dark patch without lettering. Sitting on a chair, waist-up. Background: plain light beige wall of a police investigator office in Ivano-Frankivsk, softly out of focus, flat window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P10",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 12001,
+    "prompt": "Corporate website portrait photograph of a 47-year-old Ukrainian real estate developer, slim and fit, dark hair combed back with grey at the temples, tanned face, clean-shaven, narrow dark eyes, polite cold smile. Wearing an expensive dark charcoal suit, white shirt open at the collar, no tie, a thin luxury watch. Background: blurred glass office with a view of residential construction cranes. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P11",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 12101,
+    "prompt": "Candid documentary portrait photograph of a 56-year-old Ukrainian chief accountant, plump woman with a round sweet face and rosy cheeks, light blonde hair styled in a neat round bun, reading glasses hanging on a thin chain around her neck, a small gold cross pendant. Wearing a beige knitted cardigan over a cream blouse. A warm motherly smile, but her pale eyes are cold and watchful, not smiling. Sitting at a desk, waist-up. Background: plain light beige wall of a police investigator office in Ivano-Frankivsk, softly out of focus, flat window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P12",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 12201,
+    "prompt": "Candid documentary portrait photograph of a 58-year-old Ukrainian evangelical pastor, a broad full spade-shaped grey beard, long grey hair combed straight back to the shoulders, a honeyed gentle smile, piercing light grey eyes, deep wrinkles. Wearing a thick cable-knit oatmeal wool sweater and a simple wooden cross on a leather cord. Background: plain wooden wall of a rural community house, softly out of focus, warm window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P13",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 12301,
+    "prompt": "Candid documentary portrait photograph of a 55-year-old Ukrainian woman, quiet and thin, pale narrow face, a dark brown headscarf tied under her chin, a long dark skirt and a dark knitted cardigan, downcast eyes, frightened timid expression, hands folded in her lap. Sitting on a chair. Background: plain light beige wall of a police investigator office in Ivano-Frankivsk, softly out of focus, flat window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "P14",
+    "aspect": "3:4 (Portrait Standard)",
+    "seed": 12401,
+    "prompt": "Candid documentary portrait photograph of a 37-year-old Ukrainian man, stocky and heavy-set, a black knitted beanie hat, short ginger red beard, broad face, heavy sullen stare, small pale blue eyes. Wearing a dark olive puffer jacket. Head and chest. Background: plain light grey wall of a police interview room, flat fluorescent light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "S04",
+    "aspect": "3:2 (Photo)",
+    "seed": 13401,
+    "prompt": "Forensic documentary photograph, general view on a foggy October morning in Ivano-Frankivsk: a small old one-storey private house with whitewashed walls and an old tin roof, a weathered wooden gate with a wooden bench next to it, a small vegetable garden with bare beds, an old pear tree, a wooden chicken coop, squeezed between modern 14-storey residential apartment blocks of a new housing complex that tower over it on both sides. Red and white police barrier tape stretched along the fence. A police officer stands far away by the gate. Grey diffused morning light, 28mm lens. Shot on a full-frame camera, natural light, fine film grain, realistic documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "S01",
+    "aspect": "3:2 (Photo)",
+    "seed": 13102,
+    "prompt": "Forensic crime scene photograph, overcast late October morning: a grey corrugated metal sheet fence with a gap where two panels are missing, separating the courtyard of a modern apartment complex (bare autumn lilac bushes with yellowing leaves and no flowers, the corner of a children's playground with a slide) from an old vegetable garden with bare autumn beds and fallen leaves. In the garden, about two metres from the gap, lies a body on the ground, completely covered with a grey wool blanket from head to ankles; only one sleeve of a light grey wool coat and one brown leather loafer stick out from under the blanket, no hands and no skin visible. No blood. Red and white police tape, small yellow numbered evidence marker tents on the ground. 28mm lens, muted autumn colours, non-graphic. Shot on a full-frame camera, natural light, fine film grain, realistic documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "S02",
+    "aspect": "3:2 (Photo)",
+    "seed": 13201,
+    "prompt": "Forensic close-up photograph from above: a clear footprint of a tactical boot sole with a herringbone tread pattern pressed into soft wet dark garden soil, next to it a black and white forensic L-shaped scale ruler and a small yellow evidence marker tent with the number 2. Flash photography, macro, documentary, fine film grain. No other text, no watermark."
+  },
+  {
+    "id": "S03",
+    "aspect": "3:2 (Photo)",
+    "seed": 13302,
+    "prompt": "Forensic close-up photograph from above: a tiny torn piece of black rubber, about 1.7 centimetres, a fragment of a flashlight push-button cover, with raised embossed capital letters \"AG-\" on its surface, torn edges, lying in wet green grass, next to it a black and white forensic scale ruler and a small yellow evidence marker tent with the number 3. Flash photography, macro, documentary, fine film grain. No other text, no watermark."
+  },
+  {
+    "id": "S05",
+    "ref": "P06",
+    "canvas": "16:9",
+    "resolution": 1024,
+    "seed": 13502,
+    "prompt": "Colour CCTV security camera frame at night from a high corner inside a tiny ground-level security guard booth at the entrance gate of a residential complex: wide angle fish-eye distortion, grainy, low resolution, compression artifacts. The booth is cramped, about two by two metres, a small window shows the dark ground-level courtyard, a parking barrier arm and a street lamp outside at ground level. The massive bald man from <image2> in a dark navy security guard jacket sits in an office chair, turned half away from the camera, seen from above and behind at a three-quarter angle, his bald head and broad back toward the camera. Keep his bald head, build and identity the same. In front of him a small cluttered desk with a keyboard and one small monitor showing grey camera views, and on a wall shelf one small old TV set showing a football match with a bright green pitch. An electric kettle and a mug on the desk. No text, no timestamp, no logos. Ignore the grey background of <image1>, it only sets the frame size."
+  },
+  {
+    "id": "V01",
+    "aspect": "3:2 (Photo)",
+    "seed": 14102,
+    "prompt": "Surveillance photograph by a private detective with a long telephoto lens, taken from far away through the windshield of a parked car, the blurry dark edge of the windshield frame and dashboard in the foreground. Early morning in an industrial yard: the back metal door of a small coffee roasting plant, a concrete loading ramp, wooden pallets with stacked burlap coffee sacks. Only two people: a plump middle-aged woman in a beige coat, face half turned away, hands a thick white envelope to a very big, tall, broad-shouldered man in his forties wearing a black baseball cap and a dark jacket, standing with his back to the camera. They are small in the frame, about thirty metres away. Compressed perspective, slightly soft focus, high ISO, film grain. No text, no watermark."
+  },
+  {
+    "id": "V02",
+    "ref": "P01",
+    "canvas": "3:2",
+    "resolution": 1024,
+    "seed": 14202,
+    "prompt": "Night surveillance photograph by a private detective with a long telephoto lens from about forty metres away, high ISO, heavy grain, dark, slight motion blur, candid, the subject does not notice the camera. The man from <image2> with short silver grey hair and grey stubble, wearing a knee-length light grey wool overcoat, with a blue plastic document folder tucked under his arm and a small paper bag in his hand, bends and steps through a gap in a corrugated metal sheet fence from the dark courtyard of a modern apartment complex into a dark vegetable garden, seen in profile, looking ahead not at the camera. His face is dimly lit from the side by the warm window light of a small old house. Keep his face and identity the same; he is small in the frame. No text, no timestamp. Ignore the grey background of <image1>, it only sets the frame size."
+  },
+  {
+    "id": "V03",
+    "aspect": "3:2 (Photo)",
+    "seed": 14301,
+    "prompt": "Night surveillance photograph by a private detective with a long telephoto lens from a street, high ISO, heavy grain: a small old one-storey village house with warm lit windows, next to it a low summer kitchen shed with steam coming from a small chimney pipe and a lit window, behind them dark towering modern apartment blocks with only a few lit windows, and far away near the entrance of the housing complex a small lit security guard booth. Dark, moody, compressed perspective. No text, no watermark."
+  },
+  {
+    "id": "F01",
+    "ref": [
+      "P12",
+      "P06"
+    ],
+    "canvas": "3:2",
+    "resolution": 1024,
+    "seed": 15101,
+    "prompt": "Amateur smartphone photo from a christening in a small Ukrainian church, warm candle light, slightly soft. Three adults stand together smiling in front of a gilded iconostasis: in the middle the grey-bearded pastor with long grey hair from <image2> in a light shirt and dark vest; next to him a thin modest woman about 55 in a light headscarf; and on the other side the massive bald man from <image3>, wearing a white shirt, holding a baby in a long white lace christening gown in his arms, his hands hidden under the baby's gown. Keep the pastor's face and the bald man's face and identity the same. Happy family photo, realistic phone snapshot. No text, no watermark. Ignore the grey background of <image1>, it only sets the frame size."
+  },
+  {
+    "id": "E01",
+    "aspect": "3:2 (Photo)",
+    "seed": 16102,
+    "prompt": "Forensic evidence photograph on a grey forensic laboratory table: a long black anodized aluminium Maglite 4D-cell flashlight, about 32 cm long, with a long knurled cylindrical body and a wide head, lying horizontally; the black rubber push-button cover on its side is torn, with a small piece missing. A black and white forensic scale ruler lies parallel to it, a plain brown paper evidence tag tied with string. Next to it a pair of worn black tactical boots. Flash, three-quarter top view, documentary, fine film grain. No readable text, no watermark."
+  },
+  {
+    "id": "E02",
+    "aspect": "3:2 (Photo)",
+    "seed": 16203,
+    "prompt": "Colour forensic evidence photograph with warm flash light: on grey ash and small black embers in the rusty steel ash pan of a wood-burning sauna stove lie the melted, charred remains of a smartphone, warped bubbled black plastic, a cracked blackened glass screen and a burnt circuit board, and beside it a separate small silver metal SIM card tray, a narrow strip of metal about 1.5 cm long with a tiny pin hole, slightly sooty. A yellow and black forensic scale ruler lies next to them. Close-up, documentary, fine film grain. No text, no watermark."
+  },
+  {
+    "id": "AV_volkov",
+    "aspect": "1:1 (Square)",
+    "seed": 17101,
+    "prompt": "Warm friendly portrait photograph of a 41-year-old Ukrainian police major detective, open kind face, short dark blond hair, light stubble, tired intelligent grey eyes with a smile, faint laugh lines. Wearing a light blue shirt without a tie under a dark jacket, holding a paper cup of coffee. Head and shoulders, face centered. Background: police office softly out of focus. Warm window light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  },
+  {
+    "id": "AV_kurylyuk",
+    "aspect": "1:1 (Square)",
+    "seed": 17201,
+    "prompt": "Warm portrait photograph of a 45-year-old Ukrainian forensic medical examiner woman, short dark pixie haircut, thin metal-rimmed glasses, dark eyes, ironic knowing half-smile, one eyebrow slightly raised. Wearing a white lab coat over a dark turtleneck. Head and shoulders, face centered. Background: forensic bureau office softly out of focus. Soft light. Shot on a full-frame camera, 85mm lens at f/2.8, natural light, realistic skin texture, fine film grain, candid documentary photograph, no text, no watermark."
+  }
+]

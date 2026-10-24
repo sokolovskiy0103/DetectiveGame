@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B11 — Детальний план території: друга черга ЖК «Дем'янів лаз»</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  .plan { width: 100%; max-width: 150mm; display: block; margin: 3mm auto 2mm; border: 1px solid #555; background: #fff; }
+  .plan text { font-family: var(--font-sans); }
+  .legend { list-style: none; padding: 0; margin: 2mm 0 4mm; font-size: 11pt; }
+  .legend li { display: flex; align-items: center; gap: 8px; margin-bottom: 1.5mm; }
+  .legend .sw { width: 30px; height: 14px; flex: none; border: 1px solid #555; }
+  .note-box { border: 2px solid var(--ink); padding: 2mm 4mm; margin: 4mm 0; }
+  @media (max-width: 820px) { .legend { font-size: 15px; } }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="org-header">
+    Івано-Франківська міська рада<br>
+    Управління містобудування та архітектури
+    <div class="org-sub">Відділ містобудівного кадастру</div>
+  </div>
+
+  <div class="doc-title">Витяг</div>
+  <div class="doc-subtitle">з детального плану території кварталу в межах вул. Пасічної (друга черга ЖК «Дем'янів лаз»)</div>
+  <div class="place-date"><span>м. Івано-Франківськ</span><span>17.10.2026 № 03-11/882</span></div>
+
+  <table class="plain small">
+    <tr><td style="width:36%"><b>Статус документа</b></td><td>ДПТ затверджено рішенням міської ради (2024); зміни щодо другої черги — проєкт рішення міської ради (2026), на громадському обговоренні</td></tr>
+    <tr><td><b>Замовник</b></td><td>ТОВ «Лаз-Девелопмент» (директор Стефурак Е.Р.)</td></tr>
+    <tr><td><b>Розробник</b></td><td>ПП «Прикарпатмістопроєкт»</td></tr>
+    <tr><td><b>Об'єкт</b></td><td>Багатоквартирні житлові будинки, секції 5–6, з підземним паркінгом на 140 машино-місць</td></tr>
+  </table>
+
+  <svg class="plan" viewBox="0 0 420 440" role="img" aria-label="Схема другої черги ЖК">
+    <defs>
+      <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="8" height="8" fill="#fff6d6"/><line x1="0" y1="0" x2="0" y2="8" stroke="#c08a00" stroke-width="2"/>
+      </pattern>
+      <marker id="arG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1b7a3a"/></marker>
+      <marker id="arR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#b3261e"/></marker>
+    </defs>
+
+    <!-- вулиця -->
+    <rect x="0" y="396" width="420" height="40" fill="#d9d9d9"/>
+    <line x1="0" y1="416" x2="420" y2="416" stroke="#fff" stroke-width="2" stroke-dasharray="12 10"/>
+    <text x="150" y="432" font-size="14" font-weight="bold" fill="#333">вул. Пасічна</text>
+
+    <!-- перша черга -->
+    <rect x="8" y="14" width="246" height="374" fill="#f4f4f4" stroke="#777" stroke-dasharray="5 4"/>
+    <text x="16" y="30" font-size="12" fill="#555">ІСНУЮЧА ЗАБУДОВА (І черга)</text>
+    <rect x="22" y="40" width="96" height="46" fill="#bfc7d1" stroke="#444"/><text x="56" y="69" font-size="15" font-weight="bold">1</text>
+    <rect x="144" y="40" width="96" height="46" fill="#bfc7d1" stroke="#444"/><text x="186" y="69" font-size="15" font-weight="bold">2</text>
+    <rect x="22" y="290" width="70" height="90" fill="#bfc7d1" stroke="#444"/><text x="52" y="340" font-size="15" font-weight="bold">4</text>
+    <rect x="170" y="290" width="70" height="90" fill="#bfc7d1" stroke="#444"/><text x="200" y="340" font-size="15" font-weight="bold">3</text>
+    <rect x="40" y="110" width="180" height="160" fill="#e3efdc" stroke="#9ab48a"/>
+    <text x="104" y="194" font-size="13" fill="#4a6b3a">двір</text>
+    <rect x="104" y="384" width="34" height="10" fill="#555"/><text x="96" y="378" font-size="10" fill="#333">в'їзд І черги</text>
+
+    <!-- ділянка 41-А -->
+    <rect x="262" y="292" width="80" height="100" fill="url(#hatch)" stroke="#c08a00" stroke-width="2"/>
+    <text x="270" y="312" font-size="15" font-weight="bold" fill="#7a5500">41-А</text>
+    <text x="270" y="328" font-size="11" fill="#7a5500">0,12 га</text>
+
+    <!-- друга черга -->
+    <rect x="262" y="14" width="150" height="270" fill="#fff" stroke="#1f3a8a" stroke-width="2" stroke-dasharray="7 4"/>
+    <text x="270" y="30" font-size="12" fill="#1f3a8a">ІІ ЧЕРГА (проєкт)</text>
+    <rect x="276" y="40" width="122" height="50" fill="#c9d6f2" stroke="#1f3a8a"/><text x="330" y="71" font-size="15" font-weight="bold" fill="#1f3a8a">5</text>
+    <rect x="276" y="220" width="122" height="50" fill="#c9d6f2" stroke="#1f3a8a"/><text x="330" y="251" font-size="15" font-weight="bold" fill="#1f3a8a">6</text>
+    <rect x="270" y="104" width="134" height="104" fill="none" stroke="#1f3a8a" stroke-dasharray="3 3"/>
+    <text x="278" y="150" font-size="11" fill="#1f3a8a">підземний</text><text x="278" y="164" font-size="11" fill="#1f3a8a">паркінг</text>
+
+    <!-- в'їзд А: через 41-А -->
+    <path d="M302 412 L302 214" stroke="#1b7a3a" stroke-width="7" fill="none" marker-end="url(#arG)" stroke-linecap="round" opacity=".9"/>
+    <circle cx="318" cy="366" r="11" fill="#1b7a3a"/><text x="313" y="371" font-size="13" font-weight="bold" fill="#fff">А</text>
+
+    <!-- варіант Б: через двір -->
+    <path d="M121 396 L121 300 Q121 280 141 280 L230 280 Q250 280 254 260 L268 200" stroke="#b3261e" stroke-width="3" fill="none" stroke-dasharray="8 5" marker-end="url(#arR)"/>
+    <circle cx="160" cy="280" r="11" fill="#b3261e"/><text x="155" y="285" font-size="13" font-weight="bold" fill="#fff">Б</text>
+
+    <!-- північ -->
+    <g transform="translate(396 330)"><path d="M0 -16 L6 0 L0 -4 L-6 0 z" fill="#333"/><text x="-4" y="14" font-size="11">Пн</text></g>
+  </svg>
+  <p class="small center muted">Схема без масштабу (спрощено для витягу). Сітка 1:1000 — в оригіналі ДПТ, аркуш 4.</p>
+
+  <ul class="legend">
+    <li><span class="sw" style="background:#c9d6f2;border-color:#1f3a8a"></span>Секції 5–6 другої черги (проєкт)</li>
+    <li><span class="sw" style="background:repeating-linear-gradient(45deg,#fff6d6 0 4px,#c08a00 4px 6px);border-color:#c08a00"></span>Ділянка вул. Пасічна, 41-А (0,12 га) — <b>підлягає викупу/вивільненню</b></li>
+    <li><span class="sw" style="background:#1b7a3a"></span><b>А</b> — в'їзд у підземний паркінг через ділянку вул. Пасічна, 41-А (основне проєктне рішення)</li>
+    <li><span class="sw" style="background:repeating-linear-gradient(90deg,#b3261e 0 8px,#fff 8px 12px)"></span><b>Б</b> — альтернативний проїзд через двір І черги</li>
+  </ul>
+
+  <div class="note-box small"><b>Примітка розробника (п. 4.7 пояснювальної записки):</b> Без вивільнення ділянки 41-А в'їзд можливий лише через існуючий двір (не погоджено ДСНС). Проїзд через двір І черги проходить повз дитячий майданчик і перекриває пожежний проїзд секцій 2–3; погодження ДСНС отримано лише для варіанта А.</div>
+
+  <p class="small">Відомості про власника ділянки 41-А надаються з Державного реєстру речових прав окремо. Витяг виготовлено на запит органу досудового розслідування
+  (кримінальне провадження № 12026090010002417).</p>
+
+  <div class="signatures">
+    <div>Начальник відділу<br>містобудівного кадастру</div>
+    <div class="signature"><span class="sig"><svg viewBox='0 0 60 24' aria-hidden='true' style='transform:rotate(-2.6deg)'><g fill='none' stroke='#1f3a8a' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'><path d='M6.0 16.5 C5.4 0.3 13.7 3.4 9.6 11.5 S6.6 17.6 17.6 14.9 l1.7 -5.6 l4.0 7.3 l2.2 -3.1 l4.2 5.4 q2.0 -5.7 4.0 -0.3 c6.3 -2.4 16.5 0.3 16.0 -1.3'/></g></svg><i>Яремчук</i></span><span>Н.В. Яремчук</span></div>
+  </div>
+</section>
+
+</body>
+</html>
