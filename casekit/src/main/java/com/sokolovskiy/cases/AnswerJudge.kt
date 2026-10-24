@@ -24,6 +24,11 @@ class AnswerJudge(
 
     private fun partHit(part: JSONObject, answer: String, text: Text, wrong: List<String>): Boolean {
         if (part.strings("kw").any { Matcher.keywordHit(it, text) }) return true
+        // `kw_all`: every group must be named ("статуетка" + "зникла"), a single word of either is too vague
+        val all = part.optJSONArray("kw_all")
+        if (all != null && all.length() > 0 &&
+            (0 until all.length()).all { g -> Matcher.groupHit(all.getJSONArray(g).let { a -> List(a.length()) { a.getString(it) } }, text) }
+        ) return true
         val examples = part.strings("examples")
         if (examples.isNotEmpty()) return semantic()?.decide(answer, examples, wrong + GENERIC_WRONG) == true
         return false

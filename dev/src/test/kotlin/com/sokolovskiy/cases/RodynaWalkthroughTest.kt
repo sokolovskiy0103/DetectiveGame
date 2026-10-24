@@ -102,6 +102,11 @@ class RodynaWalkthroughTest {
             "batko" to "Ярослав Бабій", "builder" to "Стефурак", "brat" to "Сенчук")).let { assertTrue(it.text, it.ok) }
         assertEquals(4, g.state.getInt("stage"))
 
+        // stage 4: without a search or an expertise the version is not even judged
+        val before = g.score()
+        assertFalse(g.answer("тест", "Q4", mapOf("who" to "Руслан Дячук")).ok)
+        assertEquals(before, g.score(), 0.001)
+
         // stage 4: searches
         assertEquals(listOf("E01"), g.req("SRCH", "гараж Дячука, ГК Пасічна, бокс 14", "ліхтар Maglite").new)
         assertEquals(listOf("E02"), g.req("EXP", "ліхтар Maglite: кров, фрагмент").new)

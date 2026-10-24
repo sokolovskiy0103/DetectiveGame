@@ -53,6 +53,11 @@ class WalkthroughTest {
             "where" to "у лікарні на Буковецькій", "knock" to "син, Максим")).ok)
         assertEquals(3, g.state.getInt("stage"))
 
+        // a lucky guess without any evidence is not judged and costs nothing
+        val before = g.score()
+        assertFalse(g.answer("тест", "Q3", mapOf("who" to "Вікторія Гнатів")).ok)
+        assertEquals(before, g.score(), 0.001)
+
         assertEquals(listOf("C01"), g.req("ORG", "ЛМЛШД №2", "Гнатів В.О., СКУД і паркінг").new)
         assertEquals(listOf("C02"), g.req("INT", "Білик Оксана").new)
         assertEquals(listOf("C03"), g.req("TEL", "+380 50 377 19 62").new)
@@ -79,6 +84,7 @@ class WalkthroughTest {
         assertTrue(hit("кульчицьк", "Кульчицкий Тарас")); assertTrue(hit("дзюба", "допитати Дзюбу"))
         assertTrue(hit("оліфіренк", "Олефіренко")); assertTrue(hit("гнатів", "Гнатов"))
         assertFalse(hit("гнатів", "Гнатюк П.")); assertFalse(hit("#672140851", "067 214 08 50"))
+        assertTrue(hit("віка", "Віка")); assertFalse(hit("віка", "якогось чоловіка")); assertFalse(hit("син", "Сенишин"))
         assertEquals(listOf(19 * 60, 21 * 60), AnswerJudge.parseTimes("між 19 і 21").sorted())
         assertEquals(listOf(19 * 60 + 30), AnswerJudge.parseTimes("пів на восьму"))
         assertEquals(listOf(20 * 60), AnswerJudge.parseTimes("о восьмій вечора"))
@@ -93,5 +99,14 @@ class Q1WordingTest {
         // the first two are right; the reasons are too thin, so only "why" may be marked wrong
         assertTrue(r.verdicts[0].ok)
         assertTrue(r.verdicts[1].ok)
+    }
+
+    @Test fun missingStatuetteIsAFact() {
+        fun why(s: String) = CaseEngine(JSONObject(File("cases/stairs/case.json").readText()))
+            .answer("тест", "Q1", mapOf("what" to "Вбили", "weapon" to "Статуєткою", "why" to s)).verdicts[2].ok
+        assertTrue(why("зникла статуетка, а тапок лежить біля столу"))
+        assertTrue(why("Феміди на столі немає; тіло перетягували"))
+        assertFalse(why("Висновок СМЕ, зникла статуетка"))   // "СМЕ" is a source, not a fact
+        assertFalse(why("зник телефон, а тапок біля столу"))
     }
 }

@@ -170,6 +170,9 @@ class CaseEngine(
         val q = questions[qid]
         val solved = state.getJSONObject("solved")
         if (q == null || solved.has(qid) || q.getInt("stage") > stage) return Result(false, "Це питання зараз недоступне.")
+        // a guess is not a version: without any of the key documents the answer is not even judged (and costs nothing)
+        val evidence = q.strings("requires_any")
+        if (evidence.isNotEmpty() && (evidence intersect unlockedIds()).isEmpty()) return Result(false, q.getString("requires_text"))
 
         val fields = q.getJSONArray("fields").objects()
         val answers = fields.associate { it.getString("id") to (given[it.getString("id")] ?: "").take(1000) }

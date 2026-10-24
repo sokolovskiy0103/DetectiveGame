@@ -80,7 +80,9 @@ object Matcher {
     fun keywordHit(keyword: String, text: Text): Boolean {
         if (keyword.startsWith("#")) return keyword.substring(1) in text.digits
         val kc = compact(keyword)
-        if (kc in text.compact || kc in text.translit) return true
+        // Inside the text only for long or compound keys: a short one hides in other words ("віка" in "чоловіка")
+        val inside = kc.length >= 5 || kc.any { !it.isLetter() }
+        if (inside && (kc in text.compact || kc in text.translit)) return true
         if (kc.any { it.isDigit() } || ' ' in keyword.trim()) return false  // numbers and phrases: exact only
         val allowed = allowedTypos(kc.length)
         // The key's stem counts only while it stays long: "кравець"→"кравец" ≈ "кравц(я)", but "гнатів"→"гнат" would
