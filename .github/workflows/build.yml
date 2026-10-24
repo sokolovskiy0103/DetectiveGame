@@ -27,6 +27,8 @@ jobs:
           gradle-version: 8.14.3
       - name: Tests and release APK
         run: gradle --no-daemon --console=plain :dev:test :core:testReleaseUnitTest :hub:assembleRelease
+      - name: APK must contain the cases
+        run: unzip -l hub/build/outputs/apk/release/hub-release.apk | grep -q "assets/data/cases/index.json"
       - name: Rename APK
         run: cp hub/build/outputs/apk/release/hub-release.apk DetectiveCases.apk
       - name: Publish release

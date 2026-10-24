@@ -123,7 +123,7 @@ class Hub(private val context: Context) : GameEnv {
             }
             if (c.isHost) when (m.optString("t")) {
                 "kick" -> room.remove(m.optString("pid"))
-                "select" -> room.select(m.optString("game"), this)
+                "select" -> try { room.select(m.optString("game"), this) } catch (t: Throwable) { Log.e(TAG, "game failed to start", t) }
                 "exitGame" -> room.exitGame()
                 "mod" -> modules.firstOrNull { it.id == m.optString("game") }?.handleHost(m.optJSONObject("d") ?: JSONObject())
                 "relay" -> {

@@ -9,7 +9,7 @@ import java.io.File
 
 /** The whole case from the authoring project played through the Kotlin engine, keywords only (no model). */
 class WalkthroughTest {
-    private fun engine() = CaseEngine(JSONObject(File("content/case.json").readText()))
+    private fun engine() = CaseEngine(JSONObject(File("cases/stairs/case.json").readText()))
     private fun CaseEngine.req(t: String, target: String, details: String = "") = request("тест", t, target, details)
 
     @Test fun fullWalkthrough() {

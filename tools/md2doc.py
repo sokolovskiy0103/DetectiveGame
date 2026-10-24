@@ -1,16 +1,19 @@
-"""Конвертує протоколи допитів (story/documents/interrogations/*.md) у HTML-бланки documents/html/<ID>.html.
+"""Конвертує протоколи допитів (CASE/story/documents/interrogations/*.md) у HTML-бланки CASE/documents/<ID>.html.
 
 ID документа — частина імені файлу до першого «_» (A09_poiasnennia_hnativ.md → A09.html).
-    uv run python tools/md2doc.py
+    python tools/md2doc.py cases/stairs
+Потрібен пакет markdown (pip install -r tools/requirements.txt). Шапки й портрети нижче — для справи «Сходи»;
+для нової справи змініть HEADER і PORTRAITS (або не користуйтесь скриптом і пишіть HTML вручну).
 """
+import sys
 import re
 from pathlib import Path
 
 import markdown
 
-ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "story" / "documents" / "interrogations"
-DST = ROOT / "documents" / "html"
+CASE = Path(sys.argv[1] if len(sys.argv) > 1 else "cases/stairs")
+SRC = CASE / "story" / "documents" / "interrogations"
+DST = CASE / "documents"
 
 HEADER = """<div class="org-header">
   Національна поліція України<br>
@@ -28,7 +31,7 @@ PATROL_HEADER = """<div class="org-header">
 PORTRAITS = {"A07": "P05", "A09": "P02", "A11": "P06", "A12": "P03", "B03": "P07", "B10": "P04",
              "C02": "P09", "C05": "P08"}
 
-PHOTO_BLOCK = """<figure class="person-photo"><img src="../../assets/photos/{photo}.jpg" alt="Фото особи">
+PHOTO_BLOCK = """<figure class="person-photo"><img src="../photos/{photo}.jpg" alt="Фото особи">
 <figcaption>Фото особи, що надає пояснення</figcaption></figure>"""
 
 TEMPLATE = """<!doctype html>

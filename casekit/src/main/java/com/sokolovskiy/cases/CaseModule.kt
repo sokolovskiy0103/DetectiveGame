@@ -123,7 +123,7 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
                 dir == "doc" && file == "_base.css" -> env.assetBytes("cases/$caseId/doc/_base.css") to LocalServer.mimeOf(file)
                 dir == "doc" && file.endsWith(".html") && file.removeSuffix(".html") in open -> {
                     // documents were written for the folder layout of the authoring project
-                    val html = docText(file.removeSuffix(".html"))?.replace("../../assets/photos/", "../photo/") ?: return null
+                    val html = docText(file.removeSuffix(".html"))?.replace("../photos/", "../photo/") ?: return null
                     html.toByteArray(Charsets.UTF_8) to LocalServer.mimeOf(file)
                 }
                 dir == "photo" && (photoUsers[file] ?: emptySet()).any { it in open } ->

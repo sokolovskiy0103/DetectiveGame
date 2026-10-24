@@ -1,9 +1,10 @@
-"""Пакетна генерація фото через локальний ComfyUI (workflow «Фото / Фото з референсом — Qwen-Image 2.1 + SeedVR2»).
+"""Пакетна генерація фото справи через локальний ComfyUI (Qwen-Image 2.1 [+ SeedVR2]).
 
-Використання:
-    python tools/comfy_gen.py assets/photo_jobs.json            # усі завдання, яких ще немає
-    python tools/comfy_gen.py assets/photo_jobs.json P01 S04    # лише вказані ID
-    python tools/comfy_gen.py assets/photo_jobs.json --force P02
+Використання (CASE — тека справи, напр. cases/stairs; завдання беруться з CASE/photo_jobs.json):
+    python tools/comfy_gen.py cases/stairs            # усі завдання, яких ще немає
+    python tools/comfy_gen.py cases/stairs P01 S04    # лише вказані ID
+    python tools/comfy_gen.py cases/stairs --force P02
+Результат: CASE/photos/<ID>.png (оригінал, не комітиться) і <ID>.jpg (для гри, до 170 КБ).
 
 Формат завдання (JSON-список):
     {"id": "P01", "prompt": "...", "aspect": "3:4 (Portrait Standard)", "seed": 1234,
@@ -18,9 +19,8 @@ import urllib.request
 from pathlib import Path
 
 COMFY = "http://127.0.0.1:8188"
-ROOT = Path(__file__).resolve().parent.parent
-OUT_DIR = ROOT / "assets" / "photos"
-BASE_DIR = OUT_DIR / "base"
+OUT_DIR = BASE_DIR = None  # задаються з аргументу в main()
+MAX_BYTES = 170 * 1024     # relay (режим «Інтернет») пропускає файли лише до 180 КБ
 
 
 def _post(path, data):
@@ -57,11 +57,20 @@ def make_canvas(aspect: str) -> Path:
 
 
 def save_web_jpg(png: Path):
-    """Документи гри посилаються на JPG (≤1600 px) — PNG лишається як оригінал і референс."""
+    """JPG для гри: найбільший розмір/якість, що вміщається в MAX_BYTES. PNG лишається оригіналом і референсом."""
+    import io
     from PIL import Image
-    im = Image.open(png).convert("RGB")
-    im.thumbnail((1600, 1600))
-    im.save(png.with_suffix(".jpg"), quality=85, optimize=True, progressive=True)
+    src = Image.open(png).convert("RGB")
+    for side in (1600, 1400, 1200, 1000, 800):
+        im = src.copy()
+        im.thumbnail((side, side))
+        for q in (85, 78, 70, 62, 55):
+            buf = io.BytesIO()
+            im.save(buf, "JPEG", quality=q, optimize=True, progressive=True)
+            if buf.tell() <= MAX_BYTES:
+                png.with_suffix(".jpg").write_bytes(buf.getvalue())
+                return
+    png.with_suffix(".jpg").write_bytes(buf.getvalue())
 
 
 def upscale_chain(image_src, prefix):
@@ -82,7 +91,7 @@ def upscale_chain(image_src, prefix):
                                                            "temporal_size": 4096, "temporal_overlap": 8}},
         "20": {"class_type": "SeedVR2PostProcessing", "inputs": {"images": ["19", 0], "original_resized_images": ["14", 0],
                                                                   "color_correction_method": "lab"}},
-        "21": {"class_type": "SaveImage", "inputs": {"images": ["20", 0], "filename_prefix": f"DetectiveGame/{prefix}_up"}},
+        "21": {"class_type": "SaveImage", "inputs": {"images": ["20", 0], "filename_prefix": f"cases/{prefix}_up"}},
     }
 
 
@@ -97,7 +106,7 @@ def build_graph(job, ref_names=None):
                                                     "scheduler": "simple", "positive": ["7", 0], "negative": ["7", 1],
                                                     "latent_image": None, "denoise": 1.0}},
         "10": {"class_type": "VAEDecode", "inputs": {"samples": ["9", 0], "vae": ["6", 0]}},
-        "11": {"class_type": "SaveImage", "inputs": {"images": ["10", 0], "filename_prefix": f"DetectiveGame/{job['id']}_base"}},
+        "11": {"class_type": "SaveImage", "inputs": {"images": ["10", 0], "filename_prefix": f"{OUT_DIR.parent.name}/{job['id']}_base"}},
     }
     if ref_names:
         enc = {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": "", "resolution": job.get("resolution", 1536), "vae": ["6", 0]}
@@ -176,6 +185,9 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     force = "--force" in args
     args = [a for a in args if a != "--force"]
-    all_jobs = json.loads(Path(args[0]).read_text(encoding="utf-8"))
+    case = Path(args[0])
+    OUT_DIR = case / "photos"
+    BASE_DIR = OUT_DIR / "base"
+    all_jobs = json.loads((case / "photo_jobs.json").read_text(encoding="utf-8"))
     ids = set(args[1:])
     run([j for j in all_jobs if not ids or j["id"] in ids], force=force)

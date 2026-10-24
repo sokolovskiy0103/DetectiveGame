@@ -10,6 +10,8 @@ __pycache__/
 captures/
 node_modules/
 data/save.json
-assets/photos/*.png
-assets/photos/_tmp/
-assets/photos/*.log
+cases/*/photos/*.png
+cases/*/photos/base/
+cases/*/photos/_tmp/
+cases/*/photos/_*
+.venv/
