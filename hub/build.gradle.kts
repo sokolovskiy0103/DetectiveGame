@@ -65,7 +65,7 @@ android {
         release { isMinifyEnabled = false; signingConfig = signingConfigs.getByName("detective") }
         debug { signingConfig = signingConfigs.getByName("detective") }
     }
-    sourceSets.getByName("main").assets.srcDir(genDir)
+    sourceSets.getByName("main").assets.srcDir(files(genDir).builtBy(syncCases))
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -80,7 +80,6 @@ android {
     }
 }
 
-tasks.matching { it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach { dependsOn(syncCases) }
 
 kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_17) } }
 
