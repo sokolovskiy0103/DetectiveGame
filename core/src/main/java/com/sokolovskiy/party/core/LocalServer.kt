@@ -106,6 +106,7 @@ class LocalServer(private val context: Context, private val hub: Hub) {
             "mp3" -> "audio/mpeg"
             "webp" -> "image/webp"
             "webm" -> "video/webm"
+            "woff2" -> "font/woff2"
             "mp4" -> "video/mp4"
             else -> "application/octet-stream"
         }
