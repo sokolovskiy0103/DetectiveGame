@@ -22,7 +22,7 @@ class CaseModule(
     override val title: String,
     override val subtitle: String,
     override val emoji: String,
-    /** The optional paraphrase model (downloaded on demand); null = keywords only. */
+    /** The paraphrase model (always on, fetched by the app itself); null = keywords only (tests, no model available). */
     private val semantic: SemanticHost? = null,
 ) : GameModule {
 
@@ -32,12 +32,6 @@ class CaseModule(
     override fun create(env: GameEnv): GameSession {
         semantic?.onCaseOpened()
         return CaseSession(env, id) { semantic?.judge }
-    }
-
-    override fun hostStatus(): JSONObject? = semantic?.status()
-
-    override fun handleHost(msg: JSONObject) {
-        if (msg.optString("a") == "model") semantic?.setEnabled(msg.optBoolean("on"))
     }
 }
 

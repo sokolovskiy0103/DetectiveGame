@@ -2,8 +2,6 @@ package com.sokolovskiy.detective
 
 import android.app.DownloadManager
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.net.Uri
 import android.util.Log
 import com.sokolovskiy.cases.OnnxJudge
@@ -14,13 +12,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import java.io.File
 import java.util.zip.ZipInputStream
 
 /**
- * The paraphrase model on this phone: the host turns it on once, the app downloads one archive (embed.onnx +
- * embed.vocab), unpacks it and loads it. Every failure leaves the game on plain keywords.
+ * The paraphrase model on this phone. It is always on and has no switch: the app downloads one archive (embed.onnx +
+ * embed.vocab), unpacks it and loads it by itself (over Wi-Fi; on mobile data the download waits for Wi-Fi). Every
+ * failure leaves the game on plain keywords and is retried the next time a case is opened.
  */
 class SemanticManager(private val context: Context, private val onChange: () -> Unit) : SemanticHost {
 
@@ -37,52 +35,23 @@ class SemanticManager(private val context: Context, private val onChange: () -> 
     private val dir: File get() = context.getExternalFilesDir(null) ?: context.filesDir
     private val modelDir: File get() = File(dir, MODEL_DIR)
     private val prefs get() = context.getSharedPreferences("semantic", Context.MODE_PRIVATE)
-    private val enabled get() = prefs.getBoolean("enabled", false)
 
     init {
-        if (enabled) setEnabled(true)
+        start()
     }
 
-    override fun status(): JSONObject = JSONObject().put("enabled", enabled).put("state", state.name)
-        .put("progress", progress).put("message", message).put("sizeMb", SIZE_MB)
+    /** Also the retry after an error: a case opened again tries once more. */
+    override fun onCaseOpened() = start()
 
-    /** First time, on Wi-Fi: download without asking (≈150 MB, once). A host who switched it off is not asked again. */
-    override fun onCaseOpened() {
-        if (prefs.contains("enabled") || state != State.OFF || !unmetered()) return
-        setEnabled(true)
-    }
-
-    private fun unmetered(): Boolean = try {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        cm.getNetworkCapabilities(cm.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) == true
-    } catch (_: Throwable) {
-        false
-    }
-
-    override fun setEnabled(on: Boolean) {
-        prefs.edit().putBoolean("enabled", on).apply()
-        if (!on) {
-            cancelDownload()
-            model?.close(); model = null
-            set(State.OFF, "")
-        } else if (state == State.OFF || state == State.ERROR) {
-            if (OnnxJudge.present(modelDir)) load() else download()
-        }
+    private fun start() {
+        if (state != State.OFF && state != State.ERROR) return
+        if (OnnxJudge.present(modelDir)) load() else download()
     }
 
     private fun set(s: State, msg: String) {
         state = s; message = msg
         progress = if (s == State.READY) 1.0 else if (s == State.DOWNLOADING) progress else 0.0
         onChange()
-    }
-
-    private fun cancelDownload() {
-        val id = prefs.getLong("download", -1)
-        if (id >= 0) {
-            (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).remove(id)
-            prefs.edit().remove("download").apply()
-        }
-        File(dir, PART_NAME).delete()
     }
 
     private fun download() {
@@ -93,7 +62,7 @@ class SemanticManager(private val context: Context, private val onChange: () -> 
             .setDescription("Один раз, ≈$SIZE_MB МБ")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
             .setDestinationUri(Uri.fromFile(File(dir, PART_NAME)))
-            .setAllowedOverMetered(true)
+            .setAllowedOverMetered(false)   // ≈150 MB: on mobile data it waits for Wi-Fi
         val id = dm.enqueue(req)
         prefs.edit().putLong("download", id).apply()
         track(id)
@@ -103,7 +72,7 @@ class SemanticManager(private val context: Context, private val onChange: () -> 
         set(State.DOWNLOADING, "Завантаження…")
         scope.launch {
             val dm = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            while (enabled) {
+            while (true) {
                 val c = dm.query(DownloadManager.Query().setFilterById(id))
                 if (c == null || !c.moveToFirst()) {
                     c?.close(); prefs.edit().remove("download").apply()

@@ -77,15 +77,10 @@ class OnnxJudge private constructor(
     }
 }
 
-/** What a [CaseModule] needs from whoever provides the paraphrase model: the judge once ready, and host controls. */
+/** What a [CaseModule] needs from whoever provides the paraphrase model: the judge, once it is ready. The model is always on. */
 interface SemanticHost {
     val judge: SemanticJudge?
 
-    /** For the host's screen: `{ enabled, state: OFF|DOWNLOADING|LOADING|READY|ERROR, progress, message, sizeMb }`. */
-    fun status(): org.json.JSONObject
-
-    fun setEnabled(on: Boolean)
-
-    /** A case was opened: the first time, on an unmetered network, the host's phone fetches the model by itself. */
+    /** A case was opened: make sure the model is on its way (download, unpack, load); a failed attempt is retried here. */
     fun onCaseOpened() {}
 }

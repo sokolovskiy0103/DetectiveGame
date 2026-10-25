@@ -193,26 +193,6 @@
       return '';
     }
 
-    // Host only: the paraphrase model (understands requests worded differently from the documents).
-    function modelCard() {
-      const m = PG.api.isHost && PG.api.mod;
-      if (!m) return '';
-      const on = (v) => `data-act="model" data-v="${v}"`;
-      let body;
-      if (m.state === 'READY') {
-        body = `<div class="c-good">${ico('check')} Розумне розуміння запитів увімкнено</div><button class="mini soft" ${on(0)}>Вимкнути</button>`;
-      } else if (m.state === 'DOWNLOADING' || m.state === 'LOADING') {
-        body = `<div>${esc(m.message || '…')}</div><div class="bar"><i style="width:${Math.round((m.progress || 0) * 100)}%"></i></div>
-          <button class="mini soft" ${on(0)}>Скасувати</button>`;
-      } else {
-        body = `<div class="muted small">Зараз запити розпізнаються за ключовими словами. Модель дозволяє гравцям формулювати
-          своїми словами. На Wi-Fi вмикається саме; завантажується один раз (≈${m.sizeMb || 152} МБ), далі працює на цьому телефоні без інтернету.</div>
-          ${m.state === 'ERROR' ? `<div class="c-bad small">${esc(m.message)}</div>` : ''}
-          <button class="soft" ${on(1)}>${ico('chip')} ${m.state === 'ERROR' ? 'Спробувати ще' : 'Увімкнути розуміння запитів'}</button>`;
-      }
-      return `<div class="card flat stack ck-model" data-k="model">${body}</div>`;
-    }
-
     function reqView() {
       const s = g();
       const types = s.request_types;
@@ -220,7 +200,6 @@
       const t = types[reqType];
       const recent = s.log.filter(e => e.kind === 'request').slice(-6).reverse();
       return `<div class="stack">
-        ${modelCard()}
         <div class="card stack">
           <div class="ck-types">${Object.keys(types).map(k => `<button class="chip ${k === reqType ? 'on' : ''}" data-act="rtype" data-v="${k}">${esc(types[k].label)}</button>`).join('')}</div>
           <label class="ck-field">${esc(t.target)}
@@ -346,7 +325,6 @@
           compare = !compare;
           if (!compare) { panes[1] = null; focus = 0; } else focus = 1;
           return api.render();
-        case 'model': return api.sendMod({ a: 'model', on: el.dataset.v === '1' });
         case 'rtype': reqType = el.dataset.v; return api.render();
         case 'send': {
           const target = (document.getElementById('ck-target') || {}).value || '';
