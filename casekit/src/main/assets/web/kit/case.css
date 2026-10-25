@@ -29,8 +29,18 @@
 .ck input[type=text]::placeholder, .ck textarea::placeholder { font-style: normal; color: color-mix(in srgb, var(--muted) 70%, transparent); }
 .ck-field { display: block; color: var(--text); font: 600 13px/1.3 var(--type); letter-spacing: .01em; text-transform: none; }
 .ck-field > input, .ck-field > textarea { margin-top: 6px; }
-.ck-types { display: flex; flex-wrap: wrap; gap: 6px; }
-.ck-types .chip { font-size: 15px; padding: 7px 11px; text-align: left; }
+/* Запит: request types as ruled rows (like the documents list); each opens its own form */
+.ck-rtypes { border-top: 1px solid var(--line); }
+.ck-rtype {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 0; padding: 12px 4px 12px 8px; text-align: left;
+  background: transparent; color: var(--text); border-bottom: 1px solid var(--line); letter-spacing: 0; text-transform: none;
+}
+.ck-rtype:hover { background: color-mix(in srgb, var(--card) 60%, transparent); }
+.ck-rt-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ck-rt-label { font: 600 17px/1.3 var(--serif); }
+.ck-rt-hint { font: 400 13px/1.3 var(--type); color: var(--muted); }
+.ck-rt-go { flex: none; color: var(--accent); }
+.ck-rt-go .ic { transform: scaleX(-1); }   /* the "back" arrow turned to point forward */
 
 /* bottom navigation (the shell's sticky bar): tabs, the open one marked by a red rule on top */
 .sticky .inner:has(.ck-tab) { gap: 0; padding: 0; }
@@ -70,6 +80,8 @@
 @media (max-width: 899px) {
   /* на телефоні документ — на всю ширину екрана, без полів картки */
   .ck-frame { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); box-shadow: none; }
+  /* документ доходить до нижньої панелі, тож запас під неї (padding тіла) зайвий */
+  body:has(.ck-sec.on .ck-docs.viewing .ck-frame) { padding-bottom: 0; }
 }
 .ck-empty { padding: 30px 12px; text-align: center; }
 .ck-pane.second { margin-top: 12px; }
@@ -121,3 +133,8 @@
   animation: fx-rise .3s var(--ease) backwards; line-height: 1.35;
 }
 .ck-toast.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--muted); }
+
+/* a photo opened from a document: full screen, a tap closes it */
+#ck-photo { position: fixed; inset: 0; z-index: 80; display: none; align-items: center; justify-content: center; padding: env(safe-area-inset-top) 8px env(safe-area-inset-bottom); background: rgba(20, 14, 6, .92); cursor: zoom-out; }
+#ck-photo.on { display: flex; animation: fade-in .2s ease backwards; }
+#ck-photo img { max-width: 100%; max-height: 100%; object-fit: contain; touch-action: pinch-zoom; }

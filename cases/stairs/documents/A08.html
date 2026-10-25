@@ -76,7 +76,7 @@
     </div>
 
     <div class="site-hero">
-      <button class="zoom-thumb" type="button" aria-label="Збільшити фото"><img src="../photos/P01.jpg" alt="Сенишин Андрій Васильович"></button>
+      <span class="zoom-thumb"><img src="../photos/P01.jpg" alt="Сенишин Андрій Васильович"></span>
       <div>
         <h2>Про нотаріуса</h2>
         <p>Андрій Васильович Сенишин — приватний нотаріус Львівського міського нотаріального округу.
@@ -110,16 +110,5 @@
   <div class="page-no">Аркуш 2</div>
 </section>
 
-<div class="lightbox" id="lb"><img alt=""></div>
-<script>
-  // тап по мініатюрі — фото на весь екран, тап будь-де — закрити
-  (function () {
-    var lb = document.getElementById('lb'), big = lb.querySelector('img');
-    document.querySelectorAll('.zoom-thumb').forEach(function (b) {
-      b.addEventListener('click', function () { var i = b.querySelector('img'); big.src = i.currentSrc || i.src; big.alt = i.alt; lb.classList.add('on'); });
-    });
-    lb.addEventListener('click', function () { lb.classList.remove('on'); });
-  })();
-</script>
 </body>
 </html>

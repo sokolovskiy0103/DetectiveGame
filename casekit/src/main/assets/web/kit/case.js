@@ -38,6 +38,7 @@
     let viewing = false;            // phone: the viewer is on screen instead of the list
     let filter = '';
     let reqType = null;
+    let reqOpen = false;            // Запит: a type's form is open (sub-page) instead of the list of types
     let unread = 0;
     let lastSeq = null;
     let seen = new Set(read('seen', []));
@@ -193,25 +194,34 @@
       return '';
     }
 
+    // Запит: a list of request types (one ruled row each); a tap opens that type's form as its own sub-page.
     function reqView() {
       const s = g();
       const types = s.request_types;
-      if (!reqType || !types[reqType]) reqType = Object.keys(types)[0];
+      if (reqType && !types[reqType]) { reqType = null; reqOpen = false; }
+      const reqs = s.log.filter(e => e.kind === 'request');
+      if (!reqOpen || !reqType) {
+        const recent = reqs.slice(-6).reverse();
+        return `<div class="stack">
+          <div class="ck-rtypes">${Object.keys(types).map(k => `<button class="ck-rtype" data-act="rtype" data-v="${esc(k)}" data-k="rt-${esc(k)}">
+            <span class="ck-rt-text"><span class="ck-rt-label">${esc(types[k].label)}</span><span class="ck-rt-hint">${esc(types[k].target)}</span></span>
+            <span class="ck-rt-go">${ico('back')}</span></button>`).join('')}</div>
+          <h2>Останні запити</h2>
+          <div class="ck-history">${recent.map(entryHtml).join('') || '<p class="muted small">Поки що запитів не було.</p>'}</div>
+        </div>`;
+      }
       const t = types[reqType];
-      const recent = s.log.filter(e => e.kind === 'request').slice(-6).reverse();
+      const recent = reqs.filter(e => e.type === reqType).slice(-4).reverse();
       return `<div class="stack">
-        <div class="card stack">
-          <div class="ck-types">${Object.keys(types).map(k => `<button class="chip ${k === reqType ? 'on' : ''}" data-act="rtype" data-v="${k}">${esc(types[k].label)}</button>`).join('')}</div>
-          <label class="ck-field">${esc(t.target)}
-            <input id="ck-target" type="text" value="${esc(reqText.target)}" autocomplete="off" maxlength="300"></label>
-          ${t.details ? `<label class="ck-field">${esc(t.details)}
-            <textarea id="ck-details" rows="3" maxlength="600">${esc(reqText.details)}</textarea></label>` : ''}
-          <button class="big" data-act="send">Надіслати запит</button>
-          <p class="muted small">Відповідь бачать усі гравці. Номери, адреси й прізвища беріть із документів справи.</p>
-        </div>
-        ${flash ? `<div class="ck-flash ${flash.ok ? 'ok' : 'bad'}">${said(speaker(reqType), linkDocs(flash.text))}</div>` : ''}
-        <h2>Останні запити</h2>
-        <div class="ck-history">${recent.map(entryHtml).join('') || '<p class="muted small">Поки що запитів не було.</p>'}</div>
+        <div class="ck-vbar"><button class="mini soft" data-act="rlist">${ico('back')} Запити</button><b class="ck-vt">${esc(t.label)}</b></div>
+        <label class="ck-field">${esc(t.target)}
+          <input id="ck-target" type="text" value="${esc(reqText.target)}" autocomplete="off" maxlength="300"></label>
+        ${t.details ? `<label class="ck-field">${esc(t.details)}
+          <textarea id="ck-details" rows="3" maxlength="600">${esc(reqText.details)}</textarea></label>` : ''}
+        <button class="big" data-act="send">Надіслати запит</button>
+        <p class="muted small">Відповідь бачать усі гравці. Номери, адреси й прізвища беріть із документів справи.</p>
+        ${flash && flash.kind === reqType ? `<div class="ck-flash ${flash.ok ? 'ok' : 'bad'}">${said(speaker(reqType), linkDocs(flash.text))}</div>` : ''}
+        ${recent.length ? `<h2>Попередні запити цього типу</h2><div class="ck-history">${recent.map(entryHtml).join('')}</div>` : ''}
       </div>`;
     }
 
@@ -294,8 +304,57 @@
         ${finalView()}</div>`;
       const dot = t => (t === 'q' && s.question) ? '<i class="ck-dot"></i>' : (t === 'log' && unread ? `<i class="ck-dot n">${unread > 9 ? '9+' : unread}</i>` : '');
       const bar = TABS.map(t => `<button class="ck-tab ${tab === t.id ? 'on' : ''}" data-act="tab" data-v="${t.id}">${ico(t.ico)}<span>${t.label}</span>${dot(t.id)}</button>`).join('');
+      setTimeout(fit, 0); setTimeout(fit, 400);   // after the DOM is patched, and after the screen's entrance animation
       return { html, bar };
     }
+
+    // ---------- photos: a tap on any picture inside a document opens it full screen ----------
+    function openPhoto(src, alt) {
+      let box = document.getElementById('ck-photo');
+      if (!box) {
+        box = document.createElement('div'); box.id = 'ck-photo'; box.innerHTML = '<img alt="">';
+        box.addEventListener('click', closePhoto);
+        document.body.appendChild(box);
+      }
+      const im = box.firstChild; im.src = src; im.alt = alt || '';
+      box.classList.add('on');
+    }
+    function closePhoto() {
+      const box = document.getElementById('ck-photo');
+      const was = !!box && box.classList.contains('on');
+      if (box) box.classList.remove('on');
+      return was;
+    }
+    // documents are same-origin iframes: wire every one when it has loaded (a `load` event does not bubble, so capture it)
+    document.addEventListener('load', e => {
+      const f = e.target;
+      if (!f || f.tagName !== 'IFRAME' || !f.classList.contains('ck-frame')) return;
+      let d = null;
+      try { d = f.contentDocument; } catch (_) { /* not ours */ }
+      if (!d || !d.head) return;
+      const st = d.createElement('style');
+      st.textContent = 'img { cursor: zoom-in; }';
+      d.head.appendChild(st);
+      d.addEventListener('click', ev => {
+        const im = ev.target && ev.target.closest ? ev.target.closest('img') : null;
+        if (im) openPhoto(im.currentSrc || im.src, im.alt);
+      });
+    }, true);
+
+    // The open document fills the screen from its top edge down to the bottom tab bar: no empty strip below it.
+    let fitStyle = null;
+    function fit() {
+      const f = [...document.querySelectorAll('.ck-frame')].find(x => x.offsetParent);
+      if (!f) return;
+      const bar = document.getElementById('bar');
+      const barH = bar && !bar.hidden ? bar.offsetHeight : 0;
+      let top = 0;
+      for (let e = f; e; e = e.offsetParent) top += e.offsetTop;
+      const css = `.ck-frame { height: ${Math.max(360, Math.floor(window.innerHeight - barH - top))}px !important; }`;
+      if (!fitStyle) { fitStyle = document.createElement('style'); document.head.appendChild(fitStyle); }
+      if (fitStyle.textContent !== css) fitStyle.textContent = css;
+    }
+    window.addEventListener('resize', fit);
 
     // ---------- input ----------
     function collectAnswers() {
@@ -325,7 +384,11 @@
           compare = !compare;
           if (!compare) { panes[1] = null; focus = 0; } else focus = 1;
           return api.render();
-        case 'rtype': reqType = el.dataset.v; return api.render();
+        case 'rtype':
+          if (reqType !== el.dataset.v) reqText = { target: '', details: '' };
+          reqType = el.dataset.v; reqOpen = true; window.scrollTo(0, 0);
+          return api.render();
+        case 'rlist': reqOpen = false; return api.render();
         case 'send': {
           const target = (document.getElementById('ck-target') || {}).value || '';
           const details = (document.getElementById('ck-details') || {}).value || '';
@@ -379,6 +442,8 @@
       render, click, onState,
       menu: () => [{ t: 'newGame', label: 'Почати справу з нуля' }],
       back: () => {
+        if (closePhoto()) return true;
+        if (tab === 'req' && reqOpen) { reqOpen = false; PG.api.render(); return true; }
         if (tab === 'docs' && viewing) { viewing = false; PG.api.render(); return true; }
         if (tab !== 'docs') { tab = 'docs'; PG.api.render(); return true; }
         return false;
