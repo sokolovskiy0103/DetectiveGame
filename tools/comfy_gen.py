@@ -4,7 +4,7 @@
     python tools/comfy_gen.py cases/stairs            # усі завдання, яких ще немає
     python tools/comfy_gen.py cases/stairs P01 S04    # лише вказані ID
     python tools/comfy_gen.py cases/stairs --force P02
-Результат: CASE/photos/<ID>.png (оригінал, не комітиться) і <ID>.jpg (для гри, до 170 КБ).
+Результат: CASE/photos/<ID>.png (оригінал, не комітиться) і <ID>.jpg (для гри).
 
 Формат завдання (JSON-список):
     {"id": "P01", "prompt": "...", "aspect": "3:4 (Portrait Standard)", "seed": 1234,
@@ -20,7 +20,7 @@ from pathlib import Path
 
 COMFY = "http://127.0.0.1:8188"
 OUT_DIR = BASE_DIR = None  # задаються з аргументу в main()
-MAX_BYTES = 170 * 1024     # relay (режим «Інтернет») пропускає файли лише до 180 КБ
+MP = 1.0                   # розмір кадру в мегапікселях — одразу достатній для екрана телефона
 
 
 def _post(path, data):
@@ -45,10 +45,10 @@ def upload_image(path: Path) -> str:
 
 
 def make_canvas(aspect: str) -> Path:
-    """Сіре полотно ~1536² пікселів заданих пропорцій ("16:9") — задає розмір кадру в режимі з референсом."""
+    """Сіре полотно ~1 МП заданих пропорцій ("16:9") — задає розмір кадру в режимі з референсом."""
     from PIL import Image
     w, h = (int(x) for x in aspect.split(":"))
-    scale = (1536 * 1536 / (w * h)) ** 0.5
+    scale = (MP * 1e6 / (w * h)) ** 0.5
     path = OUT_DIR / "_tmp" / f"canvas_{w}x{h}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists():
@@ -57,20 +57,9 @@ def make_canvas(aspect: str) -> Path:
 
 
 def save_web_jpg(png: Path):
-    """JPG для гри: найбільший розмір/якість, що вміщається в MAX_BYTES. PNG лишається оригіналом і референсом."""
-    import io
+    """JPG для гри з PNG-оригіналу. PNG лишається оригіналом і референсом."""
     from PIL import Image
-    src = Image.open(png).convert("RGB")
-    for side in (1600, 1400, 1200, 1000, 800):
-        im = src.copy()
-        im.thumbnail((side, side))
-        for q in (85, 78, 70, 62, 55):
-            buf = io.BytesIO()
-            im.save(buf, "JPEG", quality=q, optimize=True, progressive=True)
-            if buf.tell() <= MAX_BYTES:
-                png.with_suffix(".jpg").write_bytes(buf.getvalue())
-                return
-    png.with_suffix(".jpg").write_bytes(buf.getvalue())
+    Image.open(png).convert("RGB").save(png.with_suffix(".jpg"), "JPEG", quality=85, optimize=True, progressive=True)
 
 
 def upscale_chain(image_src, prefix):
@@ -109,18 +98,18 @@ def build_graph(job, ref_names=None):
         "11": {"class_type": "SaveImage", "inputs": {"images": ["10", 0], "filename_prefix": f"{OUT_DIR.parent.name}/{job['id']}_base"}},
     }
     if ref_names:
-        enc = {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": "", "resolution": job.get("resolution", 1536), "vae": ["6", 0]}
+        enc = {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": "", "resolution": job.get("resolution", 1024), "vae": ["6", 0]}
         for i, name in enumerate(ref_names, 1):
             g[f"ref{i}"] = {"class_type": "LoadImage", "inputs": {"image": name}}
             enc[f"images.image_{i}"] = [f"ref{i}", 0]
         g["7"] = {"class_type": "TextEncodeQwenImage21", "inputs": enc}
         g["9"]["inputs"]["latent_image"] = ["7", 2]
     else:
-        g["2"] = {"class_type": "ResolutionSelector", "inputs": {"aspect_ratio": job.get("aspect", "3:2 (Photo)"), "megapixels": 2.0, "multiple": 32}}
+        g["2"] = {"class_type": "ResolutionSelector", "inputs": {"aspect_ratio": job.get("aspect", "3:2 (Photo)"), "megapixels": job.get("megapixels", MP), "multiple": 32}}
         g["7"] = {"class_type": "TextEncodeQwenImage21", "inputs": {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": "", "resolution": 1024}}
         g["8"] = {"class_type": "EmptyLatentImage", "inputs": {"width": ["2", 0], "height": ["2", 1], "batch_size": 1}}
         g["9"]["inputs"]["latent_image"] = ["8", 0]
-    # Апскейл SeedVR2 вимкнено за замовчуванням: база 2 МП достатня для гри і вдвічі швидша.
+    # Апскейл SeedVR2 вимкнено за замовчуванням: база 1 МП достатня для екрана телефона.
     if job.get("upscale", False):
         g.update(upscale_chain(["10", 0], job["id"]))
     return g, seed
