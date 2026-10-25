@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C05 — Переклад Deck Log</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  .letterhead { justify-content: space-between; }
+  .letterhead .case-no { font-size: 10pt; text-align: right; color: var(--ink-soft); }
+  .typed { font-family: var(--font-mono); font-size: 10.5pt; line-height: 1.45; }
+  .typed p { text-align: left; }
+  table.data.typed td, table.data.typed th { font-family: var(--font-mono); font-size: 9.5pt; padding: 2px 4px; }
+  table.data.typed th { font-size: 8.5pt; }
+  table.data tr.date td { background: #efede5; font-weight: bold; }
+  td.c { text-align: center; white-space: nowrap; }
+  .tn { color: #333; font-style: italic; }
+  .stamp-rect.bureau { font-size: 8pt; transform: rotate(-2deg); }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="letterhead">
+    <div style="display:flex;align-items:center;gap:12px">
+      <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="#1d1d1f" stroke-width="2"><circle cx="24" cy="24" r="20"/><path d="M24 6 L28 24 L24 42 L20 24 Z" fill="#1d1d1f"/><path d="M6 24 L24 20 L42 24 L24 28 Z"/></g></svg>
+      <div>
+        <div class="org-name">Бюро аварійних комісарів «Аварком-Південь»</div>
+        <div class="org-details">270011, м. Одеса, вул. Канатна, 22, оф. 5 · тел./факс (0482) 24-17-63</div>
+      </div>
+    </div>
+    <div class="case-no">Справа № 98/117</div>
+  </div>
+
+  <div class="typed">
+  <div class="doc-title" style="font-family:var(--font-mono)">Переклад з англійської</div>
+  <p class="center">Копія суднового журналу (DECK LOG BOOK) т/х «Ліман Стар», с. 63–64, за 19–20.11.1998,<br>
+  засвідчена Інспекцією державного портового нагляду порту Очаків 24.11.1998</p>
+
+  <p>Шапка оригіналу: ЖУРНАЛ СУДНОВИЙ (ПАЛУБНИЙ). Судно: т/х LIMAN STAR. Позивний: V3PL7. Прапор / порт реєстрації:
+  Беліз / Беліз-Сіті. Капітан: В. Гаврилюк. Рейс: № 11/98 Варна — Миколаїв, у баласті. Сторінка 63. Суднов
+  час = місцевий (UTC+2).</p>
+  <p class="tn">(Примітка перекладача: у шапці стоїть «Ship's time = LT (UTC+2)» — дослівно «судновий час дорівнює
+  місцевому, всесвітній час плюс 2 години».)</p>
+
+  <table class="data typed">
+    <tr><th>Час</th><th>Курс (ГК)</th><th>Швидк., вуз.</th><th>Вітер</th><th>Погода</th><th>Видим.</th><th>Примітки</th></tr>
+    <tr class="date"><td colspan="7">Четвер, 19 листопада 1998 р. — Варна</td></tr>
+    <tr><td class="c">05:40</td><td></td><td></td><td class="c">ПдЗ 3</td><td>сусц. хмарн.</td><td class="c">8'</td><td>Двигун у готовності. Лоцман на борту о 05:45.</td></tr>
+    <tr><td class="c">06:10</td><td></td><td></td><td></td><td></td><td></td><td>Віддали всі швартови. Вийшли з Варни в баласті на Миколаїв. Осадка носом 2,10 м, кормою 4,10 м. Залишок на борту: мазут 41 т, дизпаливо 9,5 т, прісна вода 60 т. На борту 10 осіб. <span class="tn">(ROB — remaining on board, залишок на борту.)</span></td></tr>
+    <tr><td class="c">06:50</td><td class="c">090</td><td></td><td></td><td></td><td></td><td>Лоцман зійшов. Повний вперед.</td></tr>
+    <tr><td class="c">07:25</td><td class="c">030</td><td class="c">10</td><td></td><td></td><td></td><td>Змінили курс на 030 за планом переходу. <span class="tn">(A/C — alter course, змінити курс.)</span></td></tr>
+    <tr><td class="c">08:00</td><td class="c">030</td><td class="c">10</td><td class="c">ПдЗ 3</td><td>суц. хмарн.</td><td class="c">8'</td><td>Слідуємо за планом переходу. Усе гаразд.</td></tr>
+    <tr><td class="c">11:00</td><td></td><td></td><td></td><td></td><td></td><td>Проведено шлюпкову й пожежну тривогу, присутні всі члени екіпажу.</td></tr>
+    <tr><td class="c">12:00</td><td class="c">030</td><td class="c">10</td><td class="c">ПдЗ 4</td><td>суц. хмарн.</td><td class="c">7'</td><td>Слідуємо. Усе гаразд.</td></tr>
+    <tr><td class="c">16:00</td><td class="c">030</td><td class="c">10</td><td class="c">ПдЗ 4–5</td><td>суц. хмарн.</td><td class="c">6'</td><td>Слідуємо. Усе гаразд.</td></tr>
+    <tr><td class="c">16:20</td><td></td><td></td><td></td><td></td><td></td><td>Увімкнено ходові вогні.</td></tr>
+    <tr><td class="c">20:00</td><td class="c">030</td><td class="c">10</td><td class="c">ПдЗ 5</td><td>суц. хмарн., слабка мряка</td><td class="c">6'</td><td>Слідуємо. Усе гаразд. Обхід зроблено.</td></tr>
+    <tr class="date"><td colspan="7">П'ятниця, 20 листопада 1998 р.</td></tr>
+    <tr><td class="c">00:00</td><td class="c">030</td><td class="c">10</td><td class="c">ПдЗ 5–6</td><td>мряка</td><td class="c">2–3'</td><td>Вахтовий помічник — 2/П Савчук. <span class="tn">(OOW — вахтовий помічник.)</span> Матрос 1 кл. Пастух на стерні, ручне керування. Місце (GPS): маяк Вовча коса пеленг 039, відстань 17,7'. <span class="tn">(Lt — вогонь, маяк.)</span></td></tr>
+    <tr><td class="c">00:44</td><td></td><td></td><td></td><td></td><td></td><td>Відкрився вогонь маяка Вовча коса, пеленг 045, відстань близько 10,5'.</td></tr>
+    <tr><td class="c">близько 01:10</td><td></td><td></td><td></td><td></td><td></td><td>Вогонь маяка Вовча коса спостерігався постійний, тьмяний, не відповідав характеристиці. <span class="tn">(fixed — постійний, нерухомий; dim — тьмяний; «charact.» — скорочення від characteristic, характеристика вогню.)</span></td></tr>
+    <tr><td class="c">01:15</td><td></td><td></td><td></td><td></td><td></td><td>Капітан на містку.</td></tr>
+    <tr><td class="c">01:16</td><td></td><td></td><td></td><td></td><td></td><td>Повідомлено СУРС Очаків по УКХ, запитано стан вогню. <span class="tn">(VTS — vessel traffic service, служба управління рухом суден.)</span></td></tr>
+    <tr><td class="c">01:33</td><td></td><td></td><td></td><td></td><td></td><td>СУРС: вогонь, за повідомленням, у нормі. Вогонь і далі спостерігався нерегулярний. <span class="tn">(irregular — дослівно «нерегулярний, неправильний».)</span></td></tr>
+    <tr><td class="c">01:38</td><td class="c">105</td><td class="c">10</td><td></td><td></td><td></td><td>Помічено мале судно без вогнів трохи лівіше від курсу, близько 1,5'. Змінили курс на 105, щоб дати дорогу. <span class="tn">(fine on port bow — трохи лівіше від курсу; to give way — поступитися дорогою.)</span></td></tr>
+    <tr><td class="c">01:40</td><td></td><td></td><td></td><td></td><td></td><td>GPS ненадійний, місце не отримано.</td></tr>
+    <tr><td class="c">01:52</td><td></td><td></td><td></td><td></td><td></td><td>Судно торкнулося ґрунту. Двигун повний назад, без результату. Місце за радаром: маяк Вовча коса пеленг 069, відстань 0,7'.</td></tr>
+    <tr><td class="c">01:55</td><td></td><td></td><td></td><td></td><td></td><td>Повідомлено СУРС Очаків.</td></tr>
+    <tr><td class="c">02:05</td><td></td><td></td><td></td><td></td><td></td><td>Стоп двигун. Заміряно танки, надходження води не виявлено.</td></tr>
+    <tr><td class="c">02:24</td><td></td><td></td><td class="c">ПдЗ 6–7</td><td>мряка</td><td></td><td>Повідомлено СУРС: екіпаж буде висаджено шлюпкою з міркувань безпеки.</td></tr>
+    <tr><td class="c">02:40</td><td></td><td></td><td class="c">ПдЗ 6–7</td><td>дощ</td><td></td><td>Спущено шлюпку лівого борту, 8 членів екіпажу під командою старпома прямують на берег. Капітан і стармех лишаються на борту. <span class="tn">(C/O — chief officer, старший помічник; C/E — chief engineer, старший механік.)</span></td></tr>
+    <tr><td class="c">03:10</td><td></td><td></td><td class="c">ПдЗ 7</td><td>дощ</td><td class="c">2'</td><td>Старпом по УКХ: шлюпку перекинуло в прибої о 03:05, 2/П Савчука змило за борт.</td></tr>
+    <tr><td class="c">03:12</td><td></td><td></td><td></td><td></td><td></td><td>Повідомлено СУРС Очаків, запитано пошуково-рятувальні дії. <span class="tn">(SAR — search and rescue.)</span></td></tr>
+    <tr><td class="c">03:58</td><td></td><td></td><td></td><td></td><td></td><td>СУРС: буксир «Кремінь» вийде о 05:30–06:00.</td></tr>
+    <tr><td class="c">04:00</td><td></td><td></td><td class="c">ПдЗ 7</td><td>дощ</td><td class="c">2'</td><td>Судно на мілині, сильна хвиля, б'є об ґрунт. Крен близько 6° на правий борт. Капітан і стармех на борту.</td></tr>
+    <tr><td class="c">07:10</td><td></td><td></td><td class="c">ЗПдЗ 7</td><td>дощ</td><td></td><td>Прибув буксир «Кремінь», підійти до борту не може через хвилю.</td></tr>
+    <tr><td class="c">08:40</td><td></td><td></td><td></td><td></td><td></td><td>Капітан і стармех залишили судно на буксирі «Кремінь». Суднові документи взято на берег.</td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td>Примітки: записи 00:00–02:40 зроблено капітаном. <span class="tn">(Примітка: записи 00:00–02:40 зроблено капітаном — так у оригіналі.)</span></td></tr>
+  </table>
+
+  <p>Підпис оригіналу: «Капітан: В. Гаврилюк». Штамп оригіналу: «Копія вірна. Інспектор ІДПН порту Очаків
+  Ю. Бабенко, 24.11.1998» (українською).</p>
+
+  <p class="tn">(Примітки перекладача загальні. Вітер в оригіналі — у балах, напрямок літерами: SW — південно-західний
+  (ПдЗ), WSW — західно-південно-західний (ЗПдЗ). Відстані й видимість — у морських милях, позначка «'». Курси й
+  пеленги в оригіналі без знака градуса — так у оригіналі. Скорочення «abt» перекладено як «близько», «vsl» — «судно»,
+  «w/o» — «без». Увесь текст оригіналу записано одним почерком.)</p>
+
+  <p>Переклад виконано 25.11.1998.</p>
+  <div class="signatures">
+    <div>Перекладач</div>
+    <div class="signature"><span class="sig"><svg viewBox="0 0 60 24" aria-hidden="true"><g fill="none" stroke="#1f3a8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18 C8 8 10 4 11 6 C12 9 8 16 10 18 c3 2 6 -6 9 -8 c2 -1 1 6 4 6 c3 0 4 -6 7 -6 c2 0 1 5 4 5 c4 0 9 -3 20 -4"/></g></svg><i>Вайнштейн</i></span><span>Л. Б. Вайнштейн</span></div>
+  </div>
+  <p style="margin-top:6mm"><span class="stamp-rect bureau">Бюро «Аварком-Південь» · переклад · справа 98/117</span></p>
+  </div>
+</section>
+
+</body>
+</html>

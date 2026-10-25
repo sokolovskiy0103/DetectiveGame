@@ -104,6 +104,7 @@ class LocalServer(private val context: Context, private val hub: Hub) {
             "png" -> "image/png"
             "jpg", "jpeg" -> "image/jpeg"
             "mp3" -> "audio/mpeg"
+            "opus", "ogg" -> "audio/ogg"
             "webp" -> "image/webp"
             "webm" -> "video/webm"
             "woff2" -> "font/woff2"

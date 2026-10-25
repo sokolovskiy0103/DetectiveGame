@@ -1,0 +1,114 @@
+[
+ {
+  "id": "AV_mazur",
+  "aspect": "1:1 (Square)",
+  "seed": 1000,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Head-and-shoulders portrait of a 63-year-old Ukrainian man, former sea captain, short gray hair, metal-framed glasses, weathered tanned face, wool sweater under a dark jacket, calm ironic look, plain background.",
+  "megapixels": 0.5
+ },
+ {
+  "id": "AV_zoya",
+  "aspect": "1:1 (Square)",
+  "seed": 1037,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Head-and-shoulders portrait of a 41-year-old Ukrainian woman, chestnut brown bob haircut, large earrings, blouse, holding a telephone receiver to her ear, office background, businesslike friendly look.",
+  "megapixels": 0.5
+ },
+ {
+  "id": "AV_lilia",
+  "aspect": "1:1 (Square)",
+  "seed": 1074,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Head-and-shoulders portrait of a 58-year-old Ukrainian woman, gray hair in a bun, glasses on a chain around her neck, knitted wool cardigan, intelligent kind look, plain background.",
+  "megapixels": 0.5
+ },
+ {
+  "id": "P01",
+  "aspect": "3:2 (Photo)",
+  "seed": 5101,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. A distant, small-in-frame old dry-cargo ship far out at sea, a long way from the camera, 82 meters, black hull with rusty streaks, white superstructure at the stern, aground on a shoal with an 8 degree list to starboard, about 500 meters off a sandy beach; waves slamming into its side. Foreground: wet sand and shell debris. Morning, solid gray cloud, wind easing. Wide shot, nobody in frame. Ship occupies only a third of the image width, large empty stretch of gray sea between the beach and the ship."
+ },
+ {
+  "id": "P02",
+  "aspect": "3:4 (Portrait Standard)",
+  "seed": 1148,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. A round white lighthouse tower with a single red band in the middle, glazed lantern room with a gallery on top, beside it a low whitewashed service building and a two-story keepers' house, dunes and dry reeds, noon, overcast with drizzle. Nobody in frame."
+ },
+ {
+  "id": "P03",
+  "aspect": "3:2 (Photo)",
+  "seed": 1185,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Clockwork mechanism in a lighthouse lantern room: brass gears, a drum with steel cable, a pendulum governor; on the casing a plain blank rectangular brass plate with no engraving; above it the lower part of a large Fresnel lens. On-camera flash, daytime. Nobody."
+ },
+ {
+  "id": "P04",
+  "aspect": "3:2 (Photo)",
+  "seed": 1222,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. An iron L-shaped winding crank handle with a cylindrical grip hanging on a nail on a whitewashed wall next to a wooden table, a ruler beside it for scale. Documentary evidence photo, flash. Nobody."
+ },
+ {
+  "id": "P05",
+  "aspect": "3:2 (Photo)",
+  "seed": 1259,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Lighthouse watch room: wooden table with an open logbook, gray Soviet-style VHF radio with microphone on a cord, black rotary dial telephone, old armchair with a plaid blanket, small potbelly stove, narrow window. Flash photo, daytime. Nobody."
+ },
+ {
+  "id": "P06",
+  "aspect": "3:2 (Photo)",
+  "seed": 1296,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Wooden plank walkway across a low sand dune leading to a wooden pier on piles, strip of sand and sea beyond; near a shed at the start of the walkway stands a two-wheeled iron coal cart. Daytime, drizzle, overcast. Nobody."
+ },
+ {
+  "id": "P07",
+  "aspect": "3:2 (Photo)",
+  "seed": 5107,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Open metal cabinet in a diesel engine room, interior view with the top old life jackets pulled aside: at the bottom, beneath a few faded dirty orange life jackets, one noticeably brighter, saturated and clean life jacket is visible, its ties tied in a neat small bow, white painted marking on its chest smeared and illegible. Flash photo. Nobody."
+ },
+ {
+  "id": "P08",
+  "aspect": "3:2 (Photo)",
+  "seed": 5108,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Two separate loose wet sheets of lined paper torn out of a logbook, unfolded flat, lying side by side on a police station desk, visible fold creases in a cross, ballpoint ink bled into blue blotches, one edge torn unevenly; a ruler and a zip-lock evidence bag beside them. Flash photo. Nobody."
+ },
+ {
+  "id": "P09",
+  "aspect": "3:2 (Photo)",
+  "seed": 1407,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. An overturned orange-and-white fiberglass lifeboat on sand above the waterline, rubber fender rim, oars lying nearby, sandy spit, cloudy day. Nobody."
+ },
+ {
+  "id": "P10",
+  "aspect": "3:4 (Portrait Standard)",
+  "seed": 1444,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. A child's wax crayon drawing on a sheet of paper stuck with a magnet to a white refrigerator: a yellow tower with rays, a small ship tilted on blue waves, near the waves a little man with a wheelbarrow, something dark in the wheelbarrow. No letters at all. Kitchen, flash photo."
+ },
+ {
+  "id": "P11",
+  "aspect": "3:4 (Portrait Standard)",
+  "seed": 5111,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Black-and-white ID photograph of a 33-year-old man, closely cropped hair, light eyes, tired face, in a naval uniform tunic with stripes, facing camera, plain light background, small seaman's identity card photo. No pendant, no badge, no second photo, only the man's head and shoulders.",
+  "megapixels": 0.5
+ },
+ {
+  "id": "P12",
+  "aspect": "3:2 (Photo)",
+  "seed": 1518,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Low-quality black-and-white newspaper halftone photograph: two men about 47 years old at a ship gangway shaking hands and laughing, Odessa port, March 1995. One is a stocky captain in a peaked cap and uniform jacket with a mustache; the other is a slightly plump man in a sheepskin coat and mink fur hat. Grainy."
+ },
+ {
+  "id": "P13",
+  "aspect": "3:2 (Photo)",
+  "seed": 1555,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Navigation chart table on a ship's bridge: an open logbook with torn ragged edges of two removed pages near the spine, beside it a gray GPS receiver with a small screen, parallel ruler, dividers. Flash photo, ship listing slightly."
+ },
+ {
+  "id": "P14",
+  "aspect": "3:2 (Photo)",
+  "seed": 1592,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Starboard davits with a lifeboat secured under a tarpaulin, and on the railings two white cylindrical life-raft containers. Boat deck of a ship, cloudy day."
+ },
+ {
+  "id": "P15",
+  "aspect": "3:2 (Photo)",
+  "seed": 1629,
+  "prompt": "Documentary film photograph, late 1990s Ukraine, 35mm compact camera, visible film grain, slightly cold color cast, overcast drizzly November light. No text, no lettering anywhere. Low-quality black-and-white newspaper halftone: silhouette of a ship aground in the distance, shoreline, rain, morning. Very grainy."
+ }
+]

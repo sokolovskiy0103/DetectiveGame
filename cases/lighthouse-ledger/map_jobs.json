@@ -1,0 +1,26 @@
+[
+  {
+    "id": "M01",
+    "style": "free",
+    "size": [
+      1152,
+      768
+    ],
+    "legend_panel": false,
+    "style_prompt": "Old nautical sea chart of the 1980s seen from directly above, aged cream paper, flat 2D, fine thin contour lines of equal depth in blue, pale blue tinted shallow water, white deep water, ochre-yellow land, dotted sand dunes, thin hatching on shoals, thin black neutral frame border with tick marks along the edges, a small empty compass rose in a corner, tiny scattered depth soundings drawn as meaningless dots only. Strictly flat chart, no 3D, no photographs, no ships.",
+    "layout": "A long, very narrow sandy spit, like a thin curved finger of ochre land with dunes along it, runs steeply from the lower middle of the map to the upper right, rising at about fifty degrees above horizontal. The open sea lies to the west and north-west of the spit, filling the whole left and upper-left part of the map, with depth contour lines parallel to the spit's outer shore and a wide hatched shoal strip along the outer shore and off the lower tip. South-east of the spit lies a calm shallow bay, enclosed by the mainland coast in the lower right of the map. At the upper right the spit joins the mainland; further north a narrow strait separates it from a second headland with a small schematic port town in the far upper right corner.",
+    "seed": 6
+  },
+  {
+    "id": "M02",
+    "style": "free",
+    "size": [
+      1152,
+      1152
+    ],
+    "legend_panel": false,
+    "style_prompt": "Old nautical sea chart of the 1980s seen from directly above, aged cream paper, flat 2D, fine thin contour lines of equal depth in blue, pale blue tinted shallow water, white deep water, ochre-yellow land, dotted sand dunes, thin hatching on shoals, thin black neutral frame border with tick marks along the edges, a small empty compass rose in a corner, tiny scattered depth soundings drawn as meaningless dots only. Strictly flat chart, no 3D, no photographs, no ships.",
+    "layout": "Almost the whole map is open sea with fine depth contour lines. Only in the upper right corner of the map is there a short piece of a long, very narrow sandy spit with dunes: it enters from the top edge near the upper right corner and runs steeply down toward the lower left at about fifty degrees, ending in a free tip that lies in the upper right quarter of the map, roughly one quarter of the way down. A hatched shoal strip lies along the spit's outer north-western shore. South-east of the spit is a calm shallow bay, with a bit of mainland coast at the far right edge. The whole lower half and the whole left half of the map are empty open water, with no land at all.",
+    "seed": 17
+  }
+]

@@ -204,9 +204,11 @@ class CaseEngine(
         state.put("stage", q.getInt("stage") + 1)
         var new = emptyList<String>()
         if (qid == finalQuestion.getString("id")) {
-            new = unlock(case.strings("final_documents"), "Обшук")
+            new = unlock(case.strings("final_documents"), case.optString("final_by", "Обшук"))
             state.put("finished_at", clock())
         }
+        // documents that a correct answer opens (e.g. a turn in the story), before the next stage's own rules
+        new = new + unlock(q.strings("unlock"), q.optString("unlock_by", "Відповідь"))
         return Result(true, q.getString("success"), new, verdicts)
     }
 

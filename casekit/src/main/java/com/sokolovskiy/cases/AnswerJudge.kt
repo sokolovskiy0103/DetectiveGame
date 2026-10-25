@@ -47,7 +47,7 @@ class AnswerJudge(
             }
             "time" -> {
                 // `not_times`: the case's dates that look like clock times ("15.10" is a day, not 15:10)
-                val times = parseTimes(f.strings("not_times").fold(answer) { s, d -> s.replace(d, " ") })
+                val times = parseTimes(f.strings("not_times").fold(answer) { s, d -> s.replace(d, " ") }, f.optInt("hour_offset", EVENING))
                 val w = f.getJSONArray("window")
                 val lo = minutes(w.getString(0))
                 val hi = minutes(w.getString(1))
@@ -88,7 +88,7 @@ class AnswerJudge(
             "перш" to 1, "друг" to 2, "трет" to 3, "четверт" to 4, "п'ят" to 5, "шост" to 6, "сьом" to 7, "восьм" to 8,
             "дев'ят" to 9, "десят" to 10, "одинадцят" to 11, "дванадцят" to 12,
         ).sortedByDescending { it.first.length }
-        private const val EVENING = 12  // the story is about an evening: "о восьмій" = 20:00
+        private const val EVENING = 12  // the story is about an evening: "о восьмій" = 20:00; a night case sets `hour_offset: 0` on its time fields
 
         private fun hourWord(word: String): Int? = HOUR_WORDS.firstOrNull { word.startsWith(it.first) }?.second
 
@@ -96,20 +96,20 @@ class AnswerJudge(
         private val CLOCK = uniRegex("""\b([01]?\d|2[0-3])[:.]([0-5]\d)\b""")
         private val HALF_PAST = uniRegex("""пів\s*на\s*([\w']+)""")
         private val NUMBER = uniRegex("""\b(\d{1,2})\s*(вечора|веч\b|год|годин)?""")
-        private val AT_HOUR = uniRegex("""\bо\s+([\w']+)""")
+        private val AT_HOUR = uniRegex("""\b(?:о|об|близько|коло|біля)\s+([\w']+)""")
 
         /**
          * Minutes after 00:00 for every moment mentioned: "19:30", "19.30", "між 19 і 21", "пів на восьму", "о восьмій",
          * "7 вечора". Numbers that are clearly not hours (9 см, 1–2 години after a meal) are ignored.
          */
-        fun parseTimes(text: String): List<Int> {
+        fun parseTimes(text: String, offset: Int = EVENING): List<Int> {
             var s = text.lowercase().replace('’', '\'').replace('ʼ', '\'')
             s = DATES.replace(s, " ")
             val times = mutableListOf<Int>()
             for (m in CLOCK.findAll(s)) times += m.groupValues[1].toInt() * 60 + m.groupValues[2].toInt()
             s = CLOCK.replace(s, " ")
             for (m in HALF_PAST.findAll(s)) {
-                hourWord(m.groupValues[1])?.let { h -> times += ((h - 1 + EVENING) % 24) * 60 + 30 }
+                hourWord(m.groupValues[1])?.let { h -> times += ((h - 1 + offset) % 24) * 60 + 30 }
             }
             s = HALF_PAST.replace(s, " ")
             for (m in NUMBER.findAll(s)) {
@@ -117,9 +117,10 @@ class AnswerJudge(
                 val ev = m.groupValues[2]
                 if (n in 17..23) times += n * 60
                 else if (ev.startsWith("веч") && n in 1..11) times += (n + 12) * 60
+                else if ((ev.startsWith("ноч") || ev.startsWith("ран")) && n in 1..11) times += n * 60
             }
             for (m in AT_HOUR.findAll(s)) {
-                hourWord(m.groupValues[1])?.let { h -> times += ((h + EVENING) % 24) * 60 }
+                hourWord(m.groupValues[1])?.let { h -> times += ((h + offset) % 24) * 60 }
             }
             return times
         }

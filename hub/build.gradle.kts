@@ -43,6 +43,7 @@ val syncCases by tasks.registering {
             copy { from(dir.resolve("case.json")); into(data) }
             copy { from(dir.resolve("documents")); into(data.resolve("doc")) }
             copy { from(dir.resolve("photos")) { include("*.jpg") }; into(data.resolve("photo")) }
+            if (dir.resolve("audio").isDirectory) copy { from(dir.resolve("audio")) { include("*.opus", "*.mp3") }; into(data.resolve("audio")) }
             if (cdnBase != null) data.resolve("cdn.txt").writeText("$cdnBase$id/")
             if (dir.resolve("avatars").isDirectory) copy { from(dir.resolve("avatars")); into(web.resolve("avatars")) }
             if (dir.resolve("rules.html").isFile) copy { from(dir.resolve("rules.html")); into(web) }

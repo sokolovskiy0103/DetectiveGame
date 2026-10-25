@@ -24,6 +24,9 @@
           {"id": "A02", "at": 2.5, "gain_db": -6}]                  # одиничний звук (двері, клацання) з 2.5-ї секунди
   id шару — це інше завдання з audio_jobs.json (воно має бути згенероване раніше, в списку воно йде вище). "loop" повторює
   шар на всю довжину; "at" — зсув у секундах; "gain_db" — гучність (фон −18…−24, подія −6…−12). Довжина = довшому з шарів.
+Паузи в мові: "pause": 0.8 — тиша між реченнями (за замовчуванням 0.25 с); маркер {1.5} у тексті — тиша 1.5 с саме
+  в цьому місці (замість звичайної паузи): "Алло... {1.2} Це я. {1.5} Бувай."
+"phone": true — телефонна смуга 300–3400 Гц + легке стиснення на весь підсумковий звук (автовідповідач, дзвінок).
 Необов'язково: "bitrate" ("48k" мова за замовчуванням, "96k" шуми й музика).
 """
 import json
@@ -42,8 +45,12 @@ FF = imageio_ffmpeg.get_ffmpeg_exe()
 COMFY = "http://127.0.0.1:8188"
 
 
-def to_opus(src: Path, dest: Path, bitrate: str):
-    subprocess.run([FF, "-v", "error", "-y", "-i", str(src), "-ac", "1", "-c:a", "libopus", "-b:a", bitrate, str(dest)], check=True)
+PHONE_FILTER = "highpass=f=300,lowpass=f=3400,acompressor=threshold=-24dB:ratio=3,volume=2dB"
+
+
+def to_opus(src: Path, dest: Path, bitrate: str, phone=False):
+    af = ["-af", PHONE_FILTER] if phone else []
+    subprocess.run([FF, "-v", "error", "-y", "-i", str(src), "-ac", "1", *af, "-c:a", "libopus", "-b:a", bitrate, str(dest)], check=True)
 
 
 # --- голос ------------------------------------------------------------------------------------------------------------
@@ -60,31 +67,35 @@ def _model():
     return _state
 
 
-def _speak(text, voice, raw: Path):
+def _speak(text, voice, raw: Path, pause=0.25):
+    """Речення озвучуються окремо; між ними тиша `pause` с, а маркер {1.2} у тексті ставить тишу 1.2 с замість неї."""
     import contextlib
     import io
+    import re
     s = _model()
-    sentences = [x.strip() for x in __import__("re").split(r"(?<=[.!?…])\s+", text) if x.strip()]
-    parts = []
-    for sentence in sentences:
-        with contextlib.redirect_stdout(io.StringIO()):  # бібліотека друкує тензори
-            parts.append(s["model"].generate(s["ipa"](s["stress"](sentence)), voice=voice).squeeze().cpu().numpy())
-    pause = [0.0] * int(24000 * 0.25)
-    out = []
-    for p in parts:
-        out.extend(p.tolist() + pause)
-    sf.write(raw, out[:-len(pause)] if pause else out, 24000)
+    out, gap = [], None
+    for i, chunk in enumerate(re.split(r"\{(\d+(?:\.\d+)?)\}", text)):
+        if i % 2:  # маркер паузи
+            gap = float(chunk)
+            continue
+        for sentence in (x.strip() for x in re.split(r"(?<=[.!?…])\s+", chunk) if x.strip()):
+            if out:
+                out.extend([0.0] * int(24000 * (gap if gap is not None else pause)))
+            gap = None
+            with contextlib.redirect_stdout(io.StringIO()):  # бібліотека друкує тензори
+                out.extend(s["model"].generate(s["ipa"](s["stress"](sentence)), voice=voice).squeeze().cpu().numpy().tolist())
+    sf.write(raw, out, 24000)
 
 
 def gen_tts(job, raw: Path):
-    _speak(job["text"], job["voice"], raw)
+    _speak(job["text"], job["voice"], raw, job.get("pause", 0.25))
 
 
 def gen_clone(job, raw: Path):
     from holos.models import VoiceEncoder
     if "encoder" not in _state:
         _state["encoder"] = VoiceEncoder("patriotyk/HolosTTS", device="cpu")
-    _speak(job["text"], _state["encoder"].encode(job["ref"]), raw)
+    _speak(job["text"], _state["encoder"].encode(job["ref"]), raw, job.get("pause", 0.25))
 
 
 # --- ComfyUI: шуми й музика -------------------------------------------------------------------------------------------
@@ -180,7 +191,7 @@ def run(case: Path, jobs, force=False):
             if job.get("mix"):
                 src = raw_dir / f"{job['id']}_mix.wav"
                 mix_layers(raw, job["mix"], raw_dir, src)
-            to_opus(src, dest, job.get("bitrate", "96k" if kind in ("sfx", "music") else "48k"))
+            to_opus(src, dest, job.get("bitrate", "96k" if kind in ("sfx", "music") else "48k"), job.get("phone", False))
         except Exception as e:
             print(f"[FAIL] {job['id']}: {e}", flush=True)
             continue

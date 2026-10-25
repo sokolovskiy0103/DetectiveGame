@@ -51,6 +51,14 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
         }
     }
 
+    /** Same rule for sound: a recording is served once a document that plays it is open. */
+    private val audioUsers: Map<String, Set<String>> = HashMap<String, MutableSet<String>>().also { index ->
+        for (docId in engine.docs.keys) {
+            val html = docText(docId) ?: continue
+            for (m in AUDIO.findAll(html)) index.getOrPut(m.groupValues[1]) { HashSet() } += docId
+        }
+    }
+
     /** The latest thing somebody did, for toasts on the other screens; [seq] tells a screen it has not seen it yet. */
     private var seq = 0
     private var event: JSONObject? = null
@@ -134,6 +142,8 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
                 }
                 dir == "photo" && (photoUsers[file] ?: emptySet()).any { it in open } ->
                     env.assetBytes("cases/$caseId/photo/$file") to LocalServer.mimeOf(file)
+                dir == "audio" && (audioUsers[file] ?: emptySet()).any { it in open } ->
+                    env.assetBytes("cases/$caseId/audio/$file") to LocalServer.mimeOf(file)
                 else -> null
             }
         } catch (_: Exception) {
@@ -143,6 +153,7 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
 
     companion object {
         private val PHOTO = Regex("photos/([\\w.-]+)")
+        private val AUDIO = Regex("audio/([\\w.-]+)")
         private val PHOTO_SRC = Regex("src=\"\\.\\./photos/([\\w.-]+)\"")
 
         /**

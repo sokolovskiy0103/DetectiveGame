@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C10 — Архівна папка, три вирізки</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  .folder { font-family: var(--font-sans); font-size: 9.5pt; border: 1px solid #666; padding: 2mm 3mm; margin-bottom: 7mm; display: flex; justify-content: space-between; gap: 8px; background: #f1ecdd; }
+  .folder b { font-size: 11pt; }
+  .clip { background: #efe9d7; border: 1px solid #b9b19a; box-shadow: 1px 2px 4px rgba(0,0,0,.3); padding: 4mm 5mm; margin: 0 0 8mm; font-family: "Times New Roman", "Liberation Serif", "PT Serif", serif; position: relative; }
+  .clip:nth-of-type(1) { transform: rotate(-.6deg); }
+  .clip:nth-of-type(2) { transform: rotate(.5deg); margin-left: 6mm; }
+  .clip:nth-of-type(3) { transform: rotate(-.4deg); margin-right: 8mm; }
+  .clip .src { font-family: var(--font-sans); font-size: 8.5pt; border-bottom: 1px solid #222; display: flex; justify-content: space-between; gap: 8px; padding-bottom: 1mm; margin-bottom: 2mm; text-transform: uppercase; letter-spacing: .5px; }
+  .clip h2 { font-family: Georgia, serif; font-size: 15pt; line-height: 1.15; margin: 0 0 2mm; }
+  .clip p { font-size: 10.5pt; line-height: 1.32; margin: 0 0 2mm; text-indent: 5mm; }
+  .clip figure { float: right; width: 52mm; margin: 0 0 2mm 4mm; }
+  .clip figure img { width: 100%; display: block; filter: grayscale(1) contrast(1.1); border: 1px solid #333; }
+  .clip figcaption { font-size: 8.5pt; font-style: italic; line-height: 1.2; margin-top: 1mm; }
+  .clip table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 2mm 0; }
+  .clip th, .clip td { border: 1px solid #555; padding: 2px 5px; text-align: left; }
+  .clip th { background: #ddd6c0; }
+  .clip .tape { position: absolute; top: -3mm; left: 40%; width: 22mm; height: 6mm; background: rgba(230,220,160,.7); transform: rotate(-3deg); }
+  .clearfix::after { content: ""; display: block; clear: both; }
+  .note { font-family: var(--font-hand); color: var(--blue-ink); font-size: 11pt; }
+  @media (max-width: 820px) {
+    .clip { transform: none !important; margin-left: 0 !important; margin-right: 0 !important; padding: 12px; }
+    .clip p { font-size: 15px; } .clip h2 { font: 700 20px/1.2 Georgia, serif; }
+    .clip .src, .clip figcaption, .clip table { font-size: 13px; }
+    .clip figure { float: none; width: 100%; margin: 0 0 8px; }
+    .folder { font-size: 13px; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="folder"><div><b>Архів бюро «Аварком-Південь»</b><br>Папка до справи № 98/117</div><div>Вирізки з преси<br>підібрано 24–25.11.1998</div></div>
+
+  <div class="clip clearfix">
+    <div class="tape"></div>
+    <div class="src"><span>Морський тиждень</span><span>14 березня 1995 р.</span></div>
+    <h2>«Ліман Стар» — під новим прапором</h2>
+    <figure>
+      <img src="../photos/P12.jpg" alt="Двоє чоловіків біля трапа судна тиснуть руки">
+      <figcaption>Капітан В. Гаврилюк і директор «Акватрейд-Сервіс» С. Гордієнко — однокурсники з ОВІМУ, випуск 1970.</figcaption>
+    </figure>
+    <p>Одеська фірма «Акватрейд-Сервіс» придбала суховантаж, що понад двадцять років ходив під іншим прапором. Судно, збудоване 1974 року, після огляду та поточного ремонту піднімає прапор Белізу і виходить на лінії Чорного й Середземного морів. Власником значиться компанія Liman Star Shipping Ltd, управління — в Одесі.</p>
+    <p>«Нам потрібне судно, яке можна швидко запустити в роботу, — розповів директор фірми Станіслав Гордієнко. — Корабель надійний, команду підібрали своїх, перевірених». Командує судном капітан Віктор Гаврилюк, з яким директор вчився в одному училищі. За словами обох, цей збіг на користь справі: «Довіра в нашому ремеслі вирішує багато».</p>
+    <p>Перший рейс — до Варни з вантажем зернових.</p>
+  </div>
+
+  <div class="clip">
+    <div class="tape"></div>
+    <div class="src"><span>Морський тиждень</span><span>30 вересня 1998 р.</span></div>
+    <h2>Фрахт падає</h2>
+    <p>Після літньої кризи ринок старого тоннажу просів. За даними брокерів Одеси та Іллічівська, ціни на суховантажі вантажопідйомністю 2–3 тис. тонн, побудовані у 1972–1978 роках, зараз становлять:</p>
+    <table>
+      <tr><th>Тип судна</th><th>Рік побудови</th><th>Ціна, тис. $</th></tr>
+      <tr><td>Суховантаж 2000–2500 т</td><td>1972–1975</td><td>200–250</td></tr>
+      <tr><td>Суховантаж 2500–3000 т</td><td>1974–1978</td><td>240–300</td></tr>
+      <tr><td>Суховантаж 2000–3000 т (після ремонту, під «зручним» прапором)</td><td>1972–1978</td><td>230–300</td></tr>
+    </table>
+    <p>«Після серпня — ще мінус 15%, — підтвердив один із брокерів. — Покупців немає, продавці чекають весни». Фрахтові ставки на чорноморських лініях, за оцінкою фахівців, лишаються нижчими торішніх приблизно на третину.</p>
+  </div>
+
+  <div class="clip">
+    <div class="tape"></div>
+    <div class="src"><span>Чорноморський вісник</span><span>22 жовтня 1998 р.</span></div>
+    <h2>Позов до судновласника</h2>
+    <p>Банк «Південна Пальміра» подав до господарського суду позов до ТОВ «Акватрейд-Сервіс» про стягнення 1,2 млн грн. Підставою, за інформацією з суду, є прострочена заборгованість за кредитним договором. Дату розгляду ще не призначено. У фірмі коментувати позов відмовилися.</p>
+  </div>
+
+  <p class="note">Вирізки з підшивок, фото 1995 року — друкарське, оригіналу немає. — А. к. гр. № 2</p>
+</section>
+
+</body>
+</html>

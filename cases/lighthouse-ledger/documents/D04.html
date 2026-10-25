@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D04 — Розшифровка розмов абонента 2-17</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  .fax-strip { font-family: var(--font-mono); font-size: 8.5pt; color: #555; border-bottom: 1px solid #bbb; padding-bottom: 1mm; margin: -8mm 0 7mm; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .addr { margin-left: auto; width: 62%; font-size: 12pt; margin-bottom: 6mm; }
+  .printout { position: relative; background: #fdfdf8; border: 1px solid #c9c9c0; padding: 6mm 12mm; margin: 0 -6mm;
+    background-image: repeating-linear-gradient(#fdfdf8 0 2.2em, #e6f0e2 2.2em 4.4em); }
+  .printout::before, .printout::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7mm;
+    background-image: radial-gradient(circle at 50% 50%, #8a8d92 0 1.4mm, transparent 1.6mm); background-size: 7mm 12.7mm; background-repeat: repeat-y; }
+  .printout::before { left: 0; border-right: 1px dashed #ccc; }
+  .printout::after { right: 0; border-left: 1px dashed #ccc; }
+  .lp { font-family: var(--font-mono); font-size: 9.5pt; line-height: 2.2em; white-space: pre; color: #2a2a2e; overflow-x: auto; margin: 0; letter-spacing: .2px; }
+  .lp-head { font-family: var(--font-mono); font-size: 9.5pt; white-space: pre; margin: 0 0 1mm; color: #2a2a2e; overflow-x: auto; line-height: 1.5; }
+  @media (max-width: 820px) {
+    .addr { width: 100%; }
+    .printout { margin: 0 -4px; padding: 10px 6px 10px 14px; }
+    .printout::before, .printout::after { width: 10px; background-size: 10px 18px; }
+    .lp, .lp-head { font-size: 11px; }
+    .fax-strip { margin-top: -4px; }
+  }
+</style>
+</head>
+<body>
+<section class="page">
+  <div class="fax-strip"><span>26-11-98 14:37</span><span>ОЧАКIВ ЦЕХ ЕЛ.ЗВ.  05154 2-10-05</span><span>&rarr; 0482 24 17 63</span><span>С.01/02</span></div>
+
+  <div class="org-header">
+    Українське об'єднання електрозв'язку «Укртелеком»<br>
+    Миколаївська дирекція<br>
+    Очаківський цех електрозв'язку
+    <div class="org-sub">57500, м. Очаків, вул. Миколаївська, 24, тел. (05154) 2-10-05</div>
+  </div>
+
+  <div class="place-date"><span>Вих. № 431 від 26.11.98</span><span></span></div>
+
+  <div class="addr">
+    Начальнику Очаківського району гідрографічної служби<br>
+    Дубовику А.С.<br><br>
+    Копія: бюро аварійних комісарів «Аварком-Південь», м. Одеса (факс 0482 24-17-63) — за згодою абонента
+  </div>
+
+  <p class="indent">На Ваш запит від 25.11.98 № 203, як абонента-організації, направляємо розшифровку міжміських і внутрішньозонових розмов абонента 2-17 (АТС с. Солоне, встановлення — маяк «Вовча коса», платник — Очаківський район гідрографічної служби) за період з 12.11.98 по 22.11.98 включно.</p>
+  <p class="indent">Розшифровка сформована автоматично за даними обліку АТС с. Солоне. Час — за годинником АТС. Тривалість округлено в бік збільшення до повної хвилини. Нагадуємо, що місцеві розмови (в межах с. Солоне) не тарифікуються й не фіксуються. Вхідні дзвінки не фіксуються.</p>
+  <p class="indent">Копію розшифровки, згідно з Вашим листом, направлено факсом бюро «Аварком-Південь». Іншим особам відомості про розмови абонента без письмової згоди абонента не надаються.</p>
+  <p>Додаток: розшифровка на 1 арк.</p>
+
+  <div class="signatures" style="grid-template-columns: 1fr auto; align-items:end">
+    <div>Начальник ЛАЦ<br>Очаківського цеху електрозв'язку</div>
+    <div class="signature"><span class="sig"><svg viewBox="0 0 60 24" aria-hidden="true" style="transform:rotate(-3deg)"><g fill="none" stroke="#1f3a8a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 C4 6 9 3 11 10 c1 5 -4 9 -6 6 M12 15 l3 -8 l3 9 l3 -7 c4 6 9 6 16 0 c4 -3 10 1 16 -2"/><path d="M8 22 q20 -2 40 0"/></g></svg><i>Костенко</i></span><span>Г.П. Костенко</span></div>
+  </div>
+  <p class="small muted" style="margin-top:6mm">Вик. Ліщук Н.В., 2-10-05</p>
+</section>
+
+<section class="page">
+  <div class="fax-strip"><span>26-11-98 14:38</span><span>ОЧАКIВ ЦЕХ ЕЛ.ЗВ.  05154 2-10-05</span><span>&rarr; 0482 24 17 63</span><span>С.02/02</span></div>
+  <p class="small right">Додаток до вих. № 431 від 26.11.98</p>
+
+  <div class="printout">
+<pre class="lp-head">  МИКОЛАЇВСЬКА ДИРЕКЦІЯ УКРТЕЛЕКОМ  * ОЧАКIВСЬКИЙ ЦЕХ ЕЛ.ЗВ.
+  РОЗШИФРОВКА МIЖМIСЬКИХ I ВНУТРIШНЬОЗОНОВИХ РОЗМОВ
+  АБОНЕНТ: 2-17   АТС: СОЛОНЕ   ПЕРIОД: 12.11.98 - 22.11.98
+  ПЛАТНИК: ОЧАКIВСЬКИЙ Р-Н ГIДРОГР.СЛУЖБИ   ОС.РАХ. 0388-217
+  ТАРИФ ГРН/ХВ: ВЗ 0.16 (НIЧ 0.08)  МIЖМ 0.36 (НIЧ 0.18)
+  НIЧНИЙ ТАРИФ 22:00-07:00
+</pre>
+<pre class="lp">   №   ДАТА      ЧАС    КОД     НОМЕР      ХВ    СУМА
+ ---- -------- ------ ------- ---------- ----- -------
+   1  12.11.98  09:14  05154   2-18-40       4    0.64
+   2  12.11.98  16:42  05154   2-18-40       2    0.32
+   3  13.11.98  11:05  0552    22-63-90      3    1.08
+   4  14.11.98  10:20  05154   2-18-40       6    0.96
+   5  15.11.98  19:33  0512    35-72-14     12    4.32
+   6  16.11.98  08:50  05154   2-18-40       3    0.48
+   7  17.11.98  12:47  0552    22-63-90      5    1.80
+   8  18.11.98  21:10  0512    35-72-14      9    3.24
+   9  19.11.98  10:05  05154   2-18-40       2    0.32
+  10  19.11.98  14:22  05154   2-31-40       3    0.48
+  11  20.11.98  02:06  05154   2-18-77       3    0.24
+  12  20.11.98  03:51  0482    22-47-19      2    0.36
+  13  20.11.98  05:12  0482    34-61-08      4    0.72
+  14  20.11.98  07:45  05154   2-18-40       5    0.80
+  15  20.11.98  13:30  05154   2-18-40       7    1.12
+  16  20.11.98  17:02  0552    22-63-90      2    0.72
+  17  21.11.98  09:20  05154   2-18-40       4    0.64
+  18  21.11.98  18:40  05154   2-18-40       2    0.32
+  19  22.11.98  11:15  0552    22-63-90      6    2.16
+  20  22.11.98  16:08  05154   2-18-40       3    0.48
+ ---- -------- ------ ------- ---------- ----- -------
+  ВСЬОГО РОЗМОВ: 20             ХВ: 87     СУМА: 21.20
+  У Т.Ч. ВЗ: 12   МIЖМ: 8
+  ДРУК 26.11.98 13:52   ОПЕР. 07
+</pre>
+  </div>
+
+  <div style="margin-top:6mm; display:flex; justify-content:flex-end">
+    <span class="stamp-rect">Очаківський цех електрозв'язку<br>Копія вірна</span>
+  </div>
+</section>
+</body>
+</html>
