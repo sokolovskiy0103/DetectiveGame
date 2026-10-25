@@ -40,3 +40,10 @@ tasks.named("run") { dependsOn(":hub:syncCases") }
 
 dependencies { testImplementation("junit:junit:4.13.2") }
 tasks.withType<Test> { workingDir = rootDir }
+
+// the case from the console, as the players see it (for the blind playtester): see PlayCli.kt
+tasks.register<JavaExec>("play") {
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("com.sokolovskiy.party.dev.PlayCliKt")
+    workingDir = rootDir
+}

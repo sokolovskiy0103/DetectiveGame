@@ -16,3 +16,11 @@ cases/*/photos/_tmp/
 cases/*/photos/_*
 .venv/
 dev/models/
+# HolosTTS: файли моделі, випадково завантажені в корінь, і venv, створений з нерозкритим %TEMP%
+/model.pth
+/config.yaml
+/feats_stats.npz
+/spk_xvector.ark
+/%TEMP%holosenv/
+samples/
+cases/*/audio/_raw/
