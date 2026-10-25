@@ -14,7 +14,6 @@
   .site-head .brand { font-family: var(--font-official); font-size: 15pt; color: #3a2a12; }
   .site-head nav { font-size: 9.5pt; color: #555; }
   .site-hero { display: flex; gap: 14px; padding: 14px 16px; }
-  .site-hero img { width: 42%; flex: none; object-fit: cover; border: 1px solid #ccc; }
   .site-hero h2 { font-family: var(--font-official); font-size: 14pt; margin: 0 0 4px; color: #3a2a12; }
   .site-body { padding: 0 16px 12px; line-height: 1.45; }
   .site-body h3 { font-size: 11pt; margin: 10px 0 4px; color: #3a2a12; text-transform: uppercase; }
@@ -77,7 +76,7 @@
     </div>
 
     <div class="site-hero">
-      <img src="../photos/P01.jpg" alt="Сенишин Андрій Васильович">
+      <button class="zoom-thumb" type="button" aria-label="Збільшити фото"><img src="../photos/P01.jpg" alt="Сенишин Андрій Васильович"></button>
       <div>
         <h2>Про нотаріуса</h2>
         <p>Андрій Васильович Сенишин — приватний нотаріус Львівського міського нотаріального округу.
@@ -111,5 +110,16 @@
   <div class="page-no">Аркуш 2</div>
 </section>
 
+<div class="lightbox" id="lb"><img alt=""></div>
+<script>
+  // тап по мініатюрі — фото на весь екран, тап будь-де — закрити
+  (function () {
+    var lb = document.getElementById('lb'), big = lb.querySelector('img');
+    document.querySelectorAll('.zoom-thumb').forEach(function (b) {
+      b.addEventListener('click', function () { var i = b.querySelector('img'); big.src = i.currentSrc || i.src; big.alt = i.alt; lb.classList.add('on'); });
+    });
+    lb.addEventListener('click', function () { lb.classList.remove('on'); });
+  })();
+</script>
 </body>
 </html>

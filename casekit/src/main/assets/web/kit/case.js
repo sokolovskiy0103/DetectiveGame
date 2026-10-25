@@ -128,11 +128,9 @@
     function head() {
       const s = g();
       const end = s.finished_at || Date.now() / 1000;
-      return `<div class="ck-head">
-        <div class="ck-title">${esc(s.title)}</div>
-        <div class="ck-sub"><span class="ck-stage">${esc(s.stage_name || '')}</span>
-          <span class="ck-stats"><span title="Час розслідування">${ico('clock')} <b class="ck-timer" data-t0="${s.started_at}" data-t1="${s.finished_at || ''}">${fmtElapsed(end - s.started_at)}</b></span>
-          <span title="Бали">${ico('star')} <b>${s.score}</b></span></span></div>
+      return `<div class="ck-head"><span class="ck-stage">${esc(s.stage_name || '')}</span>
+        <span class="ck-stats"><span title="Час розслідування">${ico('clock')} <b class="ck-timer" data-t0="${s.started_at}" data-t1="${s.finished_at || ''}">${fmtElapsed(end - s.started_at)}</b></span>
+          <span title="Бали">${ico('star')} <b>${s.score}</b></span></span>
       </div>`;
     }
 
@@ -257,11 +255,16 @@
       return `<div class="card stack" data-k="q-${esc(q.id)}">
         <h2>${esc(q.title)}</h2>
         ${said(speaker(), esc(q.intro), 'intro')}
-        ${q.fields.map(f => `<label class="ck-field">${esc(f.label)}
+        ${q.fields.map(f => {
+          // a label that just repeats the question's title is dropped (kept for screen readers)
+          const dup = f.label.trim().toLowerCase() === q.title.trim().toLowerCase();
+          const aria = dup ? ` aria-label="${esc(f.label)}"` : '';
+          return `<label class="ck-field">${dup ? '' : esc(f.label)}
           ${f.multiline
-            ? `<textarea id="ck-f-${esc(f.id)}" data-f="${esc(f.id)}" rows="4" placeholder="${esc(f.placeholder || '')}">${esc(d[f.id] || '')}</textarea>`
-            : `<input id="ck-f-${esc(f.id)}" data-f="${esc(f.id)}" type="text" autocomplete="off" placeholder="${esc(f.placeholder || '')}" value="${esc(d[f.id] || '')}">`}
-        </label>`).join('')}
+            ? `<textarea id="ck-f-${esc(f.id)}" data-f="${esc(f.id)}" rows="3"${aria} placeholder="${esc(f.placeholder || '')}">${esc(d[f.id] || '')}</textarea>`
+            : `<input id="ck-f-${esc(f.id)}" data-f="${esc(f.id)}" type="text" autocomplete="off"${aria} placeholder="${esc(f.placeholder || '')}" value="${esc(d[f.id] || '')}">`}
+        </label>`;
+        }).join('')}
         ${lastVerdict(q.id)}
         ${hints.map((h, i) => `<div class="ck-hint">${said(speaker(), `<b>Підказка ${i + 1}.</b> ${esc(h)}`)}</div>`).join('')}
         <div class="row">

@@ -4,26 +4,31 @@
 .ck-sec { display: none; }
 .ck-sec.on { display: block; animation: fx-rise .3s var(--ease) backwards; }
 
-/* header: the file's title, stage, clock, score */
-.ck-head { margin-bottom: 14px; padding-bottom: 8px; border-bottom: 3px double var(--line); }
-.ck-title { font: 700 22px/1.2 var(--serif); color: var(--accent); }
-.ck-sub { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-top: 4px; color: var(--muted); font: 600 12px var(--type); letter-spacing: .08em; text-transform: uppercase; }
+/* header: stage, clock, score. The case title is already in the shell's top bar, so it is not repeated here. */
+.ck-head {
+  display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  color: var(--muted); font: 600 12px var(--type); letter-spacing: .08em; text-transform: uppercase;
+}
 .ck-stats { display: flex; gap: 14px; white-space: nowrap; }
 .ck-stats span { display: inline-flex; align-items: center; gap: 4px; }
 .ck-stats b { color: var(--text); font-variant-numeric: tabular-nums; }
 
-/* form fields the shared ui.css does not cover: lined paper */
-.ck textarea {
-  display: block; font: inherit; font-size: 17px; line-height: 28px; width: 100%; padding: 0 4px; border: 0; border-radius: 0; resize: vertical; outline: none;
-  color: var(--text); -webkit-appearance: none; appearance: none;
-  background: repeating-linear-gradient(transparent 0 27px, var(--line) 27px 28px) 0 0 / 100% 28px local, color-mix(in srgb, var(--card) 45%, transparent);
-  transition: background-color var(--mid);
+/* No sheet-of-paper frame around a screen's content: it only ate width. The page itself is the paper. */
+.ck .card:not(.flat):not(.hero) { background: none; box-shadow: none; padding: 0; }
+
+/* form fields: two families only. Serif = what is read and written, sans (var(--type)) = labels, buttons, tabs.
+   Inputs are lighter boxes with an outline and a heavier bottom edge, so they read as "write here" without a card frame. */
+.ck input[type=text], .ck textarea {
+  display: block; width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-bottom: 2px solid var(--text); border-radius: 0; outline: none;
+  font: 17px/1.4 var(--serif); letter-spacing: 0; text-transform: none; color: var(--text);
+  background: color-mix(in srgb, var(--card) 40%, #fff); box-shadow: inset 0 1px 2px rgba(70, 50, 20, .1);
+  -webkit-appearance: none; appearance: none; transition: border-color var(--mid), background-color var(--mid), box-shadow var(--mid);
 }
-.ck textarea:focus { background-color: var(--card); }
-.ck-field { display: block; color: var(--muted); font: 600 12px var(--type); letter-spacing: .08em; text-transform: uppercase; }
+.ck textarea { min-height: 96px; resize: vertical; }
+.ck input[type=text]:focus, .ck textarea:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 1px var(--accent); }
+.ck input[type=text]::placeholder, .ck textarea::placeholder { font-style: normal; color: color-mix(in srgb, var(--muted) 70%, transparent); }
+.ck-field { display: block; color: var(--text); font: 600 13px/1.3 var(--type); letter-spacing: .01em; text-transform: none; }
 .ck-field > input, .ck-field > textarea { margin-top: 6px; }
-.ck-field > input[type=text] { font: 18px var(--serif); letter-spacing: 0; text-transform: none; }
-.ck-field > textarea { text-transform: none; letter-spacing: 0; }
 .ck-types { display: flex; flex-wrap: wrap; gap: 6px; }
 .ck-types .chip { font-size: 15px; padding: 7px 11px; text-align: left; }
 
@@ -89,7 +94,7 @@
 .ck-said-text { flex: 1; min-width: 0; padding: 4px 0 4px 12px; border-left: 2px solid var(--line); line-height: 1.45; overflow-wrap: anywhere; }
 .ck-said.ok .ck-said-text { border-left-color: var(--good); }
 .ck-said.bad .ck-said-text { border-left-color: var(--bad); }
-.ck-said.intro .ck-said-text { border-left-color: var(--accent); font-style: italic; }
+.ck-said.intro .ck-said-text { border-left-color: var(--accent); }
 .ck-flash { animation: fx-pop .3s var(--ease) backwards; }
 .ck-hint { margin-top: 2px; }
 .ck-history { display: grid; gap: 0; }
