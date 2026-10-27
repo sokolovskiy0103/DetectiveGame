@@ -126,6 +126,8 @@ hr.cut { border: none; border-top: 1px dashed #999; margin: 6mm 0; }
   p { text-align: left; }
   table.data, table.plain { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.data td, table.data th { overflow-wrap: normal; }
+  /* «anywhere» дозволяє стиснути колонку таблиці до однієї літери; у клітинках переносимо лише довгі слова */
+  .page td, .page th { overflow-wrap: break-word; }
   .signatures { grid-template-columns: 1fr; font-size: 14px; }
   /* заголовки й службові рядки — рубленим шрифтом, щоб відрізнялись від тексту */
   .page { font-family: "Noto Serif", "PT Serif", Georgia, "Times New Roman", serif; }
