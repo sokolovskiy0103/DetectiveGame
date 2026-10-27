@@ -1,0 +1,13 @@
+[
+  {
+    "id": "M01",
+    "style": "google",
+    "size": [
+      1152,
+      768
+    ],
+    "legend_panel": false,
+    "layout": "Regional road map of a wide rural area seen from far above. A large city with a dense grey street grid occupies only the upper left corner of the map. A wide yellow-orange highway leaves the city and runs straight diagonally across open fields down to the south-east, a long way, to a small compact town in the right part of the map. From that small town a thin white road goes south to a tiny village on the river bank in the lower right of the map. A light blue river winds across the bottom of the map from the left edge to the right edge, just south of the tiny village. A dark green pine forest strip lies along the north bank of the river beside the village. Between the city and the town there are only fields, in pale beige and light green, with a few thin country roads.",
+    "seed": 64
+  }
+]

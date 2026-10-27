@@ -55,9 +55,9 @@
     const me = () => (PG.api.me && PG.api.me.name) || '';
     const docOf = did => (g().documents || []).find(d => d.id === did);
 
-    function speaker(kind) {
+    function speaker(kind, who) {
       const s = g();
-      const key = (s.speaker_by_type && s.speaker_by_type[kind]) || s.default_speaker;
+      const key = who || (s.speaker_by_type && s.speaker_by_type[kind]) || s.default_speaker;
       return (s.speakers && s.speakers[key]) || null;
     }
     function said(sp, html, cls) {
@@ -66,7 +66,7 @@
     }
     function linkDocs(text) {
       const have = new Set((g().documents || []).map(d => d.id));
-      return esc(text).replace(/\b([ABCD]\d{2}[a-z]?)\b/g, m => have.has(m) ? `<span class="ck-link" data-act="doc" data-id="${m}">${m}</span>` : m);
+      return esc(text).replace(/\b([A-Z]\d{2}[a-z]?)\b/g, m => have.has(m) ? `<span class="ck-link" data-act="doc" data-id="${m}">${m}</span>` : m);
     }
 
     function toast(html, bad) {
@@ -112,7 +112,7 @@
       if (ev.kind === 'reset') { toast('Хост почав справу з нуля'); return; }
       if (!mine && tab !== 'log') unread++;
       if (ev.kind === 'request') {
-        if (mine) flash = { ok: ev.ok, text: ev.text, kind: lastReqType };
+        if (mine) flash = { ok: ev.ok, text: ev.text, kind: lastReqType, speaker: ev.speaker };
         else toast(`${esc(ev.player)}: ${ev.ok ? 'новий матеріал у справі' : 'запит без результату'}`, !ev.ok);
         if (ev.ok && ev.new && ev.new.length && mine) openDoc(ev.new[0]);
       } else if (ev.kind === 'answer') {
@@ -180,7 +180,7 @@
       if (e.kind === 'request') {
         const q = `${esc(e.type_label)}: <b>${esc(e.target)}</b>${e.details ? ' — ' + esc(e.details) : ''}`;
         return `<div class="ck-entry"><div class="ck-meta">${fmtTime(e.at)} · ${esc(e.player)}</div><div class="ck-q">${q}</div>
-          ${said(speaker(e.type), linkDocs(e.text), e.ok ? 'ok' : 'bad')}</div>`;
+          ${said(speaker(e.type, e.speaker), linkDocs(e.text), e.ok ? 'ok' : 'bad')}</div>`;
       }
       if (e.kind === 'answer') {
         const given = Object.values(e.answers || {}).filter(Boolean).map(a => `«${esc(a)}»`).join(' · ');
@@ -220,7 +220,7 @@
           <textarea id="ck-details" rows="3" maxlength="600">${esc(reqText.details)}</textarea></label>` : ''}
         <button class="big" data-act="send">Надіслати запит</button>
         <p class="muted small">Відповідь бачать усі гравці. Номери, адреси й прізвища беріть із документів справи.</p>
-        ${flash && flash.kind === reqType ? `<div class="ck-flash ${flash.ok ? 'ok' : 'bad'}">${said(speaker(reqType), linkDocs(flash.text))}</div>` : ''}
+        ${flash && flash.kind === reqType ? `<div class="ck-flash ${flash.ok ? 'ok' : 'bad'}">${said(speaker(reqType, flash.speaker), linkDocs(flash.text))}</div>` : ''}
         ${recent.length ? `<h2>Попередні запити цього типу</h2><div class="ck-history">${recent.map(entryHtml).join('')}</div>` : ''}
       </div>`;
     }

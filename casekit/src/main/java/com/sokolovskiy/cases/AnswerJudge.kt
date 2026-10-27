@@ -6,8 +6,8 @@ import org.json.JSONObject
 
 /**
  * Judge of the free-form answers to a case's control questions (case.json → questions[].fields[]):
- *  - `person`: the answer must name exactly that person and no other suspect;
- *  - `time`: every mentioned moment lies in `window` (and at least one is mentioned);
+ *  - `person`: the answer must name exactly that person and no other suspect (except the `also` accomplices);
+ *  - `time`: every mentioned moment lies in `window` (and at least one is mentioned), or one of them with `any_time`;
  *  - `text`: the answer is made of arguments (`parts`); a part counts by keywords (fuzzy) or semantically
  *    (`examples` against `wrong`).
  * Ported 1:1 from the Python prototype (`app/judge.py`).
@@ -43,7 +43,8 @@ class AnswerJudge(
             "person" -> {
                 val named = namedPersons(text)
                 val who = f.getString("person")
-                ok = who in named && (named intersect (suspects - who)).isEmpty()
+                // `also`: accomplices that may be named next to the answer ("Ірина з Костею")
+                ok = who in named && (named intersect (suspects - who - f.strings("also").toSet())).isEmpty()
             }
             "time" -> {
                 // `not_times`: the case's dates that look like clock times ("15.10" is a day, not 15:10)
@@ -52,7 +53,9 @@ class AnswerJudge(
                 val lo = minutes(w.getString(0))
                 val hi = minutes(w.getString(1))
                 // a window may cross midnight: ["23:15", "00:10"]
-                ok = times.isNotEmpty() && times.all { if (lo <= hi) it in lo..hi else it >= lo || it <= hi }
+                val inWindow = { t: Int -> if (lo <= hi) t in lo..hi else t >= lo || t <= hi }
+                // `any_time`: one moment in the window is enough ("на записі 04:14, тобто справжні 03:14")
+                ok = times.isNotEmpty() && if (f.optBoolean("any_time")) times.any(inWindow) else times.all(inWindow)
             }
             else -> {
                 // "Соломія's car and Maksym's flat" — the places are named, but not of that person

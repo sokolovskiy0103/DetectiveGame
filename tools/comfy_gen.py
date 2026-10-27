@@ -21,6 +21,9 @@ from pathlib import Path
 COMFY = "http://127.0.0.1:8188"
 OUT_DIR = BASE_DIR = None  # задаються з аргументу в main()
 MP = 1.0                   # розмір кадру в мегапікселях — одразу достатній для екрана телефона
+# cfg 1.0 вимикає guidance і негатив — модель гірше тримає промпт і пише текст; 4.0 — удвічі довше, але точніше
+CFG = 4.0
+NEGATIVE = "garbled text, misspelled letters, extra characters, blurry text, watermark, cartoon, CGI, 3d render"
 
 
 def _post(path, data):
@@ -91,14 +94,14 @@ def build_graph(job, ref_names=None):
         "4": {"class_type": "QwenImage21Cache", "inputs": {"model": ["3", 0], "device": "auto", "dtype": "default"}},
         "5": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_8b_int8_convrot.safetensors", "type": "qwen_image", "device": "default"}},
         "6": {"class_type": "VAELoader", "inputs": {"vae_name": "qwen_image_2.1_vae_bf16.safetensors"}},
-        "9": {"class_type": "KSampler", "inputs": {"model": ["4", 0], "seed": seed, "steps": 50, "cfg": 1.0, "sampler_name": "euler",
+        "9": {"class_type": "KSampler", "inputs": {"model": ["4", 0], "seed": seed, "steps": 50, "cfg": job.get("cfg", CFG), "sampler_name": "euler",
                                                     "scheduler": "simple", "positive": ["7", 0], "negative": ["7", 1],
                                                     "latent_image": None, "denoise": 1.0}},
         "10": {"class_type": "VAEDecode", "inputs": {"samples": ["9", 0], "vae": ["6", 0]}},
         "11": {"class_type": "SaveImage", "inputs": {"images": ["10", 0], "filename_prefix": f"{OUT_DIR.parent.name}/{job['id']}_base"}},
     }
     if ref_names:
-        enc = {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": "", "resolution": job.get("resolution", 1024), "vae": ["6", 0]}
+        enc = {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": job.get("negative", NEGATIVE), "resolution": job.get("resolution", 1024), "vae": ["6", 0]}
         for i, name in enumerate(ref_names, 1):
             g[f"ref{i}"] = {"class_type": "LoadImage", "inputs": {"image": name}}
             enc[f"images.image_{i}"] = [f"ref{i}", 0]
@@ -106,7 +109,7 @@ def build_graph(job, ref_names=None):
         g["9"]["inputs"]["latent_image"] = ["7", 2]
     else:
         g["2"] = {"class_type": "ResolutionSelector", "inputs": {"aspect_ratio": job.get("aspect", "3:2 (Photo)"), "megapixels": job.get("megapixels", MP), "multiple": 32}}
-        g["7"] = {"class_type": "TextEncodeQwenImage21", "inputs": {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": "", "resolution": 1024}}
+        g["7"] = {"class_type": "TextEncodeQwenImage21", "inputs": {"clip": ["5", 0], "prompt": job["prompt"], "negative_prompt": job.get("negative", NEGATIVE), "resolution": 1024}}
         g["8"] = {"class_type": "EmptyLatentImage", "inputs": {"width": ["2", 0], "height": ["2", 1], "batch_size": 1}}
         g["9"]["inputs"]["latent_image"] = ["8", 0]
     # Апскейл SeedVR2 вимкнено за замовчуванням: база 1 МП достатня для екрана телефона.

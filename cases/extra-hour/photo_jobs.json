@@ -1,0 +1,330 @@
+[
+  {
+    "id": "R01",
+    "seed": 7101,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a stocky heavy-set man of 46, bald crown with very short clipped hair on the sides, solarium tan, broad clean-shaven face, gold wristwatch on his left wrist, wearing a dark blue shirt with an open collar under a dark gray suit jacket, confident heavy look. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R02",
+    "seed": 7201,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a tall slender young woman of 26, long straight dark brown hair below the shoulders, large gold hoop earrings, dark eye makeup in 2007 style, wearing a bright red wool coat, lively expression. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R03",
+    "seed": 7301,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a well-groomed slim woman of 39, light ash-blonde chin-length bob, thin plucked eyebrows, pearl necklace and pearl stud earrings, wearing a beige wool coat with a tied belt, calm reserved expression, quiet. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R04",
+    "seed": 7401,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a tall muscular man of 31, short dark brown hair, stubble, small pale scar above the left eyebrow, wearing a plain white T-shirt, arms crossed on his chest so that a dark blue-black army tattoo of a parachute canopy with spread wings on the right forearm is clearly visible, neutral expression. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R05",
+    "seed": 7502,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a tanned man of 49, gray hair pulled back into a ponytail, black leather vest over a dark shirt, a large silver signet ring on a finger of his right hand, his right hand raised to his chin so the ring on his finger is visible, sly confident look. Nothing in his mouth, no piercings. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R06",
+    "seed": 7601,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a woman of 36 with shoulder-length wavy copper-red hair and freckles, nervous half smile, wearing a short dark green wool coat. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R07",
+    "seed": 7701,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a man of 40, average height and build, thin metal-framed glasses, short light-brown hair, wearing a light beige overcoat, reserved serious look. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "R08",
+    "seed": 7801,
+    "prompt": "Reference portrait, documentary photo, Ukraine 2007, early digital camera, natural soft daylight, plain light gray wall behind, head and upper body, looking at the camera, realistic skin, no retouching. a very tall bodybuilder of 29, shaved head, thick neck, wearing a brown leather jacket over a black T-shirt, calm look. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:4 (Portrait Standard)"
+  },
+  {
+    "id": "AV_shulha",
+    "seed": 8101,
+    "prompt": "Head-and-shoulders portrait photo, Kharkiv 2007, early digital camera, slight noise, muted colors, small private detective agency office in an old building in the background, soft window light. A man of 58, gray crew cut, gray mustache, reading glasses hanging on a cord around his neck, gray sweater under a dark jacket, shrewd tired kind look. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "1:1 (Square)",
+    "megapixels": 0.5
+  },
+  {
+    "id": "AV_dasha",
+    "seed": 8202,
+    "prompt": "Head-and-shoulders portrait photo, Kharkiv 2007, early digital camera, slight noise, muted colors, small private detective agency office in an old building in the background, soft window light. A woman of 27, dark chestnut bob haircut, bright orange-and-pink scarf, light blouse, cheerful friendly smile with closed lips. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "1:1 (Square)",
+    "megapixels": 0.5
+  },
+  {
+    "id": "AV_den",
+    "seed": 8301,
+    "prompt": "Head-and-shoulders portrait photo, Kharkiv 2007, early digital camera, slight noise, muted colors, small private detective agency office in an old building in the background, soft window light. A thin young man of 23, messy dark hair, gray hoodie, big headphones around his neck, a CRT monitor and computer cases behind him. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "1:1 (Square)",
+    "megapixels": 0.5
+  },
+  {
+    "id": "AV_kostya",
+    "seed": 8401,
+    "prompt": "Same man as in <image2>, same face, same short dark brown hair, stubble and scar above the left eyebrow. Head-and-shoulders portrait photo, Kharkiv 2007, early digital camera, slight noise, muted colors, small private detective agency office in an old building in the background, soft window light. He wears a gray knitted sweater and a black denim jacket over it, arms down, forearms not visible, neutral calm expression. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R04"
+    ],
+    "canvas": "1:1"
+  },
+  {
+    "id": "P01",
+    "seed": 1101,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Dusk after sunset, light drizzle, wet road. A black Toyota Camry sedan of the 2000s drives out through the open metal gates of a two-storey red brick private house among pine trees in a suburb; headlights on, the wet windshield reflects the sky, behind it a heavy-set bald man at the wheel is barely visible. License plate blurred and unreadable. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P02",
+    "seed": 1208,
+    "prompt": "Telephoto photograph shot from far away across the yard, 70-300 mm lens at full zoom, no camera, no car interior and no windshield visible in the frame, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Evening, dark, light drizzle, wet asphalt shining under orange sodium streetlights. In front of a gray nine-storey Soviet panel apartment block, the woman from <image2> - a tall slender young woman of 26, long straight dark brown hair below the shoulders, large gold hoop earrings, in a long bright red coat, carrying a travel bag - is getting into the back door of a black sedan. Seen from across the yard, a few lit windows. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image. The foreground is just the dark yard, nothing in front of the lens.",
+    "ref": [
+      "R02"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P03",
+    "seed": 1301,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Night, dark, light drizzle. the entrance gate of a rural recreation base in a pine forest: a red-and-white barrier arm across a dirt road, a small wooden guard booth with a lit window, a tall concrete pole with one mercury streetlight giving cold bluish-white light, wire-mesh fence. A black sedan has stopped under the streetlight at the barrier, wet roof shining, the driver is an indistinct dark shape. Next to the booth a wooden sign board on two posts is completely blank. Pine forest black behind. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P04",
+    "seed": 1401,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Night, light drizzle. The same gate, guard booth, barrier, streetlight pole and blank sign board as in <image2>, same camera position. Under the cold streetlight next to a silver Mitsubishi Lancer sedan stands a couple: the man from <image3> - a man of 40, average height and build, thin metal-framed glasses, short light-brown hair, in a light beige overcoat - and the woman from <image4> - a woman of 36 with shoulder-length wavy copper-red hair and freckles, in a short dark green coat - holding a sparkly Venetian carnival mask in her hand. License plate turned away and not visible. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P03",
+      "R07",
+      "R06"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P05",
+    "seed": 1501,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Deep night, fog starting to drift, the cold streetlight makes a halo in the mist. The same gate, guard booth, barrier, streetlight pole and blank sign board as in <image2>, same camera position. The woman from <image3> - a tall slender young woman of 26, long straight dark brown hair below the shoulders, large gold hoop earrings, in a long bright red coat - is getting into a small white Daewoo Lanos taxi with a plain checkered roof sign. Blurry, grainy, underexposed. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P03",
+      "R02"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P06",
+    "seed": 1602,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Deep night, fog. Seen from far away, from the side, through dark spruce branches at the edge of the frame: The same gate, guard booth, barrier, streetlight pole and blank sign board as in <image2>, same camera position. A small car has just passed the raised barrier and drives away down the dirt road into the fog, only its red taillights glowing, motion blur, almost nothing else visible. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P03"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P07",
+    "seed": 1703,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Sunday morning, gray daylight, morning fog. The same gate, guard booth, barrier, streetlight pole and blank sign board as in <image2>, same camera position; the small wooden guard booth with a pitched shingle roof, the gray metal box and the red-white barrier arm exactly as in <image2>, not a different booth. The barrier arm is raised. An old Soviet UAZ-469 militia jeep, dark blue and yellow, with a blue light bar on the roof, is driving in through the gate. Without readable markings. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P03"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P08",
+    "seed": 1801,
+    "prompt": "Amateur photo inside a parked silver Daewoo Lanos at a car dashboard, 2007, dim daylight through a wet windshield, pine forest outside. On the dashboard lies an open notebook with blank ruled pages, a cheap ballpoint pen on it, and a steel thermos flask next to it. Blank pages only, no handwriting. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P09",
+    "seed": 1901,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Daylight close-up inside a black Toyota Camry: the open glove compartment with a black matte card in a black envelope, a red lipstick, a hair pin and a small pack of condoms in a plain foil wrapper, a few car papers. Shot with on-camera flash, slightly overexposed. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P10",
+    "seed": 2001,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. A wooden log banya bathhouse on the shore of a pond, a narrow wooden boardwalk running from its back door to the water, tall dry brown reeds along the shore, a pine forest on the far side, gray low sky, no people. Late autumn, wet grass, bare poplars. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P11",
+    "seed": 2101,
+    "prompt": "Amateur party photo, spring 2007, compact digital camera with harsh on-camera flash, red-eye, grainy, dark background of a country restaurant hall with fairy lights. A couple in Venetian carnival masks covering the upper half of their faces, clinking glasses of champagne: the man from <image2> - a stocky heavy-set man of 46, bald crown with very short clipped hair on the sides, solarium tan, broad clean-shaven face, gold wristwatch on his left wrist, in a white shirt with a black mask - and the woman from <image3> - a tall slender young woman of 26, long straight dark brown hair below the shoulders, large gold hoop earrings, in a red cocktail dress with a golden mask. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R01",
+      "R02"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P12",
+    "seed": 2201,
+    "prompt": "Police crime-scene photo, 2007, harsh direct camera flash, hard shadows. Interior of an empty wooden sauna steam room: tiered wooden benches, an electric sauna heater with stones in the corner, the wooden door wide open toward the camera. No people. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P13",
+    "seed": 2301,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Daylight from a small window. the rest room of a wooden Russian banya: log walls, a wooden table, a long heavy oak bench about two meters long, a row of coat hooks next to a back door on the left wall, a wooden door to the steam room at the side, warm yellow light from a ceiling lamp, a plain new round white wall clock hanging above the entrance door, an empty table, no people. Neat, slightly dusty. Clock face without numbers. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P14",
+    "seed": 2401,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Outdoors in a yard, gray daylight. Hands in white latex gloves hold a men's gold automatic wristwatch with a gold bracelet above a crumpled black plastic garbage bag. Close-up, slightly out of focus at the edges. Watch dial without any writing. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P15",
+    "seed": 1507,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. Hidden camera high in the ceiling corner of a small cottage bedroom in summer, looking down. A couple sits on the edge of a double bed: a woman with copper-red hair wearing a white terry bathrobe tied shut, and a man with short dark brown hair wearing a white terry bathrobe tied shut up to the neck, both wearing Venetian carnival masks, faces in shadow, fully covered, heads slightly lowered. Dim bedside lamp light. Tasteful, no nudity, an awkward private moment captured by a spy camera. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P16",
+    "seed": 2601,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Dim boiler room lit by a single bare bulb. On a wooden shelf stands a black 4-channel CCTV digital video recorder box with its front hard-drive bay open and empty, four coaxial cables plugged in at the back, each cable with a small blank paper tag tied on. Dust, pipes on the wall. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P17",
+    "seed": 2701,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. the rest room of a wooden Russian banya: log walls, a wooden table, a long heavy oak bench about two meters long, a row of coat hooks next to a back door on the left wall, a wooden door to the steam room at the side, warm yellow light from a ceiling lamp. Camera hidden high above the entrance door looking down at the table, the back door and, at the side, the steam room door. The man from <image2> - a stocky heavy-set man of 46, bald crown with very short clipped hair on the sides, solarium tan, broad clean-shaven face, gold wristwatch on his left wrist - sits on the heavy bench at the table, wrapped in a white bed sheet, drinking from a flat silver hip flask raised to his lips. A white bathrobe hangs on a hook by the back door. Night. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R01"
+    ],
+    "canvas": "4:3"
+  },
+  {
+    "id": "P18",
+    "seed": 2801,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. The same room and camera angle as in <image2>. The man in the white bed sheet still sits slumped on the bench, sleepy. A woman with copper-red hair like in <image3>, in a white bathrobe, bends over and searches the floor near the table. Night. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P17",
+      "R06"
+    ],
+    "canvas": "4:3"
+  },
+  {
+    "id": "P19",
+    "seed": 2901,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. The same room and camera angle as in <image2>. In the open back door stands a tall figure in a dark navy winter parka with the fur-trimmed hood pulled up, a black Venetian mask over the face, dark gloves, a small flashlight in the right hand. The man in the white bed sheet sits slumped on the bench. Night. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P17"
+    ],
+    "canvas": "4:3"
+  },
+  {
+    "id": "P20",
+    "seed": 3002,
+    "prompt": "Edit <image1>: completely remove the man sitting on the bench, leaving the room totally empty with nobody in the frame, no people at all. Keep the same room, same camera angle, same fisheye grainy CCTV look, same yellow light. The long heavy log-like bench is now pushed tight against the steam room door on the back wall, blocking the door. The white bathrobe still hangs on the hook at the left, a silver flat flask stands on the table. Night. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P17"
+    ]
+  },
+  {
+    "id": "P21",
+    "seed": 3101,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. The same room and camera angle as in <image2>. A tall figure in a dark navy winter parka with the fur-trimmed hood up, a black Venetian mask, dark gloves, reaches over the table and picks up the flat silver hip flask. The bench is pulled away from the steam room door. Nobody else. Night. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P17"
+    ],
+    "canvas": "4:3"
+  },
+  {
+    "id": "P22",
+    "seed": 3201,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. Restaurant bar at night, camera high in the corner: bottles on shelves, a wooden bar counter. Behind the counter the man from <image2> - a tanned man of 49, gray hair pulled back into a ponytail, black leather vest over a dark shirt, a large silver signet ring on a finger of his right hand - counts a stack of banknotes, an open notebook beside him. Empty hall. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R05"
+    ],
+    "canvas": "4:3"
+  },
+  {
+    "id": "P23",
+    "seed": 3301,
+    "prompt": "Still frame from a cheap 2007 CCTV camera on a 4-channel DVR, 352x288 upscaled, very grainy, washed-out colors, slight fisheye wide angle, soft focus, low detail. Night, fog. Outdoor camera on a pole looking at the entrance gate of a rural recreation base in a pine forest: a red-and-white barrier arm across a dirt road, a small wooden guard booth with a lit window, a tall concrete pole with one mercury streetlight giving cold bluish-white light, wire-mesh fence, the barrier arm raised; a small white taxi car with a checkered roof sign drives away through the gate, taillights glowing in the fog. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "4:3 (Standard)"
+  },
+  {
+    "id": "P24",
+    "seed": 3401,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Close-up on a riverbank: a black Venetian carnival mask lying in dry broken brown reeds at the edge of muddy water, a wire-mesh fence post standing in the water in the background. Overcast, dull light, dry day. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P25",
+    "seed": 3501,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Forensic evidence photo: a white plaster cast of a large men's boot sole print lying on a gray cloth on a table, the tread pattern of diamonds with a small round circle near the heel clearly visible, a plain black-and-white forensic scale ruler laid next to it. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P26",
+    "seed": 3602,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Deep night, fog. The same gate, guard booth, barrier, streetlight pole and blank sign board as in <image2>, same camera position. Barrier arm down, the cold streetlight glowing with a halo in the mist, nobody there. The black car in <image2> is removed: an empty dirt road, no vehicles at all, no people. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P03"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P27",
+    "seed": 3702,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Dawn, dense gray fog, pale blue light. The same gate, guard booth, barrier, streetlight pole and blank sign board as in <image2>, same camera position. Everything barely visible in the fog, the streetlight still on, nobody there. The black car in <image2> is removed: an empty dirt road, no vehicles at all. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P03"
+    ],
+    "canvas": "3:2"
+  },
+  {
+    "id": "P28",
+    "seed": 3801,
+    "prompt": "Amateur documentary photo, Kharkiv region, Ukraine, late October 2007, early consumer digital SLR, slight sensor noise, muted desaturated colors, overcast gray sky, flat light. Close-up with on-camera flash: the driver's black rubber floor mat of a small car lifted out on the ground, covered with dried gray river mud, two dry broken reed stalks lying on it. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "aspect": "3:2 (Photo)"
+  },
+  {
+    "id": "P29",
+    "seed": 3901,
+    "prompt": "Nightclub party photo by a club photographer, 2007, harsh on-camera flash, red-blue neon lights and blurry dancing crowd behind, grainy. The man from <image2> - a very tall bodybuilder of 29, shaved head, thick neck, in a brown leather jacket - hugs a smiling young woman with long light hair, both holding cocktail glasses, laughing at the camera. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R08"
+    ],
+    "canvas": "3:4"
+  },
+  {
+    "id": "P30",
+    "seed": 4001,
+    "prompt": "Amateur digital photo taken in 2007 with a consumer DSLR in a mid-range hotel room of the 2000s in the evening: a made double bed with a beige quilted bedspread, a bedside lamp with a fabric shade, dull wallpaper, heavy curtains. The woman from <image2> - a well-groomed slim woman of 39, light ash-blonde chin-length bob, thin plucked eyebrows, pearl necklace and pearl stud earrings - sits on the edge of the bed with her back to the lamp, the lamp behind her, her face in deep shadow, head slightly lowered. She wears a modest black lace lingerie set fully covering her chest and hips. Tasteful, covered, not explicit. Warm yellow lamp light, slightly crooked framing, mild underexposure, visible ISO grain, warm white balance. Awkward private snapshot, not glamorous, not a pin-up, no retouching. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R03"
+    ],
+    "canvas": "3:4"
+  },
+  {
+    "id": "P31",
+    "seed": 4101,
+    "prompt": "Amateur 2007 snapshot in the same hotel room as in <image2>, the same woman with the light ash-blonde bob. Framed from her head down to her waist only. She stands with her back to the camera in front of a full-length mirror on a wardrobe door, a dark burgundy bathrobe on her shoulders. In the mirror, beside her, the reflection of the photographer down to his chest: a muscular man in a white T-shirt holding a black Nikon DSLR in front of his face so that his face is completely hidden by the camera; the camera strap is red and yellow; on his right forearm, clearly visible, a dark blue-black army tattoo of a parachute canopy with spread wings on the right forearm. The on-camera flash fires and makes a white glare in a corner of the mirror. Harsh flash, dark room, visible grain, slightly tilted framing. Tasteful, not explicit, not glamorous. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "P30"
+    ],
+    "canvas": "3:4"
+  },
+  {
+    "id": "P32",
+    "seed": 4201,
+    "prompt": "Surveillance photo taken from a parked car with a Nikon DSLR and a 70-300 mm telephoto lens at full zoom, Ukraine 2007, high ISO grain, compressed perspective, slight softness, muted colors. Daytime, overcast, dry. A long row of old brick garages with painted metal gates in a Soviet garage cooperative, puddle-free cracked asphalt, bare trees. The woman from <image2> - a well-groomed slim woman of 39, light ash-blonde chin-length bob, thin plucked eyebrows, pearl necklace and pearl stud earrings, in a beige wool coat with a tied belt - stands at a closed garage gate holding a small mobile phone to her ear, waiting. No text, no letters, no numbers, no logos, no timestamp, no watermark anywhere in the image.",
+    "ref": [
+      "R03"
+    ],
+    "canvas": "3:2"
+  }
+]

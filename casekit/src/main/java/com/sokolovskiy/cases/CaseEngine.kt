@@ -86,7 +86,7 @@ class CaseEngine(
 
     // ---------- requests ----------
 
-    class Result(val ok: Boolean, val text: String, val new: List<String> = emptyList(), val verdicts: List<Verdict> = emptyList())
+    class Result(val ok: Boolean, val text: String, val new: List<String> = emptyList(), val verdicts: List<Verdict> = emptyList(), val speaker: String = "")
     class Verdict(val label: String, val ok: Boolean, val required: Boolean)
 
     private fun ruleMatches(rule: JSONObject, text: Text, details: String): Boolean {
@@ -108,7 +108,10 @@ class CaseEngine(
         if (!requestTypes.has(rtype)) return Result(false, "Невідомий тип запиту.")
         val text = Text("$target $details")
         val have = unlockedIds()
-        val matched = rules.filter { it.getString("type") == rtype && ruleMatches(it, text, details) }
+        // `before_stage`: the rule lives only until that stage (an early refusal that a later rule replaces)
+        val matched = rules.filter {
+            it.getString("type") == rtype && stage < it.optInt("before_stage", Int.MAX_VALUE) && ruleMatches(it, text, details)
+        }
         var blocked: String? = null
         var allUnlocked = matched.isNotEmpty()
         var result: Result? = null
@@ -124,11 +127,12 @@ class CaseEngine(
             if (all.isNotEmpty() && !all.all { it in have }) { blocked = blocked ?: r.optString("blocked"); continue }
             val any = r.strings("requires_any")
             if (any.isNotEmpty() && !any.any { it in have }) { blocked = blocked ?: r.optString("blocked"); continue }
+            // `speaker`: who answers this request instead of the request type's usual speaker
             result = if (r.optString("response").isNotEmpty()) {
-                Result(true, r.getString("response"))
+                Result(true, r.getString("response"), speaker = r.optString("speaker"))
             } else {
                 val new = unlock(unlock, player)
-                Result(true, "До справи додано: " + new.joinToString(", ") { "$it «${docs.getValue(it).getString("title")}»" } + ".", new)
+                Result(true, "До справи додано: " + new.joinToString(", ") { "$it «${docs.getValue(it).getString("title")}»" } + ".", new, speaker = r.optString("speaker"))
             }
             break
         }
@@ -148,7 +152,7 @@ class CaseEngine(
         log(JSONObject().put("kind", "request").put("player", player).put("type", rtype)
             .put("type_label", requestTypes.getJSONObject(rtype).getString("label"))
             .put("target", target).put("details", details)
-            .put("ok", res.ok).put("text", res.text).put("new", JSONArray(res.new)))
+            .put("ok", res.ok).put("text", res.text).put("new", JSONArray(res.new)).put("speaker", res.speaker))
         return res
     }
 

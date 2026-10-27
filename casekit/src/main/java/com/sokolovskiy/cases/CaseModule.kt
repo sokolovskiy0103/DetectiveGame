@@ -83,7 +83,7 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
         when (msg.optString("a")) {
             "request" -> {
                 val r = engine.request(name, msg.optString("type"), msg.optString("target").take(300), msg.optString("details").take(600))
-                emit(JSONObject().put("kind", "request").put("player", name).put("ok", r.ok).put("text", r.text).put("new", JSONArray(r.new)))
+                emit(JSONObject().put("kind", "request").put("player", name).put("ok", r.ok).put("text", r.text).put("new", JSONArray(r.new)).put("speaker", r.speaker))
             }
             "answer" -> {
                 val given = HashMap<String, String>()
