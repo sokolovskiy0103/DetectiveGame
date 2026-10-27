@@ -126,7 +126,7 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
         null
     }
 
-    /** `/static/g/doc/<ID>.html`, `doc/_base.css`, `photo/<name>` — only what the case has opened so far. */
+    /** `/static/g/doc/<ID>.html`, `doc/_base.css`, `doc/_*.woff2`, `photo/<name>` — only what the case has opened so far. */
     override fun resource(path: String): Pair<ByteArray, String>? {
         val parts = path.split('/')
         if (parts.size != 2) return null
@@ -135,6 +135,8 @@ class CaseSession(private val env: GameEnv, private val caseId: String, semantic
         return try {
             when {
                 dir == "doc" && file == "_base.css" -> env.assetBytes("cases/$caseId/doc/_base.css") to LocalServer.mimeOf(file)
+                // fonts shared by the documents (`_hand-cyrillic.woff2`) — public, like the stylesheet
+                dir == "doc" && file.startsWith("_") && file.endsWith(".woff2") -> env.assetBytes("cases/$caseId/doc/$file") to LocalServer.mimeOf(file)
                 dir == "doc" && file.endsWith(".html") && file.removeSuffix(".html") in open -> {
                     // documents were written for the folder layout of the authoring project
                     val html = docText(file.removeSuffix(".html"))?.let { mediaLinks(it, cdn) } ?: return null
