@@ -38,6 +38,12 @@ python tools/comfy_gen.py cases/<id> P01 S04    # лише ці
 python tools/comfy_gen.py cases/<id> --force P02
 ```
 
+## Кадри реєстратора: `tools/cctv_look.py`
+
+Модель малює CCTV занадто чисто. `python tools/cctv_look.py cases/<id> P17 P18` після `comfy_gen.py` робить JPG у 352×288
+з шумом і стиском, PNG лишається чистим референсом. Серію кадрів однієї камери будуй правками від спільної порожньої
+плити (`base/<назва>.png`, перший `ref` без `canvas`, у промпті `Edit <image1>: keep ...`), а не з нуля.
+
 ## Порівняння моделей: `tools/photo_compare.py`
 
 Для ключового кадру (річ-доказ, номер, наліпка, конкретна модель авто) або кадру, що двічі не вдався: той самий
@@ -53,8 +59,15 @@ python tools/photo_compare.py pick cases/<id> P01 qwen_v2_s42
 Налаштування за замовчуванням — на слідування промпту: Qwen cfg 4 з негативом (cfg 1 вимикає guidance — написи
 «пливуть»; так само в `comfy_gen.py`), Flux 20 кроків, Z-Image 16, 1.6 МП. Менша роздільність галюцинацій не зменшує.
 Сильні сторони: Qwen — форма конкретної речі й текст; Flux — номери, короткі написи, наліпки; Z-Image — живий
-аматорський кадр, але домальовує зайве. Кадри з `ref` — лише Qwen (`comfy_gen.py`). Номери й написи перевіряй на
+аматорський кадр, але домальовує зайве. Кадри з `ref` — `comfy_gen.py` (Qwen) або порівняння `tools/ref_compare.py`. Номери й написи перевіряй на
 кропі в повній роздільності, не на листі.
+
+## Порівняння моделей із референсами: `tools/ref_compare.py`
+
+Правки кадру й перенесення референса: Qwen (≈ 2 хв) і Flux3 Klein (≈ 35 с, тримає сцену й логіку не гірше).
+`python tools/ref_compare.py cases/<id> P07 --ref PLATE REF_x --prompt "Edit image 1: ..." --models qwen flux --tag _v2`,
+далі `photo_compare.py pick`. JoyAI Image Edit граф має, але дає чорний кадр (≈ 5 хв на спробу): причину не знайдено.
+Просторову логіку пиши явно: куди їде машина, якою стороною до камери, що вона стоїть уздовж дороги.
 
 ## Справжнє фото як референс
 
@@ -120,3 +133,18 @@ covering», спина/профіль, обличчя в тіні, «awkward pri
 (faster-whisper): чи сказано текст повністю. Для голосу не годяться MiniMax H3 (калька з російської), `ukrainian-tts`
 (роботизований), Stable Audio 3 (мови не вміє), HolosTTS (штучний), OmniVoice (клон зі стороннього запису переймає
 його паузи й рівну подачу).
+
+## LoRA для Flux3 Klein
+
+LoRA для FLUX.2 Klein не працюють із Flux3 Klein: інша архітектура, шари не збігаються, ComfyUI пише `lora key not loaded`, а кадр лишається піксель у піксель без змін. Після підключення будь-якої LoRA порівнювати кадр із запуском без неї на тому самому сиді.
+
+Файли — у `models/loras/flux3/` спільної теки Comfy Desktop, підключення: `ref_compare.py --lora ім'я:сила`. LoRA на позу чи анатомію під Flux3 поки немає.
+
+| LoRA | Результат |
+|---|---|
+| `photo50k_comfy` ([SimpleTuner photo-aesthetics](https://huggingface.co/SimpleTuner/flux-3-klein-image-photo-aesthetics-distilled-assisted-1024-v2-kohaku-fa), checkpoint-50000) | Основна для живого фото, сила 1. Оригінал має ключі diffusers і мовчки не діє: перейменувати `transformer.mode_blocks.` → `diffusion_model.content_mode_blocks.`, `transformer.txt_mode_blocks.` → `diffusion_model.txt_mode_blocks.`, `transformer.single_transformer_blocks.` → `diffusion_model.single_blocks.`, `.attn.to_k/q/v.` → `.k_proj/q_proj/v_proj.`, `.attn.to_out.0.` → `.attn_out.`. Ліцензія некомерційна |
+| `skin10000` ([natural facial skin texture](https://huggingface.co/yang520333/Flux3-image-klein-natural-facial-skin-texture-lora)) | Діє, сила 0.6, але на кадрі без обличчя виграшу не дає |
+| `consistency`, `angles` | Завантажені, не перевірялись. Consistency — для правок кадру, angles — для зміни ракурсу |
+| Tattoo (Civitai 3027588) | Не завантажено: Civitai віддає файл лише з API-ключем |
+
+**Складна поза — новий кадр, а не правки.** Шість правок поверх невдалого кадру лише зберігали його помилки. Генерація з нуля через Flux3 з референсом людини (~20 с) і 12–18 сидів дала правильні руки й місце тату. Людину, яку не можна впізнати, ховай відблиском: `python tools/flash_glare.py SRC DST X Y`. Тату чи іншу деталь із точним місцем і кутом модель не ставить: зітри її правкою, а малюнок наклади `tools/tattoo_place.py` за координатами, той самий на всіх кадрах.
